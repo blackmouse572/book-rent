@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { IconReload } from '@tabler/icons-react';
 import React from 'react';
@@ -23,7 +24,15 @@ function RegisterForm() {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      login(data);
+      login({
+        email: data.email,
+        fullName: data.fullName,
+        avatar: faker.image.avatar(),
+        role: 'user',
+        id: faker.database.mongodbObjectId(),
+        createdAt: faker.date.past(),
+        updatedAt: faker.date.recent(),
+      });
       localStorage.setItem('user', JSON.stringify(data));
       navigate('/');
     }, 2000);
