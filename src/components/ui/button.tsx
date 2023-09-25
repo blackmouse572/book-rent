@@ -21,6 +21,7 @@ const buttonVariants = cva(
         destructive: 'text-destructive-foreground bg-destructive hover:bg-destructive/90',
         success: 'text-success-foreground bg-success hover:bg-success/90',
         warning: 'text-warning-foreground bg-warning hover:bg-warning/90',
+        secondary: 'text-secondary-foreground bg-secondary hover:bg-secondary/90',
       },
       size: {
         default: 'h-9 px-4 py-2',
