@@ -1,3 +1,4 @@
+import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
@@ -35,6 +36,24 @@ function HomePage() {
         <Button onClick={() => showToast('success')} colors="success">
           Success Toast
         </Button>
+      </div>
+      <div className=" flex gap-3 justify-center items-center">
+        <Badge>
+          <span>Default</span>
+        </Badge>
+        <Badge isPressable>Presable</Badge>
+        <Badge variant={'outline'}>
+          <span>Outline</span>
+        </Badge>
+        <Badge colors={'secondary'}>
+          <span>Secondary</span>
+        </Badge>
+        <Badge isPressable colors={'warning'}>
+          Presable warning
+        </Badge>
+        <Badge variant={'outline'} colors={'destructive'}>
+          <span>Destructive</span>
+        </Badge>
       </div>
     </div>
   );
