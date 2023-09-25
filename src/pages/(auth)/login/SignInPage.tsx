@@ -1,9 +1,13 @@
-import React from 'react';
+import HomeButtton from '../../../components/Home-Button';
+import LoginForm from '../../../components/Login-Form';
 
-type Props = {};
-
-function LoginPage({}: Props) {
-  return <div>LoginPage</div>;
+function LoginPage() {
+  return (
+    <div className="container mx-auto flex justify-center items-center h-screen relative">
+      <HomeButtton className="absolute top-0 left-0 mt-4 ml-4" />
+      <LoginForm />
+    </div>
+  );
 }
 
 export default LoginPage;
