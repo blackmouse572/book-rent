@@ -30,6 +30,7 @@ yarn dev
 - Use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages
 - Use [Prettier](https://prettier.io/) for code formatting
 - Use [ESLint](https://eslint.org/) for linting
+- Refer to [ShadcnUI](https://ui.shadcn.com/docs) for ui lib and [Taxonomy](https://github.com/shadcn-ui/taxonomy) for code implementation
 
 ### Branching
 
