@@ -1,5 +1,5 @@
-import { Outlet } from 'react-router-dom';
-import TailwindIndicator from '../components/Tailwind-Indicator';
+import { Outlet } from "react-router-dom";
+import TailwindIndicator from "../components/Tailwind-Indicator";
 
 function MainLayout() {
   return (
