@@ -4,6 +4,7 @@ import {
   IconX,
   IconSquareRoundedXFilled,
   IconBrandGoogleHome,
+  IconLogout,
 } from "@tabler/icons-react";
 
 export type Icon = TablerIcons;
@@ -13,4 +14,5 @@ export const Icons = {
   close: IconX,
   squareClose: IconSquareRoundedXFilled,
   home: IconBrandGoogleHome,
+  signOut: IconLogout,
 };
