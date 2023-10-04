@@ -1,17 +1,31 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { IconBrandGithubFilled, IconBrandGoogle, IconRotate } from '@tabler/icons-react';
-import React from 'react';
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  IconBrandGithubFilled,
+  IconBrandGoogle,
+  IconRotate,
+} from "@tabler/icons-react";
+import React from "react";
 
-import { useForm } from 'react-hook-form';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { z } from 'zod';
-import { useAuth } from '../hooks/useAuth';
-import FAKE_USER from '../pages/(auth)/login/fake';
-import { LoginSchema } from '../pages/(auth)/login/validation';
-import { Button } from './ui/button';
-import { Checkbox } from './ui/checkbox';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
-import { Input } from './ui/input';
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import { z } from "zod";
+import { useAuth } from "../hooks/useAuth";
+import { LoginSchema } from "../pages/(auth)/login/validation";
+import { Button } from "./ui/button";
+import { Checkbox } from "./ui/checkbox";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/form";
+import { Input } from "./ui/input";
+import { toast } from "./ui/use-toast";
+import { loginApi } from "@/apis/auth/apis/login.api";
+import { profileApi } from "@/apis/auth/apis/profile.api";
 
 type FormData = z.infer<typeof LoginSchema>;
 function LoginForm() {
@@ -23,40 +37,67 @@ function LoginForm() {
   });
   const navigate = useNavigate();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [searchParams, _] = useSearchParams();
   const [isLoading, setIsLoading] = React.useState(false);
   const { login } = useAuth();
   const onSubmit = async (data: FormData) => {
     // TODO: Implement api ere
     setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-      const user = FAKE_USER.find((user) => user.email === data.email && user.password === data.password);
-      if (!user) {
-        form.setError('email', {
-          type: 'manual',
-          message: 'Email or password is incorrect',
+    let accessToken: string = "";
+    await loginApi(data, (err, data) => {
+      if (err) {
+        toast({
+          title: err.message,
+          description: err.cause?.message,
+          variant: "destructive",
         });
-        return;
+      } else {
+        toast({
+          title: "Login Success",
+          description: data,
+          variant: "success",
+        });
+        accessToken = data!;
       }
-      login(user);
-      const from = searchParams.get('from') ?? '/';
-      navigate(from);
-      localStorage.setItem('user', JSON.stringify(user));
-    }, 2000);
+    });
+
+    await profileApi(accessToken, (err, user) => {
+      if (err) {
+        toast({
+          title: err.message,
+          description: err.cause?.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Login Success",
+          description: JSON.stringify(user),
+          variant: "success",
+        });
+        login(user!);
+      }
+      navigate("/login");
+    });
+
+    setIsLoading(false);
   };
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-w-sm mx-auto w-full">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-4 max-w-sm mx-auto w-full"
+      >
         <FormField
           control={form.control}
-          name="email"
+          name="userNameOrEmail"
           render={({ field }) => (
             <FormItem>
-              <FormLabel> Email </FormLabel>
+              <FormLabel> Username </FormLabel>
               <FormControl>
-                <Input disabled={isLoading} type="email" placeholder="example@mail.com" {...field} />
+                <Input
+                  disabled={isLoading}
+                  placeholder="example@mail.com"
+                  {...field}
+                />
               </FormControl>
               <FormDescription />
               <FormMessage />
@@ -70,7 +111,12 @@ function LoginForm() {
             <FormItem>
               <FormLabel> Password </FormLabel>
               <FormControl>
-                <Input disabled={isLoading} placeholder="*********" type="password" {...field} />
+                <Input
+                  disabled={isLoading}
+                  placeholder="*********"
+                  type="password"
+                  {...field}
+                />
               </FormControl>
               <FormDescription />
               <FormMessage />
@@ -83,7 +129,11 @@ function LoginForm() {
           render={({ field }) => (
             <FormItem className="flex flex-row items-start space-x-2 space-y-0">
               <FormControl>
-                <Checkbox checked={field.value} onCheckedChange={field.onChange} disabled={isLoading} />
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                  disabled={isLoading}
+                />
               </FormControl>
               <FormLabel>Remember me</FormLabel>
               <FormDescription />
@@ -109,14 +159,22 @@ function LoginForm() {
               <span className="w-full border-t" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+              <span className="bg-background px-2 text-muted-foreground">
+                Or continue with
+              </span>
             </div>
           </div>
-          <Button disabled={isLoading} className="w-full bg-slate-800 hover:bg-slate-700">
+          <Button
+            disabled={isLoading}
+            className="w-full bg-slate-800 hover:bg-slate-700"
+          >
             <IconBrandGithubFilled className="w-5 h-5 mr-2" />
             Github
           </Button>
-          <Button disabled={isLoading} className="w-full bg-sky-800 hover:bg-sky-700">
+          <Button
+            disabled={isLoading}
+            className="w-full bg-sky-800 hover:bg-sky-700"
+          >
             <IconBrandGoogle className="w-5 h-5 mr-2" />
             Google
           </Button>
