@@ -1,9 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-    IconBrandGithubFilled,
-    IconBrandGoogle,
-    IconRotate,
-} from "@tabler/icons-react";
+import { IconBrandGithubFilled, IconBrandGoogle } from "@tabler/icons-react";
 import React from "react";
 
 import { useForm } from "react-hook-form";
@@ -147,14 +143,7 @@ function LoginForm() {
                     )}
                 />
                 <div className="space-y-2">
-                    <Button
-                        disabled={isLoading}
-                        type="submit"
-                        className="w-full"
-                    >
-                        {isLoading && (
-                            <IconRotate className="w-5 h-5 mr-2 animate-spin" />
-                        )}
+                    <Button isLoading type="submit" className="w-full">
                         Login
                     </Button>
                     <div className="text-xs flex justify-between">
