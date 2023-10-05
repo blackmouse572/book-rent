@@ -2,20 +2,23 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { User } from "../type";
-
+type LoginProps = {
+    user: User;
+    accessToken: string;
+};
 interface AuthContextType {
     user: User | null;
-    token: string | null;
-    login: (user: User) => void;
+    accessToken: string | null;
+    login: (data: LoginProps) => void;
     logout: () => void;
-    setAccessToken: (token: string) => void;
+    setAccessToken: (token: string | null) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: React.PropsWithChildren) => {
     const [user, setUser] = useState<User | null>(null);
-    const [token, setToken] = useState<string | null>(null);
+    const [accessToken, setToken] = useState<string | null>(null);
     // Load user from localStorage on initial render
     useEffect(() => {
         const savedUser = localStorage.getItem("user");
@@ -24,17 +27,20 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
         }
     }, []);
 
-    const login = (user: User) => {
+    const login = ({ user, accessToken }: LoginProps) => {
         setUser(user);
+        setAccessToken(accessToken);
         localStorage.setItem("user", JSON.stringify(user));
     };
 
     const logout = () => {
         setUser(null);
+        setAccessToken(null);
         localStorage.removeItem("user");
     };
 
-    const setAccessToken = (token: string) => {
+    const setAccessToken = (token: string | null) => {
+        console.log("Access token changes: " + token);
         setToken(token);
     };
 
@@ -43,7 +49,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
         login,
         logout,
         setAccessToken,
-        token,
+        accessToken,
     };
 
     return (

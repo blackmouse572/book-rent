@@ -1,23 +1,21 @@
 import axios from "axios";
+const BASED_URL = import.meta.env.BASED_URL || "http://localhost:3000/api";
 const axiosClient = axios.create({
-    baseURL: "http://localhost:3000/api",
+    baseURL: BASED_URL,
     headers: {
         "Content-Type": "application/json",
     },
 });
 
 const authAxiosClient = axios.create({
-    baseURL: "http://localhost:3000/api",
+    baseURL: BASED_URL,
     headers: {
         "Content-Type": "application/json",
     },
-    withCredentials: true,
 });
 
 function addAuth(token: string) {
-    authAxiosClient.defaults.headers.common[
-        "Authorization"
-    ] = `Bearer ${token}`;
+    console.log("Adding auth token: " + token);
 }
 
 export { addAuth, authAxiosClient, axiosClient };
