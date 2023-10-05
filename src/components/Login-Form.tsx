@@ -143,7 +143,11 @@ function LoginForm() {
                     )}
                 />
                 <div className="space-y-2">
-                    <Button isLoading type="submit" className="w-full">
+                    <Button
+                        isLoading={isLoading}
+                        type="submit"
+                        className="w-full"
+                    >
                         Login
                     </Button>
                     <div className="text-xs flex justify-between">
@@ -164,20 +168,22 @@ function LoginForm() {
                             </span>
                         </div>
                     </div>
-                    <Button
-                        disabled={isLoading}
-                        className="w-full bg-slate-800 hover:bg-slate-700"
-                    >
-                        <IconBrandGithubFilled className="w-5 h-5 mr-2" />
-                        Github
-                    </Button>
-                    <Button
-                        disabled={isLoading}
-                        className="w-full bg-sky-800 hover:bg-sky-700"
-                    >
-                        <IconBrandGoogle className="w-5 h-5 mr-2" />
-                        Google
-                    </Button>
+                    <div className="flex gap-2">
+                        <Button
+                            isLoading={isLoading}
+                            className="w-full bg-slate-800 hover:bg-slate-700"
+                        >
+                            <IconBrandGithubFilled className="w-5 h-5 mr-2" />
+                            Github
+                        </Button>
+                        <Button
+                            isLoading={isLoading}
+                            className="w-full bg-sky-800 hover:bg-sky-700"
+                        >
+                            <IconBrandGoogle className="w-5 h-5 mr-2" />
+                            Google
+                        </Button>
+                    </div>
                 </div>
             </form>
         </Form>
