@@ -1,5 +1,7 @@
 import axios from "axios";
-const BASED_URL = import.meta.env.BASED_URL || "http://localhost:3000/api";
+const BASED_URL =
+    import.meta.env.VITE_REACT_APP_API_URL || "http://localhost:3000/api";
+console.log("Configure axios with base url: " + BASED_URL);
 const axiosClient = axios.create({
     baseURL: BASED_URL,
     headers: {
