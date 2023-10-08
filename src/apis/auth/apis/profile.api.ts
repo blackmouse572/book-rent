@@ -1,5 +1,5 @@
 import { authAxiosClient } from "@/lib/axios";
-import { User } from "@/type";
+import { User } from "@/types";
 import { AxiosError } from "axios";
 import { IProfileResponse } from "../types/user-response";
 

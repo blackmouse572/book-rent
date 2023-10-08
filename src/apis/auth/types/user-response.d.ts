@@ -1,3 +1,3 @@
-import { IResponse, User } from "@/type";
+import { IResponse, User } from "@/types";
 
 export type IProfileResponse = IResponse<User>;
