@@ -1,6 +1,8 @@
 import {
     IconBrandGoogleHome,
     IconCheck,
+    IconChevronLeft,
+    IconChevronRight,
     IconLoader2,
     IconLogout,
     IconMoodEmptyFilled,
@@ -23,4 +25,6 @@ export const Icons = {
     emptyFilled: IconMoodEmptyFilled,
     plus: IconPlus,
     check: IconCheck,
+    chevronLeft: IconChevronLeft,
+    chevronRight: IconChevronRight,
 };

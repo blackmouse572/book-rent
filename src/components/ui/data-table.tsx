@@ -56,7 +56,7 @@ export function DataTable<TData, TValue>({
                 </TableRow>
             );
 
-        if (!data.length)
+        if (!data)
             return (
                 <TableRow>
                     <TableCell colSpan={columns.length}>
@@ -67,23 +67,24 @@ export function DataTable<TData, TValue>({
                     </TableCell>
                 </TableRow>
             );
-
         return table.getRowModel().rows.map((row) => (
             <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
             >
-                {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                        {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                        )}
-                    </TableCell>
-                ))}
+                {row.getVisibleCells().map((cell) => {
+                    return (
+                        <TableCell key={cell.id}>
+                            {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                            )}
+                        </TableCell>
+                    );
+                })}
             </TableRow>
         ));
-    }, [columns.length, data.length, isLoading, table]);
+    }, [columns.length, data, isLoading, table]);
 
     return (
         <div className="rounded-md border">

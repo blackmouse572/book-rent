@@ -3,12 +3,9 @@ import { getLabelByFullname } from "../../lib/utils";
 import { ROLE, User } from "../../types";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 
 export const columns: ColumnDef<User>[] = [
-    {
-        accessorKey: "id",
-        header: "ID",
-    },
     {
         accessorKey: "user",
         header: "Name",
@@ -44,6 +41,22 @@ export const columns: ColumnDef<User>[] = [
         cell({ getValue }) {
             const address: string = getValue() as string;
             return <p className="text-slate-400 max-w-[30rem]">{address}</p>;
+        },
+    },
+    {
+        accessorFn: ({ _id }) => _id,
+        header: "Action",
+        cell() {
+            return (
+                <div className="flex gap-2 ">
+                    <Button variant="outline" size="sm">
+                        Edit
+                    </Button>
+                    <Button variant="outline" size="sm">
+                        Delete
+                    </Button>
+                </div>
+            );
         },
     },
 ];
