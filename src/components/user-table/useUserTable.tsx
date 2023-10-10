@@ -7,7 +7,6 @@ import {
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { API_GET_ALL_USER_QUERY_KEYS, getAllUserApi } from "../../apis/users";
-import { mapFilterToQuery } from "../../lib/stringUtils";
 import { IQueryPagination, IQuerySearch, User } from "../../types";
 
 export function useUserTable(columns: ColumnDef<User>[]) {
@@ -32,16 +31,11 @@ export function useUserTable(columns: ColumnDef<User>[]) {
     const [tableStates, setTableStates] = useState(table.initialState);
 
     useEffect(() => {
-        const facets = tableStates.columnFilters;
-        const facetsQuery = mapFilterToQuery(facets);
-
         setQueries((prev) => ({
             ...prev,
             page: tableStates.pagination.pageIndex,
             perPage: tableStates.pagination.pageSize,
-            // role: tableStates.faceted.filters.role,
             search: tableStates.globalFilter,
-            ...facetsQuery,
         }));
     }, [tableStates]);
 
