@@ -89,7 +89,7 @@ export function DataTableFacetedFilter({
                                             <Badge
                                                 variant="outline"
                                                 key={option.value}
-                                                className="rounded-sm px-1 font-normal"
+                                                className="rounded-sm px-1 font-normal line-clamp-1"
                                             >
                                                 {option.label}
                                             </Badge>

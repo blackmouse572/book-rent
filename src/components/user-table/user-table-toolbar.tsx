@@ -3,7 +3,6 @@ import React from "react";
 import { IQueryPagination, IQuerySearch, User } from "../../types";
 import { DataTableFacetedFilter } from "../ui/data-table-facet";
 import SearchInput from "../ui/search-input";
-import { TableFacetFilter } from "../ui/table-facet";
 import { TABLE_USER_ROLE_FACET_OPTIONS } from "./options";
 
 export interface DataTableToolbarProps<TData> {
@@ -24,8 +23,8 @@ export function UserTableToolbar({
     // const isFiltered = table.getState().columnFilters.length > 0;
 
     return (
-        <div className="flex items-center justify-between">
-            <div className="flex flex-1 items-center space-x-2">
+        <div className="flex items-center justify-between border-b border-card">
+            <div className="flex flex-1 items-center space-x-2 px-3 py-1.5">
                 <SearchInput
                     value={queries.search || ""}
                     onChange={(value) => {
@@ -34,40 +33,24 @@ export function UserTableToolbar({
                             search: value,
                         }));
                     }}
+                    className="max-w-xs h-8"
                 />
                 {table.getColumn("role") && (
                     <DataTableFacetedFilter
                         title="Role"
+                        onOptionsChange={(options) => {
+                            const role = options
+                                .map((option) => option.value)
+                                .join(",");
+                            setSearchQuery?.((prev) => ({
+                                ...prev,
+                                role,
+                            }));
+                        }}
                         options={TABLE_USER_ROLE_FACET_OPTIONS}
                     />
                 )}
-                {table.getColumn("role") && (
-                    <TableFacetFilter
-                        options={TABLE_USER_ROLE_FACET_OPTIONS}
-                        title="Role"
-                        column={table.getColumn("role")}
-                    />
-                )}
-                {/* {table.getColumn("priority") && (
-                    <DataTableFacetedFilter
-                        column={table.getColumn("priority")}
-                        title="Priority"
-                        options={priorities}
-                    />
-
-                )}
-                {isFiltered && (
-                    <Button
-                        variant="ghost"
-                        onClick={() => table.resetColumnFilters()}
-                        className="h-8 px-2 lg:px-3"
-                    >
-                        Reset
-                        <Cross2Icon className="ml-2 h-4 w-4" />
-                    </Button>
-                )} */}
             </div>
-            {/* <DataTableViewOptions table={table} /> */}
         </div>
     );
 }

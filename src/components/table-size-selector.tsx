@@ -10,12 +10,14 @@ type Props = {
     defaultSize?: number;
     sizes?: number[];
     onChange?: (size: number) => void;
+    className?: string;
 } & Omit<SelectProps, "defaultValue" | "onValueChange" | "onChange">;
 
 function TableSizeSelector({
     defaultSize = 10,
     sizes = [10, 25, 50, 100],
     onChange,
+    className,
     ...props
 }: Props) {
     return (
@@ -27,7 +29,7 @@ function TableSizeSelector({
                 onChange?.(changeValue);
             }}
         >
-            <SelectTrigger className="">
+            <SelectTrigger className={className}>
                 <SelectValue placeholder={defaultSize} />
             </SelectTrigger>
             <SelectContent>
