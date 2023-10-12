@@ -1,5 +1,4 @@
 import { getBookById } from "@/apis/book";
-import ChangePassword from "@/pages/(auth)/ChangePassword";
 import BookPage from "@/pages/(book)/BookPage";
 import AdminLayout from "@/pages/AdminLayout";
 import React from "react";
@@ -170,18 +169,16 @@ export const ROUTES = createBrowserRouter([
     {
         element: <AuthLayout />,
         children: [
-            {
-                path: "/login",
-                element: <LoginPage />,
-            },
-            {
-                path: "/register",
-                element: <RegisterPage />,
-            },
-            {
-                path: "/forgot",
-                element: <ChangePassword />,
-            },
+          {
+            path: '/login',
+            element: <LoginPage />,
+          },
+          {
+            path: '/register',
+            element: <RegisterPage />,
+          },
         ],
-    },
-]);
+      },
+    ],
+  
+);
