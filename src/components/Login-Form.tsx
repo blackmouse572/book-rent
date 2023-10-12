@@ -2,9 +2,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { IconBrandGithubFilled, IconBrandGoogle } from "@tabler/icons-react";
 import React from "react";
 
+import { loginApi } from "@/apis/auth/apis/login.api";
+import { profileApi } from "@/apis/auth/apis/profile.api";
+import { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
+import { IToken } from "../apis/auth/types/token";
 import { useAuth } from "../hooks/useAuth";
 import { LoginSchema } from "../pages/(auth)/login/validation";
 import { Button } from "./ui/button";
@@ -20,8 +24,6 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { toast } from "./ui/use-toast";
-import { loginApi } from "@/apis/auth/apis/login.api";
-import { profileApi } from "@/apis/auth/apis/profile.api";
 
 type FormData = z.infer<typeof LoginSchema>;
 function LoginForm() {
@@ -37,48 +39,51 @@ function LoginForm() {
     const { login } = useAuth();
     const onSubmit = async (data: FormData) => {
         setIsLoading(true);
-        let accessToken: string = "";
+        let token: IToken;
+        let error: AxiosError | null = null;
         await loginApi(data, (err, data) => {
             if (err) {
-                toast({
-                    title: err.message,
-                    description: err.cause?.message,
-                    variant: "destructive",
-                });
+                error = err;
+                return;
             } else {
                 toast({
                     title: "Login Success",
-                    description: data,
                     variant: "success",
                 });
-                accessToken = data!;
+                token = data!;
             }
         });
-
-        await profileApi(accessToken, (err, user) => {
-            if (err) {
-                toast({
-                    title: err.message,
-                    description: err.cause?.message,
-                    variant: "destructive",
-                });
-            } else {
-                if (!user) {
-                    return;
+        if (!error) {
+            await profileApi(token!.accessToken, (err, user) => {
+                if (err) {
+                    toast({
+                        title: err.message,
+                        description: err.cause?.message,
+                        variant: "destructive",
+                    });
+                } else {
+                    if (!user) {
+                        return;
+                    }
+                    toast({
+                        title: "Login Success",
+                        description: JSON.stringify(user),
+                        variant: "success",
+                    });
+                    login({
+                        user,
+                        token,
+                    });
                 }
-                toast({
-                    title: "Login Success",
-                    description: JSON.stringify(user),
-                    variant: "success",
-                });
-                login({
-                    user,
-                    accessToken,
-                });
-            }
-            navigate("/login");
-        });
-
+                navigate("/login");
+            });
+        }
+        if (error) {
+            toast({
+                title: "Login Failed",
+                variant: "destructive",
+            });
+        }
         setIsLoading(false);
     };
     return (

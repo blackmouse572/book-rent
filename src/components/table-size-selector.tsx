@@ -15,7 +15,7 @@ type Props = {
 
 function TableSizeSelector({
     defaultSize = 10,
-    sizes = [10, 25, 50, 100],
+    sizes = [10, 15, 20, 25],
     onChange,
     className,
     ...props

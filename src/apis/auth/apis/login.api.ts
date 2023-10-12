@@ -2,12 +2,12 @@ import { axiosClient } from "@/lib/axios";
 import { LoginSchema } from "@/pages/(auth)/login/validation";
 import { AxiosError } from "axios";
 import { z } from "zod";
-import { ITokenReponse } from "../types/token";
+import { IToken, ITokenReponse } from "../types/token";
 
 type ILoginSchema = z.infer<typeof LoginSchema>;
 async function loginApi(
     { userNameOrEmail: email, password }: ILoginSchema,
-    callback: (error: AxiosError | null, result: string | null) => void
+    callback: (error: AxiosError | null, result: IToken | null) => void
 ) {
     return await axiosClient
         .post<ITokenReponse>(
@@ -22,7 +22,7 @@ async function loginApi(
         )
         .then((err) => {
             if (err.status === 200) {
-                callback(null, err.data.data.accessToken);
+                callback(null, err.data.data);
             }
         })
         .catch((error) => {
