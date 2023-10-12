@@ -40,7 +40,6 @@ function UserTable() {
                 <TableSizeSelector
                     className="max-w-[100px] "
                     defaultSize={table.getState().pagination.pageSize}
-                    sizes={[1, 2, 5, 10]}
                     onChange={(value) => {
                         table.setPageSize(value);
                     }}

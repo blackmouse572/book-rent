@@ -4,6 +4,7 @@ import React from "react";
 
 import { loginApi } from "@/apis/auth/apis/login.api";
 import { profileApi } from "@/apis/auth/apis/profile.api";
+import { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -39,7 +40,7 @@ function LoginForm() {
     const onSubmit = async (data: FormData) => {
         setIsLoading(true);
         let token: IToken;
-        let error: any;
+        let error: AxiosError | null = null;
         await loginApi(data, (err, data) => {
             if (err) {
                 error = err;
@@ -79,8 +80,7 @@ function LoginForm() {
         }
         if (error) {
             toast({
-                title: error.message,
-                description: error.cause?.message,
+                title: "Login Failed",
                 variant: "destructive",
             });
         }

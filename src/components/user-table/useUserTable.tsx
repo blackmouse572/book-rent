@@ -14,8 +14,8 @@ export function useUserTable(columns: ColumnDef<User>[]) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         Partial<IQueryPagination & IQuerySearch> & { [key: string]: any }
     >({
-        page: 1,
-        perPage: 2,
+        page: 0,
+        perPage: 10,
     });
 
     const queryController = useQuery<IResponse<User[]>, AxiosError>(
