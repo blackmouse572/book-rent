@@ -8,6 +8,7 @@ import {
     IconMoodEmptyFilled,
     IconPlus,
     IconSquareRoundedXFilled,
+    IconStarFilled,
     IconVocabulary,
     IconX,
     type Icon as TablerIcons,
@@ -27,4 +28,5 @@ export const Icons = {
     check: IconCheck,
     chevronLeft: IconChevronLeft,
     chevronRight: IconChevronRight,
+    star: IconStarFilled,
 };
