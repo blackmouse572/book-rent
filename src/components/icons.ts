@@ -1,11 +1,16 @@
 import {
-    type Icon as TablerIcons,
+    IconBrandGoogleHome,
+    IconCheck,
+    IconChevronLeft,
+    IconChevronRight,
+    IconLoader2,
+    IconLogout,
+    IconMoodEmptyFilled,
+    IconPlus,
+    IconSquareRoundedXFilled,
     IconVocabulary,
     IconX,
-    IconSquareRoundedXFilled,
-    IconBrandGoogleHome,
-    IconLogout,
-    IconLoader2 as IconLoader2,
+    type Icon as TablerIcons,
 } from "@tabler/icons-react";
 
 export type Icon = TablerIcons;
@@ -17,4 +22,9 @@ export const Icons = {
     home: IconBrandGoogleHome,
     signOut: IconLogout,
     loader: IconLoader2,
+    emptyFilled: IconMoodEmptyFilled,
+    plus: IconPlus,
+    check: IconCheck,
+    chevronLeft: IconChevronLeft,
+    chevronRight: IconChevronRight,
 };
