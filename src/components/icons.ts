@@ -9,6 +9,7 @@ import {
     IconPlus,
     IconSquareRoundedXFilled,
     IconStarFilled,
+    IconTruckDelivery,
     IconVocabulary,
     IconX,
     type Icon as TablerIcons,
@@ -29,4 +30,5 @@ export const Icons = {
     chevronLeft: IconChevronLeft,
     chevronRight: IconChevronRight,
     star: IconStarFilled,
+    truckDelivery: IconTruckDelivery,
 };
