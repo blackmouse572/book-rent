@@ -71,7 +71,6 @@ function HomePage() {
             </div>
             <Separator />
             <AuthPreview />
-        
            
         </div>
     );
