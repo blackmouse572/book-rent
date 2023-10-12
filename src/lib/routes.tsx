@@ -5,6 +5,7 @@ import Profile from '../pages/(profile)/Profile';
 import AuthLayout from '../pages/AuthLayout';
 import HomePage from '../pages/HomePage';
 import MainLayout from '../pages/MainLayout';
+import Sidebar from '@/pages/(profile)/sidebar';
 
 const ROUTES = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const ROUTES = createBrowserRouter([
           {
             path: '/register',
             element: <RegisterPage />,
+          },
+          {
+            path: '/sidebar',
+            element: <Sidebar />,
           },
         ],
       },
