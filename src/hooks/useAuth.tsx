@@ -1,7 +1,7 @@
 // AuthContext.tsx
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { User } from "../type";
+import { User } from "../types";
 type LoginProps = {
     user: User;
     accessToken: string;

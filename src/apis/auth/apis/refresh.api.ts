@@ -1,6 +1,6 @@
 import { axiosClient } from "@/lib/axios";
+import { IErrorResponse, IResponse } from "@/types";
 import { ITokenReponse } from "../types/token";
-import { IErrorResponse, IResponse } from "@/type";
 
 export default async function revokeRefreshToken() {
     return axiosClient.post<IErrorResponse, IResponse<ITokenReponse>>(
