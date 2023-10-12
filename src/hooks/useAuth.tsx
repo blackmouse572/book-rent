@@ -1,25 +1,22 @@
-// AuthContext.tsx
-
+import * as datefns from "date-fns";
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { IToken } from "../apis/auth/types/token";
 import { User } from "../types";
 type LoginProps = {
     user: User;
-    accessToken: string;
+    token: Pick<IToken, "expiresIn" | "accessToken">;
 };
 interface AuthContextType {
     user: User | null;
-    accessToken: string | null;
     login: (data: LoginProps) => void;
     logout: () => void;
-    setAccessToken: (token: string | null) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: React.PropsWithChildren) => {
     const [user, setUser] = useState<User | null>(null);
-    const [accessToken, setToken] = useState<string | null>(null);
-    // Load user from localStorage on initial render
+
     useEffect(() => {
         const savedUser = localStorage.getItem("user");
         if (savedUser) {
@@ -27,29 +24,27 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
         }
     }, []);
 
-    const login = ({ user, accessToken }: LoginProps) => {
+    const login = ({ user, token }: LoginProps) => {
         setUser(user);
-        setAccessToken(accessToken);
+
+        const expiresAt = datefns.addSeconds(Date.now(), token.expiresIn);
         localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("accessToken", token.accessToken);
+        localStorage.setItem("expiresIn", JSON.stringify(expiresAt));
     };
 
     const logout = () => {
         setUser(null);
-        setAccessToken(null);
-        localStorage.removeItem("user");
-    };
 
-    const setAccessToken = (token: string | null) => {
-        console.log("Access token changes: " + token);
-        setToken(token);
+        localStorage.removeItem("user");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("expiresIn");
     };
 
     const authContextValue: AuthContextType = {
         user,
         login,
         logout,
-        setAccessToken,
-        accessToken,
     };
 
     return (
