@@ -1,11 +1,15 @@
+import React from "react";
 import { createBrowserRouter } from "react-router-dom";
-import UserManagerPage from "../pages/(admin)/UserManagerPage";
-import LoginPage from "../pages/(auth)/login/SignInPage";
-import RegisterPage from "../pages/(auth)/register/RegisterPage";
-import Profile from "../pages/(profile)/Profile";
-import AuthLayout from "../pages/AuthLayout";
-import HomePage from "../pages/HomePage";
-import MainLayout from "../pages/MainLayout";
+
+const MainLayout = React.lazy(() => import("../pages/MainLayout"));
+const AuthLayout = React.lazy(() => import("../pages/AuthLayout"));
+
+const LoginPage = React.lazy(() => import("../pages/(auth)/login/SignInPage"));
+const RegisterPage = React.lazy(() => import("../pages/(auth)/register/RegisterPage"));
+
+const HomePage = React.lazy(() => import("../pages/HomePage"));
+const ProfilePage = React.lazy(() => import("../pages/(profile)/Profile"));
+const UserManagerPage = React.lazy(() => import("../pages/(admin)/UserManagerPage"));
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const ROUTES = createBrowserRouter([
@@ -18,7 +22,7 @@ export const ROUTES = createBrowserRouter([
             },
             {
                 path: "/profile",
-                element: <Profile />,
+                element: <ProfilePage />,
             },
             {
                 element: <AuthLayout />,
