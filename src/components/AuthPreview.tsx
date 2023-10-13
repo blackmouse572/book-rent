@@ -5,7 +5,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Icons } from "./icons";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Button } from "./ui/button/button";
+import { Button } from "./ui/button";
 import { toast } from "./ui/use-toast";
 
 type Props = React.HTMLAttributes<HTMLDivElement>;

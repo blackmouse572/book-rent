@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { z } from "zod";
 import { signUpApi } from "../apis/auth/apis/sign-up";
 import { RegisterSchema } from "../pages/(auth)/register/validation";
-import { Button } from "./ui/button/button";
+import { Button } from "./ui/button";
 import {
     Form,
     FormControl,

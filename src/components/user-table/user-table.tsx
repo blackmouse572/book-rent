@@ -1,6 +1,6 @@
 import React from "react";
 import TableSizeSelector from "../table-size-selector";
-import { Button } from "../ui/button/button";
+import { Button } from "../ui/button";
 import { DataTable } from "../ui/data-table";
 import Paginition from "../ui/paginition";
 import { Skeleton } from "../ui/skeleton";
