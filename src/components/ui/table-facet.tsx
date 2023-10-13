@@ -3,8 +3,8 @@ import { Column } from "@tanstack/react-table";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { Badge } from "./badge";
-import { Button } from "./button";
+import { Badge } from "./badge/badge";
+import { Button } from "./button/button";
 import {
     Command,
     CommandEmpty,

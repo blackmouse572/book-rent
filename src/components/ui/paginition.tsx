@@ -1,7 +1,7 @@
 import React from "react";
 import { cn } from "../../lib/utils";
 import { Icons } from "../icons";
-import { Button } from "./button";
+import { Button } from "./button/button";
 
 type Props = {
     currentPage: number;

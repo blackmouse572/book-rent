@@ -3,8 +3,8 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { toCapitalize } from "../../lib/stringUtils";
 import { Icons } from "../icons";
-import { Badge } from "./badge";
-import { Button } from "./button";
+import { Badge } from "./badge/badge";
+import { Button } from "./button/button";
 import {
     Command,
     CommandEmpty,

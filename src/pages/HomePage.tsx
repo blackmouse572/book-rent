@@ -1,8 +1,8 @@
 import AuthPreview from "@/components/AuthPreview";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
-import { Badge } from "../components/ui/badge";
-import { Button } from "../components/ui/button";
+import { Badge } from "../components/ui/badge/badge";
+import { Button } from "../components/ui/button/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { toast } from "../components/ui/use-toast";

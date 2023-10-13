@@ -7,7 +7,8 @@ import AuthLayout from "../pages/AuthLayout";
 import HomePage from "../pages/HomePage";
 import MainLayout from "../pages/MainLayout";
 
-const ROUTES = createBrowserRouter([
+// eslint-disable-next-line react-refresh/only-export-components
+export const ROUTES = createBrowserRouter([
     {
         element: <MainLayout />,
         children: [
@@ -44,5 +45,3 @@ const ROUTES = createBrowserRouter([
         ],
     },
 ]);
-
-export default ROUTES;

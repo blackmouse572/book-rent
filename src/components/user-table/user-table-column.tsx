@@ -2,8 +2,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { getLabelByFullname } from "../../lib/utils";
 import { ROLE, User } from "../../types";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
+import { Badge } from "../ui/badge/badge";
+import { Button } from "../ui/button/button";
 
 export const columns: ColumnDef<User>[] = [
     {

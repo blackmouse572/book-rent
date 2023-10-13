@@ -1,11 +1,11 @@
-import { useAuth } from "@/hooks/useAuth";
+import { profileApi } from "@/apis/auth/apis/profile.api";
+import { useAuth } from "@/hooks/useAuth.1";
 import { cn, getLabelByFullname } from "@/lib/utils";
 import React from "react";
-import { Button } from "./ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Icons } from "./icons";
 import { useNavigate } from "react-router-dom";
-import { profileApi } from "@/apis/auth/apis/profile.api";
+import { Icons } from "./icons";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Button } from "./ui/button/button";
 import { toast } from "./ui/use-toast";
 
 type Props = React.HTMLAttributes<HTMLDivElement>;

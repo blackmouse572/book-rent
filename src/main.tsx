@@ -6,7 +6,7 @@ import { Toaster } from "./components/ui/toaster";
 import { AuthProvider } from "./hooks/useAuth";
 import "./index.css";
 import { queryClient } from "./lib/query";
-import ROUTES from "./lib/routes";
+import { ROUTES } from "./lib/routes";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
