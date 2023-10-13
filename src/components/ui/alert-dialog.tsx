@@ -1,18 +1,17 @@
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
 import * as React from "react";
 
-import { buttonVariants } from "@/components/ui/button/button";
 import { cn } from "@/lib/utils";
+import { buttonVariants } from "./button/variants";
 
 const AlertDialog = AlertDialogPrimitive.Root;
 
 const AlertDialogTrigger = AlertDialogPrimitive.Trigger;
 
 const AlertDialogPortal = ({
-    className,
     ...props
 }: AlertDialogPrimitive.AlertDialogPortalProps) => (
-    <AlertDialogPrimitive.Portal className={cn(className)} {...props} />
+    <AlertDialogPrimitive.Portal {...props} />
 );
 AlertDialogPortal.displayName = AlertDialogPrimitive.Portal.displayName;
 
@@ -139,5 +138,6 @@ export {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-    AlertDialogTrigger,
+    AlertDialogTrigger
 };
+

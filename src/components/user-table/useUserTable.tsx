@@ -57,7 +57,7 @@ export function useUserTable(columns: ColumnDef<User>[]) {
         const otherFilters = tableStates.columnFilters;
         setQueries((prev) => ({
             ...prev,
-            role: otherFilters?.[0]?.role,
+            role: otherFilters?.[0]?.value,
             page: tableStates.pagination.pageIndex + 1,
             perPage: tableStates.pagination.pageSize,
             search: tableStates.globalFilter || undefined,

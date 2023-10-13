@@ -1,5 +1,5 @@
 import { profileApi } from "@/apis/auth/apis/profile.api";
-import { useAuth } from "@/hooks/useAuth.1";
+import { useAuth } from "@/hooks/useAuth";
 import { cn, getLabelByFullname } from "@/lib/utils";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +11,7 @@ import { toast } from "./ui/use-toast";
 type Props = React.HTMLAttributes<HTMLDivElement>;
 
 function AuthPreview({ className, ...prosp }: Props) {
-    const { user, logout, accessToken } = useAuth();
+    const { user, logout } = useAuth();
     const navigate = useNavigate();
 
     const onLogin = () => {
@@ -23,7 +23,7 @@ function AuthPreview({ className, ...prosp }: Props) {
     };
 
     const onGetProfile = () => {
-        console.log(accessToken);
+        const accessToken = localStorage.getItem("access_token");
         profileApi(accessToken!, (err, profile) => {
             if (err) {
                 toast({

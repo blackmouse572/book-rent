@@ -60,7 +60,10 @@ function UserTable() {
                 setSearchQuery={(value) => {
                     table.setGlobalFilter(value.search);
                     table.setColumnFilters(() => [
-                        { role: value.role as string },
+                        {
+                            id: "role",
+                            value: value.role,
+                        },
                     ]);
                 }}
             />

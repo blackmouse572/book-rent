@@ -4,7 +4,7 @@ import React from "react";
 
 import { loginApi } from "@/apis/auth/apis/login.api";
 import { profileApi } from "@/apis/auth/apis/profile.api";
-import { useAuth } from "@/hooks/useAuth.1";
+import { useAuth } from "@/hooks/useAuth";
 import { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
