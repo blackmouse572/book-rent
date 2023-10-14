@@ -5,6 +5,9 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { toast } from "../components/ui/use-toast";
 import AuthPreview from "@/components/AuthPreview";
+import Footer from "@/components/footer/Footer";
+import Header from "@/components/header/Header";
+import NavBar from "@/components/header/nav";
 
 function HomePage() {
     const showToast = (
@@ -19,6 +22,7 @@ function HomePage() {
     };
     return (
         <div className="container h-screen flex-col  flex gap-8 justify-center items-cente">
+            
             <div className=" flex gap-3 justify-center items-center">
                 <Button>Primary</Button>
                 <Button variant={"ghost"}>Ghost</Button>
@@ -66,7 +70,12 @@ function HomePage() {
                 </Badge>
             </div>
             <Separator />
-            <AuthPreview />
+            <Header />
+
+            <AuthPreview />  
+                      {/* <NavBar/> */}
+
+            <Footer />
         </div>
     );
 }
