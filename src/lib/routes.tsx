@@ -5,7 +5,7 @@ import Profile from '../pages/(profile)/Profile';
 import AuthLayout from '../pages/AuthLayout';
 import HomePage from '../pages/HomePage';
 import MainLayout from '../pages/MainLayout';
-import Sidebar from '@/pages/(profile)/sidebar';
+import Sidebar from '@/components/ui/Sidebar';
 
 const ROUTES = createBrowserRouter([
   {
@@ -20,6 +20,10 @@ const ROUTES = createBrowserRouter([
         element: <Profile />,
       },
       {
+        path: '/sidebar',
+        element: <Sidebar />,
+      },
+      {
         element: <AuthLayout />,
         children: [
           {
@@ -30,10 +34,7 @@ const ROUTES = createBrowserRouter([
             path: '/register',
             element: <RegisterPage />,
           },
-          {
-            path: '/sidebar',
-            element: <Sidebar />,
-          },
+          
         ],
       },
     ],
