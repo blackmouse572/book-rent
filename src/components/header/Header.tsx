@@ -1,4 +1,4 @@
-import React from 'react';
+
 import '@/index.css';
 // import AuthPreview from '../AuthPreview';
 import { Input } from "../ui/input";
