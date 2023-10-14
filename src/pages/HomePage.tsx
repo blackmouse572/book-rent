@@ -20,6 +20,7 @@ function HomePage() {
     };
     return (
         <div className="container h-screen flex-col  flex gap-8 justify-center items-cente">
+            
             <div className=" flex gap-3 justify-center items-center">
                 <Button>Primary</Button>
                 <Link to={"/admin/user"}>
@@ -69,7 +70,12 @@ function HomePage() {
                 </Badge>
             </div>
             <Separator />
-            <AuthPreview />
+            <Header />
+
+            <AuthPreview />  
+                      {/* <NavBar/> */}
+
+            <Footer />
         </div>
     );
 }
