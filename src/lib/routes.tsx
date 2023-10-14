@@ -1,4 +1,5 @@
 import { getBookById } from "@/apis/book";
+import GenrePage from "@/pages/(genre)/GenrePage";
 import { IBook } from "@/types";
 import { faker } from "@faker-js/faker";
 import React from "react";
@@ -54,6 +55,15 @@ export const ROUTES = createBrowserRouter([
                         element: <UserManagerPage />,
                     },
                 ],
+            },
+            {
+                path: "books",
+                loader: async () => {
+                    const book_id = faker.database.mongodbObjectId();
+                    const book: IBook = await getBookById(book_id);
+                    return book;
+                },
+                element: <GenrePage />,
             },
             {
                 path: ":genre/:id",

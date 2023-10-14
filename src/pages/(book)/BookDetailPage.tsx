@@ -23,9 +23,9 @@ export default function BookDetailPage() {
                 icon: "smartHome",
             },
             {
-                key: "genre",
+                key: "books",
                 label: genre,
-                href: `/${genre}`,
+                href: `/books?genre=${genre}`,
             },
             {
                 key: "book",
