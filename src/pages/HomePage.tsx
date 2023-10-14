@@ -7,7 +7,7 @@ import { toast } from "../components/ui/use-toast";
 import AuthPreview from "@/components/AuthPreview";
 import Footer from "@/components/footer/Footer";
 import Header from "@/components/header/Header";
-import NavBar from "@/components/header/nav";
+// import NavBar from "@/components/header/nav";
 
 function HomePage() {
     const showToast = (

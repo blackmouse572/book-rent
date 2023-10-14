@@ -6,6 +6,16 @@ import {
     IconBrandGoogleHome,
     IconLogout,
     IconLoader2 as IconLoader2,
+    IconSearch,
+    IconBell,
+    IconUser,
+    IconQuestionMark,
+    IconGardenCart,
+    IconBrandFacebook,
+    IconBrandDiscord,
+    IconBrandTwitter,
+    IconBrandGithub,
+    IconBrandDribbble,
 } from "@tabler/icons-react";
 
 export type Icon = TablerIcons;
@@ -17,4 +27,14 @@ export const Icons = {
     home: IconBrandGoogleHome,
     signOut: IconLogout,
     loader: IconLoader2,
+    search: IconSearch,
+    bell: IconBell,
+    user: IconUser,
+    question: IconQuestionMark,
+    cart: IconGardenCart,
+    fb: IconBrandFacebook,
+    disc: IconBrandDiscord,
+    tw: IconBrandTwitter,
+    git: IconBrandGithub,
+    dribble: IconBrandDribbble,
 };
