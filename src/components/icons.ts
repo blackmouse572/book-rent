@@ -14,6 +14,16 @@ import {
     IconX,
     IconSmartHome,
     type Icon as TablerIcons,
+    IconSearch,
+    IconBell,
+    IconUser,
+    IconQuestionMark,
+    IconGardenCart,
+    IconBrandFacebook,
+    IconBrandDiscord,
+    IconBrandTwitter,
+    IconBrandGithub,
+    IconBrandDribbble,
 } from "@tabler/icons-react";
 
 export type Icon = TablerIcons;
@@ -33,4 +43,14 @@ export const Icons = {
     star: IconStarFilled,
     truckDelivery: IconTruckDelivery,
     smartHome: IconSmartHome,
+    search: IconSearch,
+    bell: IconBell,
+    user: IconUser,
+    question: IconQuestionMark,
+    cart: IconGardenCart,
+    fb: IconBrandFacebook,
+    disc: IconBrandDiscord,
+    tw: IconBrandTwitter,
+    git: IconBrandGithub,
+    dribble: IconBrandDribbble,
 };
