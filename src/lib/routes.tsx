@@ -1,3 +1,5 @@
+import { getBookById } from "@/apis/book";
+import { faker } from "@faker-js/faker";
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -12,7 +14,7 @@ const RegisterPage = React.lazy(
 const HomePage = React.lazy(() => import("../pages/HomePage"));
 const ProfilePage = React.lazy(() => import("../pages/(profile)/Profile"));
 const UserManagerPage = React.lazy(
-    () => import("../pages/(admin)/UserManagerPage")
+    () => import("../pages/(book)/(admin)/UserManagerPage")
 );
 const BookDetailPage = React.lazy(() => import("@/pages/"));
 
@@ -50,6 +52,15 @@ export const ROUTES = createBrowserRouter([
                         element: <UserManagerPage />,
                     },
                 ],
+            },
+            {
+                path: ":genre/:id",
+                loader: async () => {
+                    const book_id = faker.database.mongodbObjectId();
+                    const book: IBook = await getBookById(book_id);
+                    return book;
+                },
+                element: <BookDetailPage />,
             },
         ],
     },

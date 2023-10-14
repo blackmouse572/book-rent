@@ -1,4 +1,4 @@
-import { IGenre, IReview } from ".";
+import { IGenre, IReview, User } from ".";
 
 export interface IBook {
     _id: string;
@@ -12,4 +12,5 @@ export interface IBook {
     keywords?: string[];
     genres?: IGenre[];
     reviews?: IReview[];
+    author?: User;
 }

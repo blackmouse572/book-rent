@@ -1,36 +1,64 @@
+import { IBreadcrumb } from "@/components/breadcrumb";
+import Breadcrumb from "@/components/breadcrumb/breadcrumb";
 import { format } from "date-fns";
-import { useLoaderData } from "react-router-dom";
-import { Icons } from "../components/icons";
-import { Badge } from "../components/ui/badge";
-import { Button } from "../components/ui/button";
-import { Separator } from "../components/ui/separator";
-import { IBook } from "../types";
+import React from "react";
+import { Link, useLoaderData, useLocation } from "react-router-dom";
+import { Icons } from "../../components/icons";
+import { Badge } from "../../components/ui/badge";
+import { Button } from "../../components/ui/button";
+import { Separator } from "../../components/ui/separator";
+import { IBook } from "../../types";
 
 export default function BookDetailPage() {
     const book = useLoaderData() as IBook;
+    const { pathname } = useLocation();
+    const breadcrumb = React.useMemo<IBreadcrumb[]>(() => {
+        const paths = pathname.split("/");
+        const genre = paths[1];
+        return [
+            {
+                label: "Home",
+                key: "home",
+                href: "/",
+                icon: "smartHome",
+            },
+            {
+                key: "genre",
+                label: genre,
+                href: `/${genre}`,
+            },
+            {
+                key: "book",
+                label: book.name,
+            },
+        ];
+    }, [book.name, pathname]);
     return (
         <div className="container mx-auto">
+            <Breadcrumb items={breadcrumb} className="my-8" />
             <section
                 key={"main.book"}
-                className="w-full min-h-[60vh] grid grid-cols-1 md:gap-6 md:grid-cols-2 place-items-center py-28 gap-4"
+                className="w-full grid grid-cols-1 md:gap-6 md:grid-cols-2 place-items-start gap-4 py-10"
             >
                 <img
                     src={book.image}
                     alt={book.name}
                     className="object-cover rounded-sm shadow-md"
-                    height={500}
+                    height={700}
                     width={500}
                 />
                 <article className="space-y-8">
                     <div className="space-y-4">
-                        <h3 className="text-xl font-medium tracking-wide">
+                        <h3 className="text-3xl font-medium tracking-wide">
                             {book.name}
                         </h3>
+                        <p>By&nbsp;{book.author?.fullName}</p>
                     </div>
                     <div className="space-y-2">
-                        <h1 className="text-5xl font-bold">
-                            {book.rental_price}$
+                        <h1 className="text-xl font-bold">
+                            $ {book.rental_price}
                         </h1>
+                        <p className="line-clamp-3">{book.description}</p>
                     </div>
                     <div className="space-y-4">
                         <div className="space-x-4">
@@ -58,13 +86,16 @@ export default function BookDetailPage() {
                     <p className="text-base text-slate-500">
                         {book.description}
                     </p>
-                    <ul>
+                    <ul className="flex gap-1">
                         {book.keywords?.map((keyword) => (
-                            <li key={keyword}>
-                                <Badge className="bg-slate-100 text-slate-600">
+                            <Link key={keyword} to={`/${keyword}`}>
+                                <Badge
+                                    isPressable
+                                    className="bg-slate-100 text-slate-600"
+                                >
                                     # {keyword}
                                 </Badge>
-                            </li>
+                            </Link>
                         ))}
                     </ul>
                 </div>
