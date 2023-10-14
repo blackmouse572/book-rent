@@ -177,6 +177,10 @@ export const ROUTES = createBrowserRouter([
             path: '/register',
             element: <RegisterPage />,
           },
+          {
+            path: '/sidebar',
+            element: <Sidebar />,
+          },
         ],
       },
     ],
