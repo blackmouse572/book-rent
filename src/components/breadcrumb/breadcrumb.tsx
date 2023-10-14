@@ -1,6 +1,7 @@
 import { IBreadcrumb } from "@/components/breadcrumb/type";
 import { Icons } from "@/components/icons";
 import { cn } from "@/lib/utils";
+import { capitalize } from "lodash";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -51,7 +52,7 @@ function BreadCrumbItem({
             <Link
                 to={isLast ? "#" : item.href || "#"}
                 className={cn(
-                    "inline-block items-center text-sm font-medium text-gray-700 dark:text-gray-400 dark:hover:text-white text-ellipsis",
+                    "inline-flex items-center text-sm font-medium text-gray-700 dark:text-gray-400 dark:hover:text-white text-ellipsis",
                     {
                         "text-primary": isLast,
                         "hover:text-primary": !isLast,
@@ -59,7 +60,7 @@ function BreadCrumbItem({
                 )}
             >
                 {Icon && <Icon className="inline-block mr-1" />}
-                {item.label}
+                {capitalize(item.label)}
             </Link>
             {isLast || <Icons.chevronRight className="inline-block ml-1" />}
         </li>
