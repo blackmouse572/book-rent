@@ -1,13 +1,13 @@
 import { IBreadcrumb } from "@/components/breadcrumb";
 import Breadcrumb from "@/components/breadcrumb/breadcrumb";
+import { Icons } from "@/components/icons";
+import { Badge } from "@/components/ui/badge/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { IBook } from "@/types";
 import { format } from "date-fns";
 import React from "react";
 import { Link, useLoaderData, useLocation } from "react-router-dom";
-import { Icons } from "../../components/icons";
-import { Badge } from "../../components/ui/badge";
-import { Button } from "../../components/ui/button";
-import { Separator } from "../../components/ui/separator";
-import { IBook } from "../../types";
 
 export default function BookDetailPage() {
     const book = useLoaderData() as IBook;
