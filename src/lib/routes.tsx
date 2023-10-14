@@ -1,17 +1,26 @@
+import { getBookById } from "@/apis/book";
+import { IBook } from "@/types";
+import { faker } from "@faker-js/faker";
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 
-const MainLayout = React.lazy(() => import("../pages/MainLayout"));
-const AuthLayout = React.lazy(() => import("../pages/AuthLayout"));
+const MainLayout = React.lazy(() => import("@/pages/MainLayout"));
+const AuthLayout = React.lazy(() => import("@/pages/AuthLayout"));
 
-const LoginPage = React.lazy(() => import("../pages/(auth)/login/SignInPage"));
-const RegisterPage = React.lazy(() => import("../pages/(auth)/register/RegisterPage"));
+const LoginPage = React.lazy(() => import("@/pages/(auth)/login/SignInPage"));
+const RegisterPage = React.lazy(
+    () => import("@/pages/(auth)/register/RegisterPage")
+);
 
-const HomePage = React.lazy(() => import("../pages/HomePage"));
-const ProfilePage = React.lazy(() => import("../pages/(profile)/Profile"));
-const UserManagerPage = React.lazy(() => import("../pages/(admin)/UserManagerPage"));
+const HomePage = React.lazy(() => import("@/pages/HomePage"));
+const ProfilePage = React.lazy(() => import("@/pages/(profile)/Profile"));
+const UserManagerPage = React.lazy(
+    () => import("@/pages/(admin)/UserManagerPage.tsx")
+);
+const BookDetailPage = React.lazy(
+    () => import("@/pages/(book)/BookDetailPage.tsx")
+);
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const ROUTES = createBrowserRouter([
     {
         element: <MainLayout />,
@@ -45,6 +54,15 @@ export const ROUTES = createBrowserRouter([
                         element: <UserManagerPage />,
                     },
                 ],
+            },
+            {
+                path: ":genre/:id",
+                loader: async () => {
+                    const book_id = faker.database.mongodbObjectId();
+                    const book: IBook = await getBookById(book_id);
+                    return book;
+                },
+                element: <BookDetailPage />,
             },
         ],
     },

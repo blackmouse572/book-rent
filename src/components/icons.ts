@@ -8,8 +8,11 @@ import {
     IconMoodEmptyFilled,
     IconPlus,
     IconSquareRoundedXFilled,
+    IconStarFilled,
+    IconTruckDelivery,
     IconVocabulary,
     IconX,
+    IconSmartHome,
     type Icon as TablerIcons,
 } from "@tabler/icons-react";
 
@@ -27,4 +30,7 @@ export const Icons = {
     check: IconCheck,
     chevronLeft: IconChevronLeft,
     chevronRight: IconChevronRight,
+    star: IconStarFilled,
+    truckDelivery: IconTruckDelivery,
+    smartHome: IconSmartHome,
 };
