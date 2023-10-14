@@ -1,44 +1,69 @@
-import { createBrowserRouter } from 'react-router-dom';
-import LoginPage from '../pages/(auth)/login/SignInPage';
-import RegisterPage from '../pages/(auth)/register/RegisterPage';
-import Profile from '../pages/(profile)/Profile';
-import AuthLayout from '../pages/AuthLayout';
-import HomePage from '../pages/HomePage';
-import MainLayout from '../pages/MainLayout';
-import Sidebar from '@/components/ui/Sidebar';
+import { getBookById } from "@/apis/book";
+import { IBook } from "@/types";
+import { faker } from "@faker-js/faker";
+import React from "react";
+import { createBrowserRouter } from "react-router-dom";
 
-const ROUTES = createBrowserRouter([
-  {
-    element: <MainLayout />,
-    children: [
-      {
-        path: '/',
-        element: <HomePage />,
-      },
-      {
-        path: '/profile',
-        element: <Profile />,
-      },
-      {
-        path: '/sidebar',
-        element: <Sidebar />,
-      },
-      {
-        element: <AuthLayout />,
+const MainLayout = React.lazy(() => import("@/pages/MainLayout"));
+const AuthLayout = React.lazy(() => import("@/pages/AuthLayout"));
+
+const LoginPage = React.lazy(() => import("@/pages/(auth)/login/SignInPage"));
+const RegisterPage = React.lazy(
+    () => import("@/pages/(auth)/register/RegisterPage")
+);
+
+const HomePage = React.lazy(() => import("@/pages/HomePage"));
+const ProfilePage = React.lazy(() => import("@/pages/(profile)/Profile"));
+const UserManagerPage = React.lazy(
+    () => import("@/pages/(admin)/UserManagerPage.tsx")
+);
+const BookDetailPage = React.lazy(
+    () => import("@/pages/(book)/BookDetailPage.tsx")
+);
+
+export const ROUTES = createBrowserRouter([
+    {
+        element: <MainLayout />,
         children: [
-          {
-            path: '/login',
-            element: <LoginPage />,
-          },
-          {
-            path: '/register',
-            element: <RegisterPage />,
-          },
-          
+            {
+                path: "/",
+                element: <HomePage />,
+            },
+            {
+                path: "/profile",
+                element: <ProfilePage />,
+            },
+            {
+                element: <AuthLayout />,
+                children: [
+                    {
+                        path: "/login",
+                        element: <LoginPage />,
+                    },
+                    {
+                        path: "/register",
+                        element: <RegisterPage />,
+                    },
+                ],
+            },
+            {
+                path: "/admin",
+                children: [
+                    {
+                        path: "/admin/user",
+                        element: <UserManagerPage />,
+                    },
+                ],
+            },
+            {
+                path: ":genre/:id",
+                loader: async () => {
+                    const book_id = faker.database.mongodbObjectId();
+                    const book: IBook = await getBookById(book_id);
+                    return book;
+                },
+                element: <BookDetailPage />,
+            },
         ],
-      },
-    ],
-  },
+    },
 ]);
-
-export default ROUTES;

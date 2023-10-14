@@ -1,14 +1,12 @@
-import React from 'react';
+import { Outlet } from "react-router-dom";
 
-type Props = {};
-
-function AuthLayout({}: Props) {
-  return (
-    <div>
-      AuthLayout
-      <Outlet />
-    </div>
-  );
+function AuthLayout() {
+    return (
+        <div>
+            AuthLayout
+            <Outlet />
+        </div>
+    );
 }
 
 export default AuthLayout;

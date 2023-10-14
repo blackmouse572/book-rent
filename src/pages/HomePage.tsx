@@ -1,17 +1,13 @@
+import AuthPreview from "@/components/AuthPreview";
 import { Separator } from "@/components/ui/separator";
-import { Badge } from "../components/ui/badge";
-import { Button } from "../components/ui/button";
+import { Link } from "react-router-dom";
+import { Badge } from "../components/ui/badge/badge";
+import { Button } from "../components/ui/button/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { toast } from "../components/ui/use-toast";
-import AuthPreview from "@/components/AuthPreview";
-import { useNavigate } from 'react-router-dom';
 
 function HomePage() {
-    const navigate = useNavigate();
-    const sidebar = () => {
-        navigate("/sidebar");
-    };
     const showToast = (
         variant: "default" | "destructive" | "success" | "warning"
     ) => {
@@ -26,7 +22,9 @@ function HomePage() {
         <div className="container h-screen flex-col  flex gap-8 justify-center items-cente">
             <div className=" flex gap-3 justify-center items-center">
                 <Button>Primary</Button>
-                <Button variant={"ghost"}>Ghost</Button>
+                <Link to={"/admin/user"}>
+                    <Button variant={"ghost"}>(Admin) User manager</Button>
+                </Link>
                 <Button variant={"link"}>Link</Button>
                 <Button variant={"outline"}>Outline</Button>
                 <Button variant={"secondary"}>Secondary</Button>
@@ -71,13 +69,8 @@ function HomePage() {
                 </Badge>
             </div>
             <Separator />
+
             <AuthPreview />
-            <div className=" flex gap-3 justify-center items-center">
-            <Button onClick={sidebar}>Sidebar</Button>
-            </div>
-          
-                
-       
         </div>
     );
 }

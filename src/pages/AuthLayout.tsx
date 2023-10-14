@@ -1,10 +1,10 @@
-import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 function AuthLayout() {
-  const { user } = useAuth();
-  if (user) return <Navigate to={'/'} replace={true} />;
-  return <Outlet />;
+    const { user } = useAuth();
+    if (user) return <Navigate to={"/"} replace={true} />;
+    return <Outlet />;
 }
 
 export default AuthLayout;

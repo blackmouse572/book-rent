@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 import { z } from "zod";
 import { axiosClient } from "../../../lib/axios";
 import { RegisterSchema } from "../../../pages/(auth)/register/validation";
-import { IErrorResponse } from "../../../type";
+import { IErrorResponse } from "../../../types";
 type ISignup = z.infer<typeof RegisterSchema>;
 async function signUpApi(
     data: ISignup,
