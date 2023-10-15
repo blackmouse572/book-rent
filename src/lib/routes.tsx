@@ -1,5 +1,5 @@
 import { getBookById } from "@/apis/book";
-import GenrePage from "@/pages/(genre)/GenrePage";
+import BookPage from "@/pages/(book)/BookPage";
 import { IBook } from "@/types";
 import { faker } from "@faker-js/faker";
 import React from "react";
@@ -63,7 +63,7 @@ export const ROUTES = createBrowserRouter([
                     const book: IBook = await getBookById(book_id);
                     return book;
                 },
-                element: <GenrePage />,
+                element: <BookPage />,
             },
             {
                 path: ":genre/:id",
