@@ -8,10 +8,6 @@ import { Label } from "../components/ui/label";
 import { toast } from "../components/ui/use-toast";
 
 
-
-
-
-
 function HomePage() {
   
     const showToast = (
