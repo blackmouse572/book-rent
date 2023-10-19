@@ -7,6 +7,7 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { toast } from "../components/ui/use-toast";
 
+
 function HomePage() {
     const showToast = (
         variant: "default" | "destructive" | "success" | "warning"
@@ -69,7 +70,6 @@ function HomePage() {
                 </Badge>
             </div>
             <Separator />
-
             <AuthPreview />
         </div>
     );
