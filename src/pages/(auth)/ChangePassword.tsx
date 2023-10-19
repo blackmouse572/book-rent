@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+
 
 const ChangePasswordForm = () => {
-    const [currentPassword, setCurrentPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    // const [currentPassword, setCurrentPassword] = useState('');
+    // const [newPassword, setNewPassword] = useState('');
+    // const [confirmPassword, setConfirmPassword] = useState('');
 
     // const handleSubmit = (e) => {
     //     e.preventDefault();
@@ -22,8 +22,8 @@ const ChangePasswordForm = () => {
                     <input
                         type="password"
                         id="currentPassword"
-                        value={currentPassword}
-                        onChange={(e) => setCurrentPassword(e.target.value)}
+                        // value={currentPassword}
+                        // onChange={(e) => setCurrentPassword(e.target.value)}
                         className="block w-full px-4 py-2 mt-2 text-gray-700 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
                     />
                 </div>
@@ -34,8 +34,8 @@ const ChangePasswordForm = () => {
                     <input
                         type="password"
                         id="newPassword"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
+                        // value={newPassword}
+                        // onChange={(e) => setNewPassword(e.target.value)}
                         className="block w-full px-4 py-2 mt-2 text-gray-700 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
                     />
                 </div>
@@ -46,8 +46,8 @@ const ChangePasswordForm = () => {
                     <input
                         type="password"
                         id="confirmPassword"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        // value={confirmPassword}
+                        // onChange={(e) => setConfirmPassword(e.target.value)}
                         className="block w-full px-4 py-2 mt-2 text-gray-700 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
                     />
                 </div>
