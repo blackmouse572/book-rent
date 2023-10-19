@@ -36,46 +36,52 @@ function ChangePassword() {
     };
 
     return (
-        <div className="container mx-auto flex justify-center items-center h-screen relative">
-            <HomeButtton className="absolute top-0 left-0 mt-4 ml-4" />
-            <Form {...form}>
-                <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-8 max-w-md mx-auto "
-                >
-                    <FormField
-                        control={form.control}
-                        name="username"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel className=" mb-2">
-                                    Username
-                                </FormLabel>
-                                <FormControl>
-                                    <Input
-                                        className=" py-2 px-3 "
-                                        placeholder="Enter your username"
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormDescription className="mt-1">
-                                    Please enter your username to reset your
-                                    password.
-                                </FormDescription>
-                                <FormMessage />
-                            </FormItem>
-                        )}
+        <div className="max-w-md mx-auto m-4 p-6 bg-white rounded-md shadow-md">
+            <h2 className="text-2xl font-bold mb-4">Change Password</h2>
+            <form className="space-y-4">
+                <div>
+                    <label htmlFor="currentPassword" className="block text-gray-700">
+                        Current Password
+                    </label>
+                    <input
+                        type="password"
+                        id="currentPassword"
+                        value={currentPassword}
+                        onChange={(e) => setCurrentPassword(e.target.value)}
+                        className="block w-full px-4 py-2 mt-2 text-gray-700 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
                     />
-                    <Button type="submit" className=" py-2 px-4 ">
-                        Submit
-                    </Button>
-                    {isFormSubmitted && (
-                        <p className="text-green-500 mt-2 text-sm">
-                            Reset password link sent to your email.
-                        </p>
-                    )}
-                </form>
-            </Form>
+                </div>
+                <div>
+                    <label htmlFor="newPassword" className="block text-gray-700">
+                        New Password
+                    </label>
+                    <input
+                        type="password"
+                        id="newPassword"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        className="block w-full px-4 py-2 mt-2 text-gray-700 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="confirmPassword" className="block text-gray-700">
+                        Confirm New Password
+                    </label>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        className="block w-full px-4 py-2 mt-2 text-gray-700 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                    />
+                </div>
+                <button
+                    type="submit"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring"
+                >
+                    Change Password
+                </button>
+            </form>
         </div>
     );
 }
