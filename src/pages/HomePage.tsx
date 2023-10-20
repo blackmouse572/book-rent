@@ -70,6 +70,7 @@ function HomePage() {
                 </Badge>
             </div>
             <Separator />
+
             <AuthPreview />
         </div>
     );

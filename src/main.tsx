@@ -13,8 +13,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
         <QueryClientProvider client={queryClient}>
             <AuthProvider>
-                <Suspense fallback={<PageLoader/>} >
-                <RouterProvider router={ROUTES} />
+                <Suspense fallback={<PageLoader />}>
+                    <RouterProvider router={ROUTES} />
                 </Suspense>
             </AuthProvider>
             <Toaster />

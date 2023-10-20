@@ -1,23 +1,69 @@
-export const SidebarIcon = () => (
-    <svg
-        className="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-    >
-        <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M4 6h16M4 12h16M4 18h16"
-        />
-    </svg>
+import { getBookById } from "@/apis/book";
+import { IBook } from "@/types";
+import { faker } from "@faker-js/faker";
+import React from "react";
+import { createBrowserRouter } from "react-router-dom";
+
+const MainLayout = React.lazy(() => import("@/pages/MainLayout"));
+const AuthLayout = React.lazy(() => import("@/pages/AuthLayout"));
+
+const LoginPage = React.lazy(() => import("@/pages/(auth)/login/SignInPage"));
+const RegisterPage = React.lazy(
+    () => import("@/pages/(auth)/register/RegisterPage")
 );
-export const AccountSettingIcon = () => (
-    <img
-        className="h-12 w-12 rounded-full object-cover"
-        src="https://via.placeholder.com/150"
-        alt="Avatar"
-    />
+
+const HomePage = React.lazy(() => import("@/pages/HomePage"));
+const ProfilePage = React.lazy(() => import("@/pages/(profile)/Profile"));
+const UserManagerPage = React.lazy(
+    () => import("@/pages/(admin)/UserManagerPage.tsx")
 );
+const BookDetailPage = React.lazy(
+    () => import("@/pages/(book)/BookDetailPage.tsx")
+);
+
+export const ROUTES = createBrowserRouter([
+    {
+        element: <MainLayout />,
+        children: [
+            {
+                path: "/",
+                element: <HomePage />,
+            },
+            {
+                path: "/profile",
+                element: <ProfilePage />,
+            },
+            {
+                element: <AuthLayout />,
+                children: [
+                    {
+                        path: "/login",
+                        element: <LoginPage />,
+                    },
+                    {
+                        path: "/register",
+                        element: <RegisterPage />,
+                    },
+                ],
+            },
+            {
+                path: "/admin",
+                children: [
+                    {
+                        path: "/admin/user",
+                        element: <UserManagerPage />,
+                    },
+                ],
+            },
+            {
+                path: ":genre/:id",
+                loader: async () => {
+                    const book_id = faker.database.mongodbObjectId();
+                    const book: IBook = await getBookById(book_id);
+                    return book;
+                },
+                element: <BookDetailPage />,
+            },
+        ],
+    },
+]);

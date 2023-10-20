@@ -44,27 +44,29 @@ function AuthPreview({ className, ...prosp }: Props) {
     return (
         <div className={cn(className)} {...prosp}>
             {user ? (
-                <div className="flex gap-3 items-center justify-center">
-                    <Avatar>
-                        <AvatarImage src={user.avatar} alt={user.fullName} />
-                        <AvatarFallback>
-                            {getLabelByFullname(user.fullName)}
-                        </AvatarFallback>
-                    </Avatar>
-                    <div>
-                        <h6>{user.fullName}</h6>
-                        <p>{user.email}</p>
-                    </div>
-                    <Button
-                        variant={"ghost"}
-                        colors={"destructive"}
-                        className="w-fit px-2 hover:text-white"
-                        onClick={onLogout}
-                    >
-                        <Icons.signOut size={16} />
-                    </Button>
-                    <Button onClick={onGetProfile}>Get profile</Button>
+                <div className="user-profile">
+                <Avatar>
+                  <AvatarImage src={user.avatar} alt={user.fullName} />
+                  <AvatarFallback>
+                    {getLabelByFullname(user.fullName)}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="user-info">
+                  <h6>{user.fullName}</h6>
+                  <p>{user.email}</p>
                 </div>
+                <div className="user-actions">
+                  <Button onClick={onGetProfile}>Get profile</Button>
+                  <Button
+                    variant="ghost"
+                    colors="destructive"
+                    className="w-fit px-2 hover:text-white"
+                    onClick={onLogout}
+                  >
+                    <Icons.signOut size={16} />
+                  </Button>
+                </div>
+              </div>
             ) : (
                 <Button onClick={onLogin}>Login</Button>
               
