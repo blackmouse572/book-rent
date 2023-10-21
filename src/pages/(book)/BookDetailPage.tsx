@@ -1,6 +1,7 @@
 import { IBreadcrumb } from "@/components/breadcrumb";
 import Breadcrumb from "@/components/breadcrumb/breadcrumb";
 import { Icons } from "@/components/icons";
+import MetaData from "@/components/metadata";
 import { Badge } from "@/components/ui/badge/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -35,6 +36,7 @@ export default function BookDetailPage() {
     }, [book.name, pathname]);
     return (
         <div className="container mx-auto">
+            <MetaData title={book.name.slice(0, 10) + "..."} />
             <Breadcrumb items={breadcrumb} className="my-8" />
             <section
                 key={"main.book"}

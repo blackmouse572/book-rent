@@ -3,6 +3,7 @@ import BookFilterSidebar from "@/components/book-filter-sidebar";
 import BookGridLoading from "@/components/book-grid-loading";
 import { IBreadcrumb } from "@/components/breadcrumb";
 import Breadcrumb from "@/components/breadcrumb/breadcrumb";
+import MetaData from "@/components/metadata";
 import Paginition from "@/components/ui/paginition";
 import useGetManyBooks from "@/pages/(book)/useGetManyBooks";
 import React from "react";
@@ -73,6 +74,7 @@ function BookPage() {
     if (isError) return <div>Something went wrong</div>;
     return (
         <main className="container mx-auto grid place-items-center min-h-screen w-full">
+            <MetaData title="Books" />
             <Breadcrumb items={breadcrumb} className="my-8 w-full" />
             <div className="flex gap-2 w-full">
                 <section
