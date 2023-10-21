@@ -1,7 +1,4 @@
 import { Icons } from "@/components/icons";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
 import AuthPreview from "../AuthPreview";
 
 export default function NavBar() {

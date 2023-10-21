@@ -35,19 +35,6 @@ export const ROUTES = createBrowserRouter([
                 element: <ProfilePage />,
             },
             {
-                element: <AuthLayout />,
-                children: [
-                    {
-                        path: "/login",
-                        element: <LoginPage />,
-                    },
-                    {
-                        path: "/register",
-                        element: <RegisterPage />,
-                    },
-                ],
-            },
-            {
                 path: "/admin",
                 children: [
                     {
@@ -73,6 +60,19 @@ export const ROUTES = createBrowserRouter([
                     return book;
                 },
                 element: <BookDetailPage />,
+            },
+        ],
+    },
+    {
+        element: <AuthLayout />,
+        children: [
+            {
+                path: "/login",
+                element: <LoginPage />,
+            },
+            {
+                path: "/register",
+                element: <RegisterPage />,
             },
         ],
     },
