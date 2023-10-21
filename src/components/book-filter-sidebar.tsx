@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useSearchParams } from "react-router-dom";
 import { z } from "zod";
@@ -22,23 +22,30 @@ type FilterForm = z.infer<typeof FilterSchema>;
 
 function BookFilterSidebar({ onFilterChange }: Props) {
     const [searchParams, setSearchParams] = useSearchParams();
-    const { control, handleSubmit, reset } = useForm<FilterForm>({
+    const { control, handleSubmit, reset, setValue } = useForm<FilterForm>({
         resolver: zodResolver(FilterSchema),
-        values: {
-            search: searchParams.get("search") || undefined,
-            author: searchParams.get("author") || undefined,
-            genre: searchParams.get("genre") || undefined,
-            review: Number(searchParams.get("review")) || undefined,
-        },
     });
+
+    useEffect(() => {
+        const search = searchParams.get("search") || "";
+        const author = searchParams.get("author") || "";
+        const genre = searchParams.get("genre") || "";
+        const review = Number(searchParams.get("review")) || undefined;
+
+        setValue("search", search);
+        setValue("author", author);
+        setValue("genre", genre);
+        setValue("review", review);
+    }, [searchParams, setValue]);
 
     const onSubmit = React.useCallback(
         (data: FilterForm) => {
-            const searchParam = new URLSearchParams();
-            data.search && searchParam.set("search", data.search);
-            data.author && searchParam.set("author", data.author);
-            data.genre && searchParam.set("genre", data.genre);
-            data.review && searchParam.set("review", data.review.toString());
+            const searchParams = new URLSearchParams();
+
+            data.search && searchParams.set("search", data.search);
+            data.author && searchParams.set("author", data.author);
+            data.genre && searchParams.set("genre", data.genre);
+            data.review && searchParams.set("review", data.review.toString());
 
             setSearchParams(searchParams, { replace: true });
 
@@ -50,21 +57,12 @@ function BookFilterSidebar({ onFilterChange }: Props) {
     );
 
     const onClear = React.useCallback(() => {
-        reset({
-            search: undefined,
-            author: undefined,
-            genre: undefined,
-            review: undefined,
-        });
-        handleSubmit(onSubmit);
-    }, [handleSubmit, onSubmit, reset]);
+        reset();
+    }, [reset]);
 
     return (
         <React.Fragment key={"sidebar.filter"}>
-            <form
-                onSubmit={control.handleSubmit(onSubmit)}
-                className="space-y-8"
-            >
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
                 <div aria-label="search">
                     <Label htmlFor="search">Find book</Label>
                     <Input
