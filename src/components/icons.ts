@@ -44,6 +44,8 @@ export const Icons = {
     star: IconStarFilled,
     truckDelivery: IconTruckDelivery,
     smartHome: IconSmartHome,
+    starFilled: IconStarFilled,
+    starEmpty: IconStarOff,
     search: IconSearch,
     bell: IconBell,
     user: IconUser,
