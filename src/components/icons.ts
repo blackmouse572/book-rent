@@ -56,6 +56,4 @@ export const Icons = {
     tw: IconBrandTwitter,
     git: IconBrandGithub,
     dribble: IconBrandDribbble,
-    starFilled: IconStarFilled,
-    starEmpty: IconStarOff,
 };
