@@ -3,6 +3,7 @@ import BookFilterSidebar from "@/components/book-filter-sidebar";
 import BookGridLoading from "@/components/book-grid-loading";
 import { IBreadcrumb } from "@/components/breadcrumb";
 import Breadcrumb from "@/components/breadcrumb/breadcrumb";
+import Paginition from "@/components/ui/paginition";
 import useGetManyBooks from "@/pages/(book)/useGetManyBooks";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -36,7 +37,6 @@ function BookPage() {
         React.useState<GetManyBooksParams>(initBookState);
     const { data, isLoading, isError } = useGetManyBooks(bookState, {
         refetchOnWindowFocus: false,
-        keepPreviousData: true,
     });
 
     const renderBooks = React.useMemo(() => {
@@ -66,6 +66,9 @@ function BookPage() {
             );
         });
     }, [bookState.perPage, data, isLoading]);
+    const totalPage = React.useMemo(() => {
+        return data?._pagination?.totalPage || 1;
+    }, [data?._pagination?.totalPage]);
 
     if (isError) return <div>Something went wrong</div>;
     return (
@@ -90,6 +93,30 @@ function BookPage() {
                     className="grid grid-cols-4 flex-1 gap-5"
                 >
                     {renderBooks}
+                    <div className="col-span-full w-fit mx-auto">
+                        <Paginition
+                            currentPage={bookState.page || 1}
+                            totalPage={totalPage}
+                            onPageChange={(page) => {
+                                setBookState((prev) => ({
+                                    ...prev,
+                                    page,
+                                }));
+                            }}
+                            onPreviousPage={() => {
+                                setBookState((prev) => ({
+                                    ...prev,
+                                    page: prev.page! - 1,
+                                }));
+                            }}
+                            onNextPage={() => {
+                                setBookState((prev) => ({
+                                    ...prev,
+                                    page: prev.page! + 1,
+                                }));
+                            }}
+                        />
+                    </div>
                 </section>
             </div>
         </main>
