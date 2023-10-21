@@ -79,7 +79,7 @@ function BookPage() {
             <div className="flex gap-2 w-full">
                 <section
                     key="main.section.sidebar"
-                    className="w-1/4 h-[90vh] bg-accent sticky top-10 rounded-md px-4 py-2"
+                    className="w-1/4 h-min bg-accent sticky top-20 rounded-md px-4 py-5"
                 >
                     <BookFilterSidebar
                         onFilterChange={(data) => {

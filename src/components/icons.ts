@@ -1,5 +1,6 @@
 import {
     IconBell,
+    IconBookmarkQuestion,
     IconBrandDiscord,
     IconBrandDribbble,
     IconBrandFacebook,
@@ -56,4 +57,5 @@ export const Icons = {
     tw: IconBrandTwitter,
     git: IconBrandGithub,
     dribble: IconBrandDribbble,
+    questionMark: IconBookmarkQuestion,
 };
