@@ -34,8 +34,6 @@ function UserTable() {
                     onPreviousPage={() => {
                         table.previousPage();
                     }}
-                    canPreviousPage={table.getCanPreviousPage()}
-                    canNextPage={table.getCanNextPage()}
                 />
                 <TableSizeSelector
                     className="max-w-[100px] "

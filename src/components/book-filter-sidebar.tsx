@@ -53,7 +53,7 @@ function BookFilterSidebar({ onFilterChange }: Props) {
                 onFilterChange(data);
             }
         },
-        [onFilterChange, searchParams, setSearchParams]
+        [onFilterChange, setSearchParams]
     );
 
     const onClear = React.useCallback(() => {
