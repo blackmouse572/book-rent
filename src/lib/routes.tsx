@@ -13,7 +13,7 @@ const RegisterPage = React.lazy(
 );
 
 const HomePage = React.lazy(() => import("@/pages/HomePage"));
-const LandingPage = React.lazy(() => import("@/pages/Landing"));
+const LandingPage = React.lazy(() => import("@/pages/LandingPage"));
 
 const ProfilePage = React.lazy(() => import("@/pages/(profile)/Profile"));
 const UserManagerPage = React.lazy(
@@ -28,7 +28,7 @@ export const ROUTES = createBrowserRouter([
         element: <MainLayout />,
         children: [
             {
-                path: "/",
+                path: "/home",
                 element: <HomePage />,
             },
             {
@@ -36,7 +36,7 @@ export const ROUTES = createBrowserRouter([
                 element: <ProfilePage />,
             },
             {
-                path: "/landing",
+                path: "/",
                 element: <LandingPage />,
             },
             {

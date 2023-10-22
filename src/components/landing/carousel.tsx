@@ -4,6 +4,7 @@ import { API_GET_ALL_USER_QUERY_KEYS, getAllUserApi } from "../../apis/users";
 import { IResponse, User } from "../../types";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import clsx from 'clsx';
 
 function Carousel() {
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -57,18 +58,23 @@ function Carousel() {
         </div>
     );
 
-    const slideButtons = users.map((_, index) => (
-        <button
-            key={index}
-            type="button"
-            className={`w-3 h-3 rounded-full ${
-                index === currentSlide ? "bg-white" : "bg-gray-300"
-            } dark:bg-gray-800/30 cursor-pointer`}
-            aria-current={index === currentSlide}
-            aria-label={`Slide ${index + 1}`}
-            data-carousel-slide-to={index}
-        />
-    ));
+const slideButtons = users.map((_, index) => (
+    <button
+        key={index}
+        type="button"
+        className={clsx(
+            'w-3 h-3 rounded-full',
+            {
+                'bg-white': index === currentSlide,
+                'bg-gray-300': index !== currentSlide,
+                'dark:bg-gray-800/30': true,
+            }
+        )}
+        aria-current={index === currentSlide}
+        aria-label={`Slide ${index + 1}`}
+        data-carousel-slide-to={index}
+    />
+));
 
     return (
         <div id="default-carousel" className="relative w-full" data-carousel="slide">

@@ -65,7 +65,10 @@ function BestSeller() {
                       className=" object-cover object-center"
                     />
                     <h3 className="mt-6 text-sm text-center text-gray-500">
-                        <a href={user.role}> {user.email} </a>
+                      <div>
+                        <link rel="stylesheet" href={user.role} />
+                        {user.email}
+                      </div>
                     </h3>
                     <p className="text-base text-center font-semibold text-gray-900">
                         {user.role}
