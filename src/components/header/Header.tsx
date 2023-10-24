@@ -7,24 +7,6 @@ function Header() {
   return (
     <header>
       <div className="navbar-wrapper container-wrapper">
-        <nav className="container navbar flex flex-row items-center justify-between pb-2">
-          <div className="flex v-center R8eLNj">
-            <Icons.question size={25} />
-            <span>Can we help you?</span>
-            <span className="ml-5">+1 246-345-0695</span>
-          </div>
-          <ul className="navbar__links flex space-x-4">
-            <li>
-              <Icons.bell size={25} />
-            </li>
-            <li>
-              <Icons.user size={25} />
-            </li>
-            {/* <li>
-                <AuthPreview/>
-            </li> */}
-          </ul>
-        </nav>
         <hr className="border-gray-200 sm:mx-auto dark:border-gray-700" />
       </div>
       <div className="flex items-center pl-0">
