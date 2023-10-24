@@ -5,35 +5,34 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import HomeButtton from "@/components/Home-Button";
 
 const formSchema = z.object({
-    username: z.string().min(2, {
-        message: "Username must be at least 2 characters.",
-    }),
+  username: z.string().min(2, {
+    message: "Username must be at least 2 characters.",
+  }),
 });
 
-function ChangePassword() {
-    const form = useForm({
-        resolver: zodResolver(formSchema),
-    });
+export function ChangePassword() {
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+  });
 
-    const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
-    const onSubmit = (data: unknown) => {
-        // Xử lý logic gửi đường dẫn đặt lại mật khẩu tại đây
-        console.log(data);
-        setIsFormSubmitted(true);
-    };
+  const onSubmit = (data: unknown) => {
+    // Xử lý logic gửi đường dẫn đặt lại mật khẩu tại đây
+    console.log(data);
+    setIsFormSubmitted(true);
+  };
 
     return (
         <div className="max-w-md mx-auto m-4 p-6 bg-white rounded-md shadow-md">
@@ -84,5 +83,6 @@ function ChangePassword() {
             </form>
         </div>
     );
-}
-export default ChangePassword;
+};
+
+export default ChangePasswordForm;
