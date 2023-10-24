@@ -78,7 +78,6 @@ function HomePage() {
             <AuthPreview />
         
            
-       
         </div>
     );
 }
