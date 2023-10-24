@@ -6,6 +6,8 @@ import { Button } from "../components/ui/button/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { toast } from "../components/ui/use-toast";
+import { ChangePassword } from "@/pages/(auth)/ChangePassword";
+import { InfoAccount } from "@/pages/(profile)/InfoAccount";
 
 
 function HomePage() {
@@ -72,6 +74,8 @@ function HomePage() {
             </div>
             <Separator />
             <AuthPreview />
+            <ChangePassword/>
+           <InfoAccount/>
            
         </div>
     );
