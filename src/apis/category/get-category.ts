@@ -14,7 +14,7 @@ export function getCategoryById(id: string) {
     return new Promise<ICategory>((resolve) => {
         setTimeout(() => resolve(category), 1000);
     });
-    // return authAxiosClient.get(`/book/${id}`);
+    // return authAxiosClient.get(`/category/${id}`);
 }
 
 export function getManyCategories({ perPage = 10 }) {
