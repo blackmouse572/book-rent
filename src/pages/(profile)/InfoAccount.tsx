@@ -2,8 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-// Import các component từ thư viện UI của bạn
-// Thay thế các import này bằng import thực tế của bạn
 import { Button } from "@/components/ui/button";
 import {
     Form,
