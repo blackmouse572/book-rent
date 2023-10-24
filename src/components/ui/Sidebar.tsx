@@ -27,7 +27,7 @@ const Sidebar: React.FC = () => {
               <Button
                 onClick={toggleSidebar}
                 variant="link"
-                colors="default"
+               
                 className="text-gray-400 hover:text-white focus:outline-none focus:text-white"
               >
                 <span className="sr-only">Toggle sidebar</span>
@@ -50,7 +50,7 @@ const Sidebar: React.FC = () => {
         <Button
           onClick={toggleSidebar}
           variant="default"
-          colors="default"
+        
           className={`fixed top-0 left-0 z-50 w-12 h-12 bg-gray-800 text-white hover:bg-gray-600 focus:outline-none ${
             isOpen ? 'rotate-180' : ''
           }`}

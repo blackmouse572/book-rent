@@ -59,7 +59,7 @@ function AuthPreview({ className, ...prosp }: Props) {
                   <Button onClick={onGetProfile}>Get profile</Button>
                   <Button
                     variant="ghost"
-                    colors="destructive"
+                  
                     className="w-fit px-2 hover:text-white"
                     onClick={onLogout}
                   >
