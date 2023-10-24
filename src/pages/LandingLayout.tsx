@@ -10,6 +10,7 @@ const LandingLayout: React.FC<LandingLayoutProps> = ({ children }) => {
     return (
         <main>
             <AutoScrollToTop />
+            <Header />
             {children}
         </main>
     );
