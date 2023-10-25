@@ -9,9 +9,6 @@ import { toast } from "../components/ui/use-toast";
 
 
 
-
-
-
 function HomePage() {
   
     const showToast = (

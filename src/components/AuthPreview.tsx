@@ -1,90 +1,22 @@
-import ShoppingCart from "@/components/cart/cart";
+import { profileApi } from "@/apis/auth/apis/profile.api";
 import { Icons } from "@/components/icons";
-import Notification from "@/components/notification";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuPortal,
-    DropdownMenuPortal,
     DropdownMenuSeparator,
-    DropdownMenuSub,
-    DropdownMenuSubContent,
-    DropdownMenuSubTrigger,
-   
+    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/useAuth";
 import { cn, getLabelByFullname } from "@/lib/utils";
 import { ROLE } from "@/types";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Button } from "./ui/button";
-
-export const ADMIN_SECTION_ITEMS: {
-    to: string;
-    title: string;
-    icon: keyof typeof Icons;
-}[] = [
-    {
-        to: "/admin",
-        title: "Dashboard",
-        icon: "dashboard",
-    },
-    {
-        to: "/admin/user",
-        title: "Users",
-        icon: "user",
-    },
-    {
-        to: "/admin/book",
-        title: "Books",
-        icon: "book",
-    },
-    {
-        to: "/admin/order",
-        title: "Orders",
-        icon: "cart",
-    },
-    {
-        to: "/admin/category",
-        title: "Category",
-        icon: "category",
-    },
-];
-
-export const ADMIN_SECTION_ITEMS: {
-    to: string;
-    title: string;
-    icon: keyof typeof Icons;
-}[] = [
-    {
-        to: "/admin",
-        title: "Dashboard",
-        icon: "dashboard",
-    },
-    {
-        to: "/admin/user",
-        title: "Users",
-        icon: "user",
-    },
-    {
-        to: "/admin/book",
-        title: "Books",
-        icon: "book",
-    },
-    {
-        to: "/admin/order",
-        title: "Orders",
-        icon: "cart",
-    },
-    {
-        to: "/admin/order",
-        title: "Category",
-        icon: "category",
-    },
-];
+import { Button, buttonVariants } from "./ui/button";
+import { toast } from "./ui/use-toast";
 
 type Props = React.HTMLAttributes<HTMLDivElement>;
 
