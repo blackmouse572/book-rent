@@ -1,4 +1,5 @@
 import { getBookById } from "@/apis/book";
+import BookPage from "@/pages/(book)/BookPage";
 import { IBook } from "@/types";
 import { faker } from "@faker-js/faker";
 import React from "react";
@@ -13,6 +14,8 @@ const RegisterPage = React.lazy(
 );
 
 const HomePage = React.lazy(() => import("@/pages/HomePage"));
+const LandingPage = React.lazy(() => import("@/pages/LandingPage"));
+
 const ProfilePage = React.lazy(() => import("@/pages/(profile)/Profile"));
 const UserManagerPage = React.lazy(
     () => import("@/pages/(admin)/UserManagerPage.tsx")
@@ -26,12 +29,16 @@ export const ROUTES = createBrowserRouter([
         element: <MainLayout />,
         children: [
             {
-                path: "/",
+                path: "/home",
                 element: <HomePage />,
             },
             {
                 path: "/profile",
                 element: <ProfilePage />,
+            },
+            {
+                path: "/",
+                element: <LandingPage />,
             },
             {
                 element: <AuthLayout />,
@@ -56,6 +63,15 @@ export const ROUTES = createBrowserRouter([
                 ],
             },
             {
+                path: "books",
+                loader: async () => {
+                    const book_id = faker.database.mongodbObjectId();
+                    const book: IBook = await getBookById(book_id);
+                    return book;
+                },
+                element: <BookPage />,
+            },
+            {
                 path: ":genre/:id",
                 loader: async () => {
                     const book_id = faker.database.mongodbObjectId();
@@ -63,6 +79,19 @@ export const ROUTES = createBrowserRouter([
                     return book;
                 },
                 element: <BookDetailPage />,
+            },
+        ],
+    },
+    {
+        element: <AuthLayout />,
+        children: [
+            {
+                path: "/login",
+                element: <LoginPage />,
+            },
+            {
+                path: "/register",
+                element: <RegisterPage />,
             },
         ],
     },
