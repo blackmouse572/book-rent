@@ -20,6 +20,9 @@ const ProfilePage = React.lazy(() => import("@/pages/(profile)/Profile"));
 const UserManagerPage = React.lazy(
     () => import("@/pages/(admin)/UserManagerPage.tsx")
 );
+const CategoryManagerPage = React.lazy(
+    () => import("@/pages/(admin)/CategoryManagerPage.tsx")
+);
 const BookDetailPage = React.lazy(
     () => import("@/pages/(book)/BookDetailPage.tsx")
 );
@@ -60,7 +63,12 @@ export const ROUTES = createBrowserRouter([
                         path: "/admin/user",
                         element: <UserManagerPage />,
                     },
+                    {
+                        path: "/admin/category",
+                        element: <CategoryManagerPage/>,
+                    },
                 ],
+                    
             },
             {
                 path: "books",
