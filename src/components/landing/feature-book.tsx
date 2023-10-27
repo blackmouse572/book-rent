@@ -1,9 +1,9 @@
-import { Icons } from "../icons";
-import { API_GET_ALL_USER_QUERY_KEYS, getAllUserApi } from "../../apis/users";
-import { IResponse, User } from "../../types";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { useRef } from "react";
+import { Link } from "react-router-dom";
+import { API_GET_ALL_USER_QUERY_KEYS, getAllUserApi } from "../../apis/users";
+import { IResponse, User } from "../../types";
+import { Icons } from "../icons";
 
 function FeatureBook() {
     const queryController = useQuery<IResponse<User[]>, AxiosError>(
@@ -15,23 +15,6 @@ function FeatureBook() {
     );
 
     const users: User[] = queryController.data?.data || [];
-    const containerRef = useRef<HTMLDivElement | null>(null);
-
-    const handleDragStart = () => {
-        if (containerRef.current) {
-            containerRef.current.style.cursor = "grabbing";
-            containerRef.current.style.userSelect = "none";
-            containerRef.current.style.pointerEvents = "none";
-        }
-    };
-
-    const handleDragEnd = () => {
-        if (containerRef.current) {
-            containerRef.current.style.cursor = "grab";
-            containerRef.current.style.userSelect = "auto";
-            containerRef.current.style.pointerEvents = "auto";
-        }
-    };
 
     return (
         <div className="bg-gray-100">
@@ -41,23 +24,18 @@ function FeatureBook() {
                         <h2 className="text-2xl font-bold text-gray-900">
                             Feature Book
                         </h2>
-                        <a
-                            href="#"
+                        <Link
+                            to="books"
                             className="text-sm text-gray-900 flex items-center"
                         >
                             Browse all books
                             <span className="ml-1">
                                 <Icons.chevronRight size={10} />
                             </span>
-                        </a>
+                        </Link>
                     </div>
                     <div className="mt-6 relative">
-                        <div
-                            className="carousel-container flex overflow-hidden overflow-x-auto"
-                            ref={containerRef}
-                            onDragStart={handleDragStart}
-                            onDragEnd={handleDragEnd}
-                        >
+                        <div className="carousel-container flex overflow-hidden overflow-x-auto">
                             {users.map((user, index) => (
                                 <div
                                     key={index}

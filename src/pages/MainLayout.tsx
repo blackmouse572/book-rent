@@ -1,3 +1,4 @@
+import AutoScrollToTop from "@/components/auto-scroll-top";
 import Footer from "@/components/footer/Footer";
 import NavBar from "@/components/header/nav";
 import MetaData from "@/components/metadata";
@@ -9,6 +10,7 @@ function MainLayout() {
         <div className="min-h-screen bg-background font-sans antialiased">
             <MetaData title="Homepage" />
             <NavBar />
+            <AutoScrollToTop />
             <TailwindIndicator />
             <Outlet />
             <Footer />

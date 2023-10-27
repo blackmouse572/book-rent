@@ -1,7 +1,7 @@
 import React from "react";
 import AutoScrollToTop from "../components/auto-scroll-top";
-import Header from "@/components/header/Header";
-import Footer from "@/components/footer/Footer";
+import Footer from "../components/footer/Footer";
+import Header from "../components/header/Header";
 
 interface LandingLayoutProps {
     children?: React.ReactNode;
