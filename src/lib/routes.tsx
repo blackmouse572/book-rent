@@ -94,20 +94,18 @@ export const ROUTES = createBrowserRouter([
     {
         element: <AuthLayout />,
         children: [
-          {
-            path: '/login',
-            element: <LoginPage />,
-          },
-          {
-            path: '/register',
-            element: <RegisterPage />,
-          },
-          {
-            path: '/sidebar',
-            element: <Sidebar />,
-          },
+            {
+                path: "/login",
+                element: <LoginPage />,
+            },
+            {
+                path: "/register",
+                element: <RegisterPage />,
+            },
+            {
+                path: "/forgot",
+                element: <ChangePassword />,
+            },
         ],
-      },
-    ],
-  },
+    },
 ]);
