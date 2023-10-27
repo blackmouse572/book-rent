@@ -119,7 +119,7 @@ function LoginForm() {
                             <FormControl>
                                 <Input
                                     disabled={isLoading}
-                                    placeholder="*********"
+                                    placeholder="*******"
                                     type="password"
                                     {...field}
                                 />

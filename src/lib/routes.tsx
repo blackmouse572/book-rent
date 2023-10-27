@@ -7,8 +7,9 @@ import { createBrowserRouter } from "react-router-dom";
 
 const MainLayout = React.lazy(() => import("@/pages/MainLayout"));
 const AuthLayout = React.lazy(() => import("@/pages/AuthLayout"));
-
+const InfoAccount =React.lazy(() => import("@/pages/(profile)/InfoAccount"));
 const LoginPage = React.lazy(() => import("@/pages/(auth)/login/SignInPage"));
+const ChangePassword =React.lazy(() => import("@/pages/(auth)/ChangePassword"));
 const RegisterPage = React.lazy(
     () => import("@/pages/(auth)/register/RegisterPage")
 );
@@ -20,6 +21,7 @@ const ProfilePage = React.lazy(() => import("@/pages/(profile)/Profile"));
 const UserManagerPage = React.lazy(
     () => import("@/pages/(admin)/UserManagerPage.tsx")
 );
+
 const BookDetailPage = React.lazy(
     () => import("@/pages/(book)/BookDetailPage.tsx")
 );
@@ -37,21 +39,13 @@ export const ROUTES = createBrowserRouter([
                 element: <ProfilePage />,
             },
             {
+                path: "/infoaccount",
+                element: <InfoAccount />,
+            },
+         
+            {
                 path: "/",
                 element: <LandingPage />,
-            },
-            {
-                element: <AuthLayout />,
-                children: [
-                    {
-                        path: "/login",
-                        element: <LoginPage />,
-                    },
-                    {
-                        path: "/register",
-                        element: <RegisterPage />,
-                    },
-                ],
             },
             {
                 path: "/admin",
@@ -60,7 +54,9 @@ export const ROUTES = createBrowserRouter([
                         path: "/admin/user",
                         element: <UserManagerPage />,
                     },
+                   
                 ],
+                    
             },
             {
                 path: "books",
@@ -92,6 +88,10 @@ export const ROUTES = createBrowserRouter([
             {
                 path: "/register",
                 element: <RegisterPage />,
+            },
+            {
+                path: "/forgot",
+                element: <ChangePassword />,
             },
         ],
     },
