@@ -35,41 +35,36 @@ function ChangePassword() {
         setIsFormSubmitted(true);
     };
 
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-md mx-auto">
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="block text-gray-700 text-sm font-bold mb-2">
-                Username
-              </FormLabel>
-              <FormControl>
-                <Input
-                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  placeholder="Enter your username"
-                  {...field}
+    return (
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+                <FormField
+                    control={form.control}
+                    name="username"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Username</FormLabel>
+                            <FormControl>
+                                <Input
+                                    placeholder="Enter your username"
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormDescription>
+                                Please enter your username to reset your
+                                password.
+                            </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                    )}
                 />
-              </FormControl>
-              <FormDescription className="text-gray-600 text-xs italic mt-1">
-                Please enter your username to reset your password.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button
-          type="submit"
-         
-        >
-          Submit
-        </Button>
-        {isFormSubmitted && (
-          <p className="text-green-500 mt-2 text-sm">Reset password link sent to your email.</p>
-        )}
-      </form>
-    </Form>
-  );
+                <Button type="submit">Submit</Button>
+                {isFormSubmitted && (
+                    <p className="text-green-500 mt-2 text-sm">
+                        Reset password link sent to your email.
+                    </p>
+                )}
+            </form>
+        </Form>
+    );
 }
