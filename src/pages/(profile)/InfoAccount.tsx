@@ -14,13 +14,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-
 const formSchema = z.object({
     username: z.string(),
     email: z.string().email(),
     phoneNumber: z.string(),
     Address: z.string(),
-   
 });
 
 export function InfoAccount() {
@@ -43,18 +41,13 @@ export function InfoAccount() {
 
     return (
         <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8 max-w-md mx-auto"
-            >
+            <form onSubmit={form.handleSubmit(onSubmit)}>
                 <FormField
                     control={form.control}
                     name="avatar"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel className="block text-gray-700 text-sm font-bold mb-2">
-                                Avatar
-                            </FormLabel>
+                            <FormLabel>Avatar</FormLabel>
                             <FormControl>
                                 <Input
                                     type="file"
@@ -71,17 +64,14 @@ export function InfoAccount() {
                     name="username"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel className="block text-gray-700 text-sm font-bold mb-2">
-                                Username
-                            </FormLabel>
+                            <FormLabel>Username</FormLabel>
                             <FormControl>
                                 <Input
-                                    className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     placeholder="Enter your username"
                                     {...field}
                                 />
                             </FormControl>
-                            <FormDescription className="text-gray-600 text-xs italic mt-1">
+                            <FormDescription>
                                 This is your public display name.
                             </FormDescription>
                             <FormMessage />
@@ -93,12 +83,9 @@ export function InfoAccount() {
                     name="email"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel className="block text-gray-700 text-sm font-bold mb-2">
-                                Email
-                            </FormLabel>
+                            <FormLabel>Email</FormLabel>
                             <FormControl>
                                 <Input
-                                    className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     placeholder="Enter your email"
                                     {...field}
                                 />
@@ -112,12 +99,9 @@ export function InfoAccount() {
                     name="phoneNumber"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel className="block text-gray-700 text-sm font-bold mb-2">
-                                Phone Number
-                            </FormLabel>
+                            <FormLabel>Phone Number</FormLabel>
                             <FormControl>
                                 <Input
-                                    className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     placeholder="Enter your phone number"
                                     {...field}
                                 />
@@ -131,12 +115,9 @@ export function InfoAccount() {
                     name="Address"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel className="block text-gray-700 text-sm font-bold mb-2">
-                                Address
-                            </FormLabel>
+                            <FormLabel>Address</FormLabel>
                             <FormControl>
                                 <Input
-                                    className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     placeholder="Enter your address"
                                     {...field}
                                 />
@@ -145,12 +126,7 @@ export function InfoAccount() {
                         </FormItem>
                     )}
                 />
-                <Button
-                    type="submit"
-                    
-                >
-                    Save
-                </Button>
+                <Button type="submit">Save</Button>
             </form>
         </Form>
     );
