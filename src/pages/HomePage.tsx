@@ -7,13 +7,7 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { toast } from "../components/ui/use-toast";
 
-
-
-
-
-
 function HomePage() {
-  
     const showToast = (
         variant: "default" | "destructive" | "success" | "warning"
     ) => {
@@ -25,7 +19,6 @@ function HomePage() {
         });
     };
     return (
-   
         <div className="container h-screen flex-col  flex gap-8 justify-center items-cente">
             <div className=" flex gap-3 justify-center items-center">
                 <Button>Primary</Button>
@@ -77,8 +70,6 @@ function HomePage() {
             </div>
             <Separator />
             <AuthPreview />
-     
-           
         </div>
     );
 }
