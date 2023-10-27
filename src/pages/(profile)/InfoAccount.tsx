@@ -124,6 +124,7 @@ function InfoAccount() {
                             <FormLabel className="mb-2">Address</FormLabel>
                             <FormControl>
                                 <Input
+                                    className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     placeholder="Enter your address"
                                     {...field}
                                 />
