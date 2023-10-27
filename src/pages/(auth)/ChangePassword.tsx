@@ -25,7 +25,7 @@ const formSchema = z.object({
     }),
 });
 
-export function ChangePassword() {
+function ChangePassword() {
     const form = useForm({
         resolver: zodResolver(formSchema),
     });
