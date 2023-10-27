@@ -21,8 +21,10 @@ function HomePage() {
         });
     };
     return (
+   
         <div className="container h-screen flex-col  flex gap-8 justify-center items-cente">
             <div className=" flex gap-3 justify-center items-center">
+              
                 <Button>Primary</Button>
                 <Link to={"/admin/user"}>
                     <Button variant={"ghost"}>(Admin) User manager</Button>
