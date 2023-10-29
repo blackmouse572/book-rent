@@ -74,19 +74,15 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import CardForm from "@/components/cart/card-form";
 import { toast } from "@/components/ui/use-toast";
+import { CheckoutFormSchema } from "@/components/checkout/validation-checkout";
 
-const FormSchema = z.object({
-    type: z.enum(["creditCard", "cashOnDelivery"], {
-        required_error: "You need to select a notification type.",
-    }),
-});
 
 export function CheckoutMethod() {
-    const form = useForm<z.infer<typeof FormSchema>>({
-        resolver: zodResolver(FormSchema),
+    const form = useForm<z.infer<typeof CheckoutFormSchema>>({
+        resolver: zodResolver(CheckoutFormSchema),
     });
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
+    function onSubmit(data: z.infer<typeof CheckoutFormSchema>) {
         toast({
             title: "You submitted the following values:",
             description: (
