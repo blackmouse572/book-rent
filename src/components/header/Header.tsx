@@ -6,7 +6,13 @@ import { Icons } from '../icons';
 function Header() {
   return (
     <header>
+
      
+
+      <div className="navbar-wrapper container-wrapper">
+        <hr className="border-gray-200 sm:mx-auto dark:border-gray-700" />
+      </div>
+
       <div className="flex items-center pl-0">
         <div className="bg-white-500 flex h-24 w-full items-center justify-around">
           <div className="logo">

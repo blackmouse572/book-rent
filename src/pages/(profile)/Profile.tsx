@@ -53,7 +53,13 @@ function Profile() {
                     <Button variant={"link"}>Settings</Button>
                 </CardContent>
                 <CardFooter>
+
                     <Button onClick={onLogout}>Logout</Button>
+
+                    <Button onClick={onLogout} >
+                        Logout
+                    </Button>
+
                 </CardFooter>
             </Card>
         </div>
