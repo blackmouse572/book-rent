@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { cardFormSchema } from "../checkout/validation-card-from";
+import { cardFormSchema } from "./validation-card-from";
 import {
   Form,
   FormControl,

@@ -27,6 +27,19 @@ const BookDetailPage = React.lazy(
     () => import("@/pages/(book)/BookDetailPage.tsx")
 );
 
+const CartLayout = React.lazy(() => import("@/pages/CartLayout"));
+const ShoppingCart = React.lazy(() => import("@/components/cart/cart"));
+const ViewCart = React.lazy(() => import("@/pages/(cart)/view-cart"));
+const ViewCheckout = React.lazy(
+    () => import("@/pages/(checkout)/view-checkout")
+);
+const CheckoutSuccess = React.lazy(
+    () => import("@/pages/(checkout)/checkout-success-page")
+);
+const CheckoutFailed = React.lazy(
+    () => import("@/pages/(checkout)/checkout-fail-page")
+);
+
 export const ROUTES = createBrowserRouter([
     {
         element: <MainLayout />,
@@ -44,15 +57,26 @@ export const ROUTES = createBrowserRouter([
                 element: <LandingPage />,
             },
             {
-                element: <AuthLayout />,
+                element: <CartLayout />,
                 children: [
                     {
-                        path: "/login",
-                        element: <LoginPage />,
+                        element: <ShoppingCart />,
                     },
                     {
-                        path: "/register",
-                        element: <RegisterPage />,
+                        path: "/viewcart",
+                        element: <ViewCart />,
+                    },
+                    {
+                        path: "/viewcheckout",
+                        element: <ViewCheckout />,
+                    },
+                    {
+                        path: "/checkout-success",
+                        element: <CheckoutSuccess />,
+                    },
+                    {
+                        path: "/checkout-failed",
+                        element: <CheckoutFailed />,
                     },
                 ],
             },
@@ -65,7 +89,7 @@ export const ROUTES = createBrowserRouter([
                     },
                     {
                         path: "/admin/category",
-                        element: <CategoryManagerPage/>,
+                        element: <CategoryManagerPage />,
                     },
                 ],
                     

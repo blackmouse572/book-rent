@@ -1,17 +1,17 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { IProduct } from "@/types/order";
+import { IOrder } from "@/types/order";
 import { Avatar, AvatarImage } from "../ui/avatar";
 
-export const columns: ColumnDef<IProduct>[] = [
+export const columns: ColumnDef<IOrder>[] = [
     {
         accessorKey: "name",
         header: "Name",
         cell({ row }) {
-            const { name, image} = row.original;
+            const { name, image } = row.original;
             return (
                 <div className="flex">
                     <Avatar>
-                    <AvatarImage src={image} alt={name} />
+                        <AvatarImage src={image} alt={name} />
                     </Avatar>
                     <h6 className="font-medium">{name}</h6>
                 </div>

@@ -8,14 +8,20 @@ import { Toaster } from "./components/ui/toaster";
 import "./index.css";
 import { queryClient } from "./lib/query";
 import { ROUTES } from "./lib/routes";
+import { CartProvider } from "@/hooks/useOrderCart";
+import { OrderProvider } from "@/hooks/useOrder";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
         <QueryClientProvider client={queryClient}>
             <AuthProvider>
-                <Suspense fallback={<PageLoader />}>
-                    <RouterProvider router={ROUTES} />
-                </Suspense>
+                <OrderProvider>
+                    <CartProvider>
+                        <Suspense fallback={<PageLoader />}>
+                            <RouterProvider router={ROUTES} />
+                        </Suspense>
+                    </CartProvider>
+                </OrderProvider>
             </AuthProvider>
             <Toaster />
         </QueryClientProvider>

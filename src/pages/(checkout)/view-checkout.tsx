@@ -2,7 +2,7 @@ import PayButton from "../../components/checkout/pay-button";
 import { useContext } from "react";
 import { cn } from "@/lib/utils";
 import React from "react";
-import { Context, ContextType } from "@/hooks/useCart";
+import { Context, ContextType } from "@/hooks/useOrderCart";
 import CheckoutMethod from "@/components/checkout/checkout-method";
 import Shipping from "@/components/cart/shipping-form";
 import CheckoutTable from "@/components/checkout/checkout-table";
