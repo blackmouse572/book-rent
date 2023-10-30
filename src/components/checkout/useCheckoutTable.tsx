@@ -8,7 +8,7 @@ import { AxiosError } from "axios";
 import { API_GET_ALL_USER_QUERY_KEYS } from "../../apis/users";
 import { IResponse } from "../../types";
 import { IOrder } from "@/types/order";
-import { getManyOrders } from "@/apis/order";
+import { getManyOrders } from "@/apis/order((user)";
 
 export function useCheckoutTable(columns: ColumnDef<IOrder>[]) {
     const queryController = useQuery<IResponse<IOrder[]>, AxiosError>(

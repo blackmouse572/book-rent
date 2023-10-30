@@ -1,7 +1,6 @@
 import { IBook } from "@/types";
 
 export interface IOrderCart {
-    _id: string;
-    book : IBook[];
+    bookId : IBook["_id"];
     quantity: number;
 }

@@ -1,5 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { DEPOSITTYPE, IOrder, IOrderCart } from "@/types/order";
+import { DEPOSITTYPE, IOrder } from "@/types/order";
+import { IOrderCart } from "@/types/order_cart";
 
 const columns: ColumnDef<IOrder>[] = [
     {
@@ -22,7 +23,6 @@ const columns: ColumnDef<IOrder>[] = [
     
             return (
                 <div className="flex items-center">
-                    <div>{cart.bookId}</div>
                     <div>{cart.quantity}</div>
                 </div>
             );

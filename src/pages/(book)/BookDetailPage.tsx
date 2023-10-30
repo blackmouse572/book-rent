@@ -5,6 +5,7 @@ import MetaData from "@/components/metadata";
 import { Badge } from "@/components/ui/badge/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useOrderCart } from "@/hooks/useOrderCart";
 import { IBook } from "@/types";
 import { format } from "date-fns";
 import React from "react";
@@ -13,6 +14,18 @@ import { Link, useLoaderData, useLocation } from "react-router-dom";
 export default function BookDetailPage() {
     const book = useLoaderData() as IBook;
     const { pathname } = useLocation();
+
+    // Step 1: Set up a state to manage the wishlist items
+    const { addToCart, cartItems } = useOrderCart(); // Access addToCart and cartItems from the context
+
+    // Step 2: Handle the button click event to add the book to the wishlist
+    const handleAddToCart = () => {
+        addToCart(book._id);
+    };
+
+    // Step 3: Update the UI to indicate whether the book is in the wishlist
+    const isBookInCart = cartItems?.some((item) => item.bookId === book._id);
+
     const breadcrumb = React.useMemo<IBreadcrumb[]>(() => {
         const paths = pathname.split("/");
         const genre = paths[1];
@@ -67,7 +80,12 @@ export default function BookDetailPage() {
                             <Button disabled={book.isAvailable}>
                                 Rent Now
                             </Button>
-                            <Button variant={"outline"}>Add to Wishlist</Button>
+                            <Button
+                                disabled={book.isAvailable}
+                                onClick={handleAddToCart}
+                            >
+                                {isBookInCart ? "In Cart" : "Add to Cart"}
+                            </Button>{" "}
                         </div>
                     </div>
                 </article>

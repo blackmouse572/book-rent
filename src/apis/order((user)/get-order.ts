@@ -3,18 +3,16 @@ import { authAxiosClient } from "../../lib/axios";
 import { IResponse } from "../../types";
 import { AxiosError } from "axios";
 
-export type IPostOrderResponse = IResponse<IOrder>;
-
-async function postOrderApi(
+export type IGetOrderResponse = IResponse<IOrder>;
+async function getOrderApi(
     token: string,
-    orderData: object, // Change the parameter to accept order data
+    _id: string,
     callback: (error: AxiosError | null, result: IOrder | null) => void
 ) {
-    console.log("Post Order with token: " + token);
+    console.log("Get Order with token: " + token);
     return await authAxiosClient
-        .post<IPostOrderResponse>("/order", orderData, {  // Use .post for creating an order
+        .get<IGetOrderResponse>(`/order/${_id}`, { 
             headers: {
-                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
             },
         })
@@ -26,4 +24,4 @@ async function postOrderApi(
         });
 }
 
-export { postOrderApi }
+export { getOrderApi }
