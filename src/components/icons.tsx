@@ -26,6 +26,9 @@ import {
     IconUser,
     IconVocabulary,
     IconX,
+    IconArrowLeft,
+    IconDiscountCheckFilled,
+    IconMoodSadSquint,
     type Icon as TablerIcons,
 } from "@tabler/icons-react";
 
@@ -59,19 +62,7 @@ export const Icons = {
     git: IconBrandGithub,
     dribble: IconBrandDribbble,
     questionMark: IconBookmarkQuestion,
-    sidebar: (props: IconProps) => ( <svg
-        className="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-        {...props}
-    >
-        <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M4 6h16M4 12h16M4 18h16"
-        />
-    </svg>)
+    arrowLeft: IconArrowLeft,
+    done: IconDiscountCheckFilled,
+    fail: IconMoodSadSquint
 };

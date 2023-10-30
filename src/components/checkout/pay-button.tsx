@@ -1,11 +1,11 @@
 import { authAxiosClient } from "../../lib/axios";
-import { IProduct } from "@/types/order";
+import { IOrder } from "@/types/order";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
 interface PayButtonProps {
-    cartItems: IProduct[] | null;
+    cartItems: IOrder[] | null;
 }
 
 const PayButton: React.FC<PayButtonProps> = ({ cartItems }) => {
