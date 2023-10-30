@@ -1,68 +1,6 @@
-// import React, { useState } from "react";
-
-// import CardForm from "../cart/card-form"; // Import the CardForm component
-
-// const CheckoutMethod: React.FC = () => {
-//     const [selectedOption, setSelectedOption] = useState(""); // Initialize the selected option state
-
-//     return (
-//         <div className="p-4">
-//             <div className="border border-gray-200 rounded-lg p-4">
-//                 <h2 className="text-lg font-semibold">
-//                     Phương thức thanh toán
-//                 </h2>
-//                 <div className="mt-4">
-//                     <div className="flex items-center space-x-4">
-//                         <div className="w-80">
-//                             <label className="flex items-center space-x-2 cursor-pointer">
-//                                 <input
-//                                     type="radio"
-//                                     name="paymentOption"
-//                                     value="creditCard"
-//                                     checked={selectedOption === "creditCard"}
-//                                     onChange={() =>
-//                                         setSelectedOption("creditCard")
-//                                     }
-//                                     className="form-radio h-5 w-5 text-blue-600"
-//                                 />
-//                                 <span className="text-gray-800 font-semibold">
-//                                     Thẻ Tín dụng/Ghi nợ
-//                                 </span>
-//                             </label>
-//                         </div>
-//                         <div className="w-60">
-//                             <label className="flex items-center space-x-2 cursor-pointer">
-//                                 <input
-//                                     type="radio"
-//                                     name="paymentOption"
-//                                     value="cashOnDelivery"
-//                                     checked={
-//                                         selectedOption === "cashOnDelivery"
-//                                     }
-//                                     onChange={() =>
-//                                         setSelectedOption("cashOnDelivery")
-//                                     }
-//                                     className="form-radio h-5 w-5 text-blue-600"
-//                                 />
-//                                 <span className="text-gray-800 font-semibold">
-//                                     Thanh toán khi nhận hàng
-//                                 </span>
-//                             </label>
-//                         </div>
-//                     </div>
-//                     {selectedOption === "creditCard" && <CardForm />}{" "}
-//                     {/* Show CardForm when the "creditCard" option is selected */}
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default CheckoutMethod;
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
@@ -72,10 +10,8 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import CardForm from "@/components/cart/card-form";
 import { toast } from "@/components/ui/use-toast";
 import { CheckoutFormSchema } from "@/components/checkout/validation-checkout";
-
 
 export function CheckoutMethod() {
     const form = useForm<z.infer<typeof CheckoutFormSchema>>({
@@ -95,25 +31,29 @@ export function CheckoutMethod() {
         });
     }
 
+    function handleRadioChange(value: string) {
+        if (value === "creditCard" || value === "cashOnDelivery") {
+            form.setValue("type", value); // Set the form value when a valid radio option is selected
+            form.handleSubmit(onSubmit)(); // Submit the form
+        }
+    }
+
     return (
         <div className="p-4">
             <div className="border border-gray-200 rounded-lg p-4">
                 <Form {...form}>
-                    <form
-                        onSubmit={form.handleSubmit(onSubmit)}
-                        className="w-2/3 space-y-6"
-                    >
+                    <form onSubmit={(e) => e.preventDefault()} className="w-full space-y-6">
                         <FormField
                             control={form.control}
                             name="type"
                             render={({ field }) => (
                                 <FormItem className="space-y-3">
-                                    <FormLabel> Checkout Method </FormLabel>
+                                    <FormLabel>Checkout Method</FormLabel>
                                     <FormControl>
                                         <RadioGroup
-                                            onValueChange={field.onChange}
+                                            onValueChange={(value) => handleRadioChange(value)}
                                             defaultValue={field.value}
-                                            className="flex flex-col space-y-1"
+                                            className="flex flex-row justify-between"
                                         >
                                             <FormItem className="flex items-center space-x-3 space-y-0">
                                                 <FormControl>
@@ -137,14 +77,10 @@ export function CheckoutMethod() {
                                 </FormItem>
                             )}
                         />
-                        
-                        {form.watch("type") === "creditCard" && <CardForm />}
-                        {/* Hiển thị CardForm khi "creditCard" được chọn */}
-                        <Button type="submit">Submit</Button>
                     </form>
                 </Form>
             </div>
-        </div>  
+        </div>
     );
 }
 

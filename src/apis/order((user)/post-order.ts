@@ -3,17 +3,16 @@ import { authAxiosClient } from "../../lib/axios";
 import { IResponse } from "../../types";
 import { AxiosError } from "axios";
 
-export type IGetOrderResponse = IResponse<IOrder>;
-async function getOrderApi(
-    token: string,
-    _id: string,
+export type IPostOrderResponse = IResponse<IOrder>;
+
+async function postOrderApi(
+    orderData: IOrder, 
     callback: (error: AxiosError | null, result: IOrder | null) => void
 ) {
-    console.log("Get Order with token: " + token);
     return await authAxiosClient
-        .get<IGetOrderResponse>(`/order/${_id}`, { // Sử dụng `${}` để thay thế giá trị id trong URL
+        .post("/order", orderData, { 
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer $`,
                 "Content-Type": "application/json",
             },
         })
@@ -25,4 +24,4 @@ async function getOrderApi(
         });
 }
 
-export { getOrderApi }
+export { postOrderApi }

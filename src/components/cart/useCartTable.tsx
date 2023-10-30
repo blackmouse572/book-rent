@@ -7,9 +7,9 @@ import {
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { API_GET_ALL_USER_QUERY_KEYS } from "../../apis/users";
-import { IQueryPagination, IQuerySearch, IResponse} from "../../types";
+import { IQueryPagination, IQuerySearch, IResponse } from "../../types";
 import { IOrder } from "@/types/order";
-import { getAllOrderApi } from "@/apis/order";
+import { getAllOrderApi } from "@/apis/order((user)";
 
 export function useCartTable(columns: ColumnDef<IOrder>[]) {
     const [queries, setQueries] = useState<
