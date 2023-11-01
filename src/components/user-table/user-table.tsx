@@ -74,23 +74,21 @@ function UserTable() {
     ]);
 
     return (
-        <div className="container mx-auto min-h-screen w-full">
-            <div className="mt-8">
-                {isError && <Button onClick={() => refetch()}>Retry</Button>}
-                {isError && <p>{error?.message}</p>}
-                <DataTable
-                    table={table}
-                    isLoading={isLoading}
-                    header={renderHeader}
-                    columns={columns}
-                    data={data?.data || []}
-                    footer={
-                        <div className="px-3 py-1.5 flex justify-end gap-2">
-                            {renderFooter}
-                        </div>
-                    }
-                />
-            </div>
+        <div className="mt-8">
+            {isError && <Button onClick={() => refetch()}>Retry</Button>}
+            {isError && <p>{error?.message}</p>}
+            <DataTable
+                table={table}
+                isLoading={isLoading}
+                header={renderHeader}
+                columns={columns}
+                data={data?.data ?? []}
+                footer={
+                    <div className="px-3 py-1.5 flex justify-end gap-2">
+                        {renderFooter}
+                    </div>
+                }
+            />
         </div>
     );
 }
