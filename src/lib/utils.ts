@@ -2,12 +2,15 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+    return twMerge(clsx(inputs));
 }
 
 export function getLabelByFullname(fullName: string): string {
-  const split = fullName.split(" ");
-  const firstLetter = split.map((word) => word.charAt(0).toUpperCase());
+    if (fullName.length < 0) {
+        return fullName;
+    }
+    const split = fullName.split(" ");
+    const firstLetter = split.map((word) => word.charAt(0).toUpperCase());
 
-  return firstLetter.join("");
+    return firstLetter.join("");
 }
