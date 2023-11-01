@@ -1,5 +1,6 @@
 import { getBookById } from "@/apis/book";
 import BookPage from "@/pages/(book)/BookPage";
+import AdminLayout from "@/pages/AdminLayout";
 import { IBook } from "@/types";
 import { faker } from "@faker-js/faker";
 import React from "react";
@@ -17,6 +18,7 @@ const HomePage = React.lazy(() => import("@/pages/HomePage"));
 const LandingPage = React.lazy(() => import("@/pages/LandingPage"));
 
 const ProfilePage = React.lazy(() => import("@/pages/(profile)/Profile"));
+const DashboardPage = React.lazy(() => import("@/pages/(admin)/Dashboard"));
 const UserManagerPage = React.lazy(
     () => import("@/pages/(admin)/UserManagerPage.tsx")
 );
@@ -44,31 +46,30 @@ export const ROUTES = createBrowserRouter([
                 element: <LandingPage />,
             },
             {
-                element: <AuthLayout />,
-                children: [
-                    {
-                        path: "/login",
-                        element: <LoginPage />,
-                    },
-                    {
-                        path: "/register",
-                        element: <RegisterPage />,
-                    },
-                ],
-            },
-            {
                 path: "/admin",
+                element: <AdminLayout />,
                 children: [
+                    {
+                        index: true,
+                        element: <DashboardPage />,
+                    },
                     {
                         path: "/admin/user",
                         element: <UserManagerPage />,
                     },
                     {
                         path: "/admin/category",
-                        element: <CategoryManagerPage/>,
+                        element: <CategoryManagerPage />,
+                    },
+                    {
+                        path: "/admin/order",
+                        element: <CategoryManagerPage />,
+                    },
+                    {
+                        path: "/admin/book",
+                        element: <CategoryManagerPage />,
                     },
                 ],
-                    
             },
             {
                 path: "books",

@@ -5,7 +5,11 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
+    DropdownMenuPortal,
     DropdownMenuSeparator,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/useAuth";
@@ -15,6 +19,39 @@ import { Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button, buttonVariants } from "./ui/button";
 import { toast } from "./ui/use-toast";
+import { ROLE } from "@/types";
+
+export const ADMIN_SECTION_ITEMS: {
+    to: string;
+    title: string;
+    icon: keyof typeof Icons;
+}[] = [
+    {
+        to: "/admin",
+        title: "Dashboard",
+        icon: "dashboard",
+    },
+    {
+        to: "/admin/user",
+        title: "Users",
+        icon: "user",
+    },
+    {
+        to: "/admin/book",
+        title: "Books",
+        icon: "book",
+    },
+    {
+        to: "/admin/order",
+        title: "Orders",
+        icon: "cart",
+    },
+    {
+        to: "/admin/order",
+        title: "Category",
+        icon: "category",
+    },
+];
 
 type Props = React.HTMLAttributes<HTMLDivElement>;
 
@@ -32,7 +69,7 @@ function AuthPreview({ className, ...prosp }: Props) {
 
     const onGetProfile = () => {
         const accessToken = localStorage.getItem("access_token");
-        profileApi(accessToken!, (err, profile) => {
+        profileApi(accessToken!, (err) => {
             if (err) {
                 toast({
                     variant: "destructive",
@@ -40,7 +77,6 @@ function AuthPreview({ className, ...prosp }: Props) {
                     description: err.message,
                 });
             } else {
-                console.log(JSON.stringify(profile));
                 toast({
                     variant: "success",
                     title: "Success",
@@ -49,6 +85,37 @@ function AuthPreview({ className, ...prosp }: Props) {
             }
         });
     };
+    const AdminSection = React.useMemo(() => {
+        if (user?.role === ROLE.USER) {
+            return <></>;
+        }
+        return (
+            <DropdownMenuSub>
+                <DropdownMenuSubTrigger>Admin center</DropdownMenuSubTrigger>
+                <DropdownMenuPortal>
+                    <DropdownMenuSubContent>
+                        {ADMIN_SECTION_ITEMS.map(({ icon, title, to }) => {
+                            const Icon = Icons[icon] || <></>;
+                            return (
+                                <DropdownMenuItem key={title}>
+                                    <Link
+                                        to={to}
+                                        className="flex justify-center items-center"
+                                    >
+                                        <Icon
+                                            size={12}
+                                            className="w-4 h-4 mr-2"
+                                        />
+                                        <p>{title}</p>
+                                    </Link>
+                                </DropdownMenuItem>
+                            );
+                        })}
+                    </DropdownMenuSubContent>
+                </DropdownMenuPortal>
+            </DropdownMenuSub>
+        );
+    }, [user?.role]);
     return (
         <div className={(cn(className), "flex")} {...prosp}>
             <DropdownMenu>
@@ -91,6 +158,7 @@ function AuthPreview({ className, ...prosp }: Props) {
                             <DropdownMenuItem>Billing</DropdownMenuItem>
                             <DropdownMenuItem>Team</DropdownMenuItem>
                             <DropdownMenuItem>Subscription</DropdownMenuItem>
+                            {AdminSection}
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                                 inset
