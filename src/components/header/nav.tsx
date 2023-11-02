@@ -3,6 +3,7 @@ import AuthPreview from "../AuthPreview";
 
 export default function NavBar() {
     return (
+
         <nav className="px-32 navbar flex flex-row items-center justify-between bg-background/70 backdrop-blur-md border-b border-accent sticky top-0 h-16 z-50">
             <div className="flex items-center">
                 <Icons.questionMark />

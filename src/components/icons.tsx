@@ -62,9 +62,6 @@ export const Icons = {
     git: IconBrandGithub,
     dribble: IconBrandDribbble,
     questionMark: IconBookmarkQuestion,
-    book: IconBook2,
-    dashboard: IconDashboard,
-    category: IconCategory,
     sidebar: (props: IconProps) => (
         <svg
             className="w-6 h-6"

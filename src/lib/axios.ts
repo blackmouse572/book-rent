@@ -35,8 +35,12 @@ authAxiosClient.interceptors.response.use(
     },
     async (error) => {
         const originalRequest = error.config;
+        console.log(error);
 
-        if (error.response.status === 401) {
+        if (
+            error.response?.status === 401 &&
+            originalRequest.url !== BASED_URL + "/auth/refresh-token"
+        ) {
             try {
                 const { data, status } = await axiosClient.post(
                     "/auth/refresh",
@@ -50,8 +54,9 @@ authAxiosClient.interceptors.response.use(
 
                 throw new Error("Refresh token failed");
             } catch (er) {
-                localStorage.removeItem("user");
                 localStorage.removeItem("accessToken");
+                localStorage.removeItem("user");
+                localStorage.removeItem("expiresIn");
                 window.location.href = "/login";
             }
         }
