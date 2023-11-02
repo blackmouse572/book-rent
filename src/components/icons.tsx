@@ -1,4 +1,3 @@
-import { IconProps } from "@radix-ui/react-icons/dist/types";
 import {
     IconBell,
     IconBookmarkQuestion,
@@ -26,6 +25,10 @@ import {
     IconUser,
     IconVocabulary,
     IconX,
+    IconArrowLeft,
+    IconDiscountCheckFilled,
+    IconMoodSadSquint,
+    IconTruckLoading,
     IconArrowLeft,
     IconDiscountCheckFilled,
     IconMoodSadSquint,

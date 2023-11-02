@@ -61,8 +61,36 @@ export const ROUTES = createBrowserRouter([
             },
          
             {
+
+                element: <CartLayout />,
+                children: [
+                    {
+                        element: <ShoppingCart />,
+                    },
+                    {
+                        element: <CartForm />
+                    },
+                    {
+                        path: "/viewcart",
+                        element: <ViewCart />,
+                    },
+                    {
+                        path: "/view-checkout/:id",
+                        element: <ViewCheckout />,
+                    },
+                    {
+                        path: "/checkout-success",
+                        element: <CheckoutSuccess />,
+                    },
+                    {
+                        path: "/checkout-failed",
+                        element: <CheckoutFailed />,
+                    },
+                ],
+
                 path: "/",
                 element: <LandingPage />,
+
             },
             {
                 element: <CartLayout />,
