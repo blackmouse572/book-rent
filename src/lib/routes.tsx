@@ -22,6 +22,14 @@ const UserManagerPage = React.lazy(
     () => import("@/pages/(admin)/UserManagerPage.tsx")
 );
 
+
+
+
+const CategoryManagerPage = React.lazy(
+    () => import("@/pages/(admin)/CategoryManagerPage.tsx")
+);
+
+
 const BookDetailPage = React.lazy(
     () => import("@/pages/(book)/BookDetailPage.tsx")
 );
@@ -41,15 +49,23 @@ export const ROUTES = createBrowserRouter([
             {
                 path: "/infoaccount",
                 element: <InfoAccount />,
+
             },
          
             {
                 path: "/",
                 element: <LandingPage />,
+
             },
+         
             {
+
                 path: "/HistoryOrderPage",
                 element: <HistoryOrderPage/>,
+
+                path: "/",
+                element: <LandingPage />,
+
             },
             {
                 path: "/admin",
@@ -58,7 +74,17 @@ export const ROUTES = createBrowserRouter([
                         path: "/admin/user",
                         element: <UserManagerPage />,
                     },
+
                    
+
+
+                   
+
+                    {
+                        path: "/admin/category",
+                        element: <CategoryManagerPage/>,
+                    },
+
                 ],
                     
             },
