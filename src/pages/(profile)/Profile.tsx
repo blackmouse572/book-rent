@@ -49,9 +49,7 @@ function Profile() {
                     <Link to="/infoaccount">
                         <Button>Profile</Button>
                     </Link>
-                    <Link to="/infoaccount">
-                        <Button>Profile</Button>
-                    </Link>
+
                     <Separator className="h-[none]" orientation="vertical" />
                     <Button variant={"link"}>Settings</Button>
                 </CardContent>
