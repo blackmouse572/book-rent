@@ -21,9 +21,11 @@ const UserManagerPage = React.lazy(
 
 
 
+
 const CategoryManagerPage = React.lazy(
     () => import("@/pages/(admin)/CategoryManagerPage.tsx")
 );
+
 
 const BookDetailPage = React.lazy(
     () => import("@/pages/(book)/BookDetailPage.tsx")
@@ -58,9 +60,20 @@ export const ROUTES = createBrowserRouter([
             {
                 path: "/infoaccount",
                 element: <InfoAccount />,
+
             },
          
             {
+                path: "/",
+                element: <LandingPage />,
+
+            },
+         
+            {
+
+
+                path: "/HistoryOrderPage",
+                element: <HistoryOrderPage/>,
 
                 element: <CartLayout />,
                 children: [
@@ -119,6 +132,11 @@ export const ROUTES = createBrowserRouter([
                         element: <CheckoutFailed />,
                     },
                 ],
+
+            },
+            {
+                path: "/HistoryOrderPage",
+                element: <HistoryOrderPage/>,
             },
             {
                 path: "/HistoryOrderPage",
@@ -131,6 +149,9 @@ export const ROUTES = createBrowserRouter([
                         path: "/admin/user",
                         element: <UserManagerPage />,
                     },
+
+                   
+
 
                    
 
