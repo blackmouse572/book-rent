@@ -21,7 +21,7 @@ const formSchema = z.object({
     Address: z.string(),
 });
 
-export function InfoAccount() {
+function InfoAccount() {
     const form = useForm({
         resolver: zodResolver(formSchema),
     });
@@ -41,13 +41,16 @@ export function InfoAccount() {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8 max-w-md mx-auto mb-7"
+            >
                 <FormField
                     control={form.control}
                     name="avatar"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Avatar</FormLabel>
+                            <FormLabel className="mb-2">Avatar</FormLabel>
                             <FormControl>
                                 <Input
                                     type="file"
@@ -64,14 +67,15 @@ export function InfoAccount() {
                     name="username"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Username</FormLabel>
+                            <FormLabel className=" mb-2">Username</FormLabel>
                             <FormControl>
                                 <Input
+                                    className=" w-full py-2 px-3 "
                                     placeholder="Enter your username"
                                     {...field}
                                 />
                             </FormControl>
-                            <FormDescription>
+                            <FormDescription className=" mt-1">
                                 This is your public display name.
                             </FormDescription>
                             <FormMessage />
@@ -83,9 +87,10 @@ export function InfoAccount() {
                     name="email"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Email</FormLabel>
+                            <FormLabel className=" mb-2">Email</FormLabel>
                             <FormControl>
                                 <Input
+                                    className=" w-full py-2 px-3 "
                                     placeholder="Enter your email"
                                     {...field}
                                 />
@@ -99,9 +104,10 @@ export function InfoAccount() {
                     name="phoneNumber"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Phone Number</FormLabel>
+                            <FormLabel className="mb-2">Phone Number</FormLabel>
                             <FormControl>
                                 <Input
+                                    className=" w-full py-2 px-3"
                                     placeholder="Enter your phone number"
                                     {...field}
                                 />
@@ -115,9 +121,10 @@ export function InfoAccount() {
                     name="Address"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Address</FormLabel>
+                            <FormLabel className="mb-2">Address</FormLabel>
                             <FormControl>
                                 <Input
+                                    className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     placeholder="Enter your address"
                                     {...field}
                                 />
@@ -126,8 +133,11 @@ export function InfoAccount() {
                         </FormItem>
                     )}
                 />
-                <Button type="submit">Save</Button>
+                <Button type="submit" className=" py-2 px-4 mt-5  ">
+                    Save
+                </Button>
             </form>
         </Form>
     );
 }
+export default InfoAccount;
