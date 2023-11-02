@@ -112,6 +112,10 @@ export const ROUTES = createBrowserRouter([
                 element: <LandingPage />,
             },
             {
+                path: "/HistoryOrderPage",
+                element: <HistoryOrderPage/>,
+            },
+            {
                 path: "/admin",
                 element: <AdminLayout />,
                 children: [
