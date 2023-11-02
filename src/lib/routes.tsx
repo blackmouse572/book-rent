@@ -13,7 +13,7 @@ const RegisterPage = React.lazy(
 
 const HomePage = React.lazy(() => import("@/pages/HomePage"));
 const LandingPage = React.lazy(() => import("@/pages/LandingPage"));
-
+const HistoryOrderPage = React.lazy(() => import("@/pages/historyOrder/HistoryOrderPage"));
 const ProfilePage = React.lazy(() => import("@/pages/(profile)/Profile"));
 const UserManagerPage = React.lazy(
     () => import("@/pages/(admin)/UserManagerPage.tsx")
@@ -119,6 +119,10 @@ export const ROUTES = createBrowserRouter([
                         element: <CheckoutFailed />,
                     },
                 ],
+            },
+            {
+                path: "/HistoryOrderPage",
+                element: <HistoryOrderPage/>,
             },
             {
                 path: "/admin",
