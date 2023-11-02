@@ -1,4 +1,4 @@
-import { GetManyBooksParams } from "@/apis/book";
+import { GetManyBooksParams, getBookById } from "@/apis/book";
 import BookFilterSidebar from "@/components/book-filter-sidebar";
 import BookGridLoading from "@/components/book-grid-loading";
 import { IBreadcrumb } from "@/components/breadcrumb";
@@ -6,7 +6,8 @@ import Breadcrumb from "@/components/breadcrumb/breadcrumb";
 import MetaData from "@/components/metadata";
 import Paginition from "@/components/ui/paginition";
 import useGetManyBooks from "@/pages/(book)/useGetManyBooks";
-import React from "react";
+import { IBook } from "@/types/book";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const initBookState: GetManyBooksParams = {
@@ -40,9 +41,26 @@ function BookPage() {
         refetchOnWindowFocus: false,
     });
 
+    const [individualBooks, setIndividualBooks] = useState<IBook[]>([]); 
+
+    useEffect(() => {
+        // Fetch individual book data when data is available
+        if (!isLoading && data) {
+            const bookIds = data.data.map((book) => book._id);
+            const fetchBooks = async () => {
+                const individualBookData = await Promise.all(
+                    bookIds.map(async (bookId) => {
+                        return await getBookById(bookId);
+                    })
+                );
+                setIndividualBooks(individualBookData);
+            };
+            fetchBooks();
+        }
+    }, [data, isLoading]);
     const renderBooks = React.useMemo(() => {
         if (isLoading) return <BookGridLoading pageSize={bookState.perPage!} />;
-        return data?.data.map((book) => {
+        return individualBooks.map((book) => {
             return (
                 <Link
                     to={`/books/${book._id}`}
@@ -66,7 +84,7 @@ function BookPage() {
                 </Link>
             );
         });
-    }, [bookState.perPage, data, isLoading]);
+    }, [bookState.perPage, individualBooks, isLoading]);
     const totalPage = React.useMemo(() => {
         return data?._pagination?.totalPage || 1;
     }, [data?._pagination?.totalPage]);
