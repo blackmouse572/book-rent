@@ -73,10 +73,7 @@ export const ROUTES = createBrowserRouter([
                 path: "/",
                 element: <LandingPage />,
             },
-            {
-                path: "/profile/orders",
-                element: <HistoryOrderPage />,
-            },
+        
             {
                 element: <CartLayout />,
                 children: [
@@ -112,10 +109,8 @@ export const ROUTES = createBrowserRouter([
                 path: "/",
                 element: <LandingPage />,
             },
-            {
-                path: "/HistoryOrderPage",
-                element: <HistoryOrderPage/>,
-            },
+         
+          
             {
                 path: "/admin",
                 element: <AdminLayout />,
