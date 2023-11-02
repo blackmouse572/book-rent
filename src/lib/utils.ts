@@ -5,8 +5,8 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
-export function getLabelByFullname(fullName: string): string {
-    if (fullName.length < 0) {
+export function getLabelByFullname(fullName?: string): string | undefined {
+    if (!fullName) {
         return fullName;
     }
     const split = fullName.split(" ");
