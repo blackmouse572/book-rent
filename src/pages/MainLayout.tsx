@@ -10,6 +10,7 @@ function MainLayout() {
     return (
         <div className="min-h-screen bg-background font-sans antialiased">
             <MetaData title="Homepage" />
+          
             <NavBar />
             <Header />
             <AutoScrollToTop />

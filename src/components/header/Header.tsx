@@ -4,10 +4,32 @@ import { Input } from "../ui/input";
 import { Icons } from "../icons";
 import ShoppingCart from "@/components/cart/cart";
 function Header() {
+
     return (
         <header>
             <div className="navbar-wrapper container-wrapper">
                 <hr className="border-gray-200 sm:mx-auto dark:border-gray-700" />
+  return (
+    <header>
+
+     
+
+      <div className="navbar-wrapper container-wrapper">
+        <hr className="border-gray-200 sm:mx-auto dark:border-gray-700" />
+      </div>
+
+      <div className="flex items-center pl-0">
+        <div className="bg-white-500 flex h-24 w-full items-center justify-around">
+          <div className="logo">
+            <h1 className="text-black-100 cursor-pointer text-3xl font-extrabold xs:text-2xl">BRental</h1>
+          </div>
+          <nav className="w-1/2 xs:hidden">
+            <div className="flex items-center justify-evenly">
+              <a href="#" className="active">
+                Home
+              </a>
+              <a href="#">Category</a>
+              <a href="#">About Us</a>
             </div>
             <div className="flex items-center pl-0">
                 <div className="bg-white-500 flex h-24 w-full items-center justify-around">
