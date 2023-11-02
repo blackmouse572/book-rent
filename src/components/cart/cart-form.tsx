@@ -22,39 +22,91 @@ import {
 
 import { Input } from "../ui/input";
 import { Button } from "../ui/button/button";
-import CheckoutMethod from "@/components/checkout/checkout-method";
-import { toast } from "@/components/ui/use-toast";
 import { useOrderCart } from "@/hooks/useOrderCart";
+import { useEffect, useState } from "react";
+import { IBook } from "@/types";
+import { getBookById } from "@/apis/book";
+import { postOrderApi } from "@/apis/order(user)/post-order";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { IOrder } from "@/types/order";
+import { toast } from "@/components/ui/use-toast";
+import { Separator } from "@/components/ui/separator";
+import { useNavigate } from "react-router-dom";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
 
 type FormData = z.infer<typeof CartSchema>;
+
 function CartForm() {
     const form = useForm<FormData>({
         resolver: zodResolver(CartSchema),
     });
-    const { cartItems } = useOrderCart();
-    
-    // const [result, setResult] = useState<string>("");
-    const onSubmit = async (formData: FormData) => {
 
-        // Combine cartItems and formData into a new object
-        const mergedData = {
-            ...formData,
-            cartItems: cartItems,
-        };
-
-        toast({
-            title: "You submitted the following values:",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">
-                        {JSON.stringify(mergedData, null, 2)}
-                    </code>
-                </pre>
-            ),
-        });
-        console.log("Form submitted", mergedData);
-
+    const { cartItems, addToCart, decreaseToCart, removeFromCart } =
+        useOrderCart();
+    const handleAddToCart = (bookId: string) => {
+        addToCart(bookId);
     };
+
+    const handleDecreaseToCart = (bookId: string) => {
+        decreaseToCart(bookId);
+    };
+
+    const handleRemoveFromCart = (bookId: string) => {
+        removeFromCart(bookId);
+    };
+
+    const [bookData, setBookData] = useState<IBook[]>([]);
+    useEffect(() => {
+        if (cartItems && cartItems.length > 0) {
+            const promises = cartItems
+                .filter((cart) => typeof cart.bookId === 'string')
+                .map((cart) => getBookById(cart.bookId as string)); // Cast to string
+    
+            Promise.all(promises)
+                .then((bookDataArray) => {
+                    setBookData(bookDataArray);
+                })
+                .catch((error) => {
+                    console.error("Error fetching book data:", error);
+                });
+        }
+    }, [cartItems]);
+    
+    const navigate = useNavigate();
+
+    const onSubmit = async (data: FormData) => {
+    const mergedData: IOrder = {
+        ...data,
+        cart: cartItems,
+    };
+    await postOrderApi(mergedData)
+        .then((order: IOrder) => {
+            if (order && order._id) {
+                console.log("Order ID:", order._id);
+                navigate(`/view-checkout/${order._id}`);
+            } else {
+                toast({
+                    title: "Invalid order response",
+                    description: "No order ID in the response.",
+                });
+            }
+        })
+        .catch((error) => {
+            toast({
+                title: "Error submitting order",
+                description: error.message,
+            });
+        });
+};
+
 
     return (
         <div className="p-4">
@@ -62,37 +114,76 @@ function CartForm() {
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Id</TableHead>
+                            <TableHead>Name</TableHead>
                             <TableHead>Quantity</TableHead>
+                            <TableHead>Price</TableHead>
+                            <TableHead>Action</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {cartItems && cartItems.length > 0 ? (
-                            cartItems.map((cart) => (
-                                <TableRow>
+                        {cartItems && bookData && bookData.length > 0 ? (
+                            cartItems.map((cart, index) => (
+                                <TableRow key={bookData[index]._id}>
                                     <TableCell className="font-medium">
-                                        {cart.bookId}
+                                        {bookData[index].name}
                                     </TableCell>
                                     <TableCell className="align-center">
-                                        {cart.quantity}
+                                        <Button
+                                            size="sm"
+                                            onClick={() =>
+                                                handleDecreaseToCart(
+                                                    bookData[index]._id
+                                                )
+                                            }
+                                        >
+                                            -
+                                        </Button>{" "}
+                                        {cart.quantity}{" "}
+                                        <Button
+                                            size="sm"
+                                            onClick={() =>
+                                                handleAddToCart(
+                                                    bookData[index]._id
+                                                )
+                                            }
+                                        >
+                                            +
+                                        </Button>
+                                    </TableCell>
+                                    <TableCell>
+                                        {bookData[index].rental_price *
+                                            cart.quantity}
+                                    </TableCell>
+                                    <TableCell className="font-medium">
+                                        <Button
+                                            onClick={() =>
+                                                handleRemoveFromCart(
+                                                    bookData[index]._id
+                                                )
+                                            }
+                                        >
+                                            Remove
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))
                         ) : (
                             <p>No items in the cart</p>
                         )}
-                        <TableRow/>
+                        <TableRow />
                     </TableBody>
                 </Table>
+
+                <Separator />
 
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-4 max-w-sm mx-auto w-full"
+                        className="space-y-4 border border-gray-200 rounded-lg p-4 m-4 max-w-sm mx-auto w-full"
                     >
                         <FormField
                             control={form.control}
-                            name="addressRental"
+                            name="pickupLocation"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel> Address Rental </FormLabel>
@@ -109,7 +200,7 @@ function CartForm() {
                         />
                         <FormField
                             control={form.control}
-                            name="addressReturn"
+                            name="returnLocation"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel> Address Return </FormLabel>
@@ -124,43 +215,145 @@ function CartForm() {
                                 </FormItem>
                             )}
                         />
+
                         <div className="flex flex-row flex flex-row justify-between">
                             <FormField
                                 control={form.control}
-                                name="dateReturn"
+                                name="rentalDate"
                                 render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel> Date Return </FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="date"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormDescription />
+                                    <FormItem className="flex flex-col">
+                                        <FormLabel>Rental Date</FormLabel>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <FormControl>
+                                                    <Button
+                                                        variant={"outline"}
+                                                        className={cn(
+                                                            "w-[175px] pl-3 text-left font-normal",
+                                                            !field.value &&
+                                                                "text-muted-foreground"
+                                                        )}
+                                                    >
+                                                        {field.value ? (
+                                                            format(
+                                                                field.value,
+                                                                "PPP"
+                                                            )
+                                                        ) : (
+                                                            <span>
+                                                                Pick a rental
+                                                                date
+                                                            </span>
+                                                        )}
+                                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                    </Button>
+                                                </FormControl>
+                                            </PopoverTrigger>
+                                            <PopoverContent
+                                                className="w-auto p-0"
+                                                align="start"
+                                            >
+                                                <Calendar
+                                                    mode="single"
+                                                    selected={field.value}
+                                                    onSelect={field.onChange}
+                                                    initialFocus
+                                                />
+                                            </PopoverContent>
+                                        </Popover>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
                             <FormField
                                 control={form.control}
-                                name="dateRental"
+                                name="returnDate"
                                 render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel> Date Rental </FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="date"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormDescription />
+                                    <FormItem className="flex flex-col">
+                                        <FormLabel>Return Date</FormLabel>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <FormControl>
+                                                    <Button
+                                                        variant={"outline"}
+                                                        className={cn(
+                                                            "w-[175px] pl-3 text-left font-normal",
+                                                            !field.value &&
+                                                                "text-muted-foreground"
+                                                        )}
+                                                    >
+                                                        {field.value ? (
+                                                            format(
+                                                                field.value,
+                                                                "PPP"
+                                                            )
+                                                        ) : (
+                                                            <span>
+                                                                Pick a rental
+                                                                date
+                                                            </span>
+                                                        )}
+                                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                    </Button>
+                                                </FormControl>
+                                            </PopoverTrigger>
+                                            <PopoverContent
+                                                className="w-auto p-0"
+                                                align="start"
+                                            >
+                                                <Calendar
+                                                    mode="single"
+                                                    selected={field.value}
+                                                    onSelect={field.onChange}
+                                                    initialFocus
+                                                />
+                                            </PopoverContent>
+                                        </Popover>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
                         </div>
-                        <CheckoutMethod />
+                        <FormField
+                            control={form.control}
+                            name="depositType"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Deposit Type</FormLabel>
+                                    <FormControl>
+                                        <RadioGroup
+                                            onValueChange={(value) =>
+                                                form.setValue(
+                                                    "depositType",
+                                                    value as "ONLINE" | "COD"
+                                                )
+                                            }
+                                            defaultValue={field.value}
+                                            className="flex flex-row justify-between"
+                                        >
+                                            <FormItem className="flex items-center space-x-3 space-y-0">
+                                                <FormControl>
+                                                    <RadioGroupItem value="ONLINE" />
+                                                </FormControl>
+                                                <FormLabel className="font-normal">
+                                                    Online
+                                                </FormLabel>
+                                            </FormItem>
+                                            <FormItem className="flex items-center space-x-3 space-y-0">
+                                                <FormControl>
+                                                    <RadioGroupItem value="COD" />
+                                                </FormControl>
+                                                <FormLabel className="font-normal">
+                                                    Cash On Delivery
+                                                </FormLabel>
+                                            </FormItem>
+                                        </RadioGroup>
+                                    </FormControl>
+                                    <FormDescription />
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                         <div className="space-y-2">
                             <Button type="submit" className="w-full">
                                 Submit
