@@ -100,8 +100,8 @@ export const ROUTES = createBrowserRouter([
                         element: <CheckoutFailed />,
                     },
                 ],
-
-
+            },
+            {
                 path: "/",
                 element: <LandingPage />,
 
