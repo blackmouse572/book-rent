@@ -4,6 +4,7 @@ import NavBar from "@/components/header/nav";
 import MetaData from "@/components/metadata";
 import { Outlet } from "react-router-dom";
 import TailwindIndicator from "../components/Tailwind-Indicator";
+import Header from "@/components/header/Header";
 
 function MainLayout() {
     return (
@@ -11,6 +12,7 @@ function MainLayout() {
             <MetaData title="Homepage" />
           
             <NavBar />
+            <Header />
             <AutoScrollToTop />
             <TailwindIndicator />
             <Outlet />

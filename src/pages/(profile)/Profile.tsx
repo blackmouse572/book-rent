@@ -57,9 +57,13 @@ function Profile() {
 
                     <Button onClick={onLogout}>Logout</Button>
 
+
+                    <Button onClick={onLogout}>Logout</Button>
+
                     <Button onClick={onLogout} >
                         Logout
                     </Button>
+
 
                 </CardFooter>
             </Card>
