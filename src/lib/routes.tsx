@@ -74,7 +74,8 @@ export const ROUTES = createBrowserRouter([
 
                 path: "/HistoryOrderPage",
                 element: <HistoryOrderPage/>,
-
+            },
+            {
                 element: <CartLayout />,
                 children: [
                     {
@@ -138,10 +139,8 @@ export const ROUTES = createBrowserRouter([
                 path: "/HistoryOrderPage",
                 element: <HistoryOrderPage/>,
             },
-            {
-                path: "/HistoryOrderPage",
-                element: <HistoryOrderPage/>,
-            },
+         
+          
             {
                 path: "/admin",
                 children: [
