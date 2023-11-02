@@ -1,20 +1,43 @@
-import { useState } from "react";
-import {
-    Popover,
-    PopoverTrigger,
-    PopoverContent,
-} from "@radix-ui/react-popover";
+import { useState, useEffect } from "react";
 import { Icons } from "@/components/icons";
 import { Button, buttonVariants } from "../ui/button";
 import { useNavigate } from "react-router-dom";
-import { useOrderCart } from "@/hooks/useOrderCart"; // Import your context
+import { useOrderCart } from "@/hooks/useOrderCart";
+import { getBookById } from "@/apis/book"; // Import your getBookById function
+import { IBook } from "@/types/book";
+import {
+    HoverCard,
+    HoverCardContent,
+    HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 function ShoppingCart() {
     const [open, setOpen] = useState(false);
     const maxOrdersToShow = 5;
 
     const navigate = useNavigate();
-    const { cartItems } = useOrderCart(); // Get the cart items from your context
+    const { cartItems } = useOrderCart();
+    const [bookData, setBookData] = useState<IBook[]>([]);
+    const [cartItemCount, setCartItemCount] = useState(0);
+
+    useEffect(() => {
+        if (cartItems && cartItems.length > 0) {
+            const promises = cartItems.map((cart) => getBookById(cart.bookId as string));
+
+            Promise.all(promises)
+                .then((bookDataArray) => {
+                    setBookData(bookDataArray);
+                    // Set the cart item count based on the length of cartItems
+                    setCartItemCount(cartItems.length);
+                })
+                .catch((error) => {
+                    console.error("Error fetching book data:", error);
+                });
+        } else {
+            // If cartItems is empty, set cartItemCount to 0
+            setCartItemCount(0);
+        }
+    }, [cartItems]);
 
     const onViewCart = () => {
         navigate("/viewcart");
@@ -22,16 +45,21 @@ function ShoppingCart() {
 
     return (
         <div className="relative z-40">
-            <Popover>
-                <PopoverTrigger>
+            <HoverCard>
+                <HoverCardTrigger>
                     <button onClick={() => setOpen(!open)}>
                         <span className="sr-only">New orders added</span>
-                        <Icons.cart className="h-6 w-6" aria-hidden="true" />
+                        <Icons.cart size={35} aria-hidden="true" />
+                        {cartItemCount > 0 && (
+                            <span className="bg-red-500 text-white px-1.5 py-0.5 rounded-full absolute -top-1 -right-1 text-xs">
+                                {cartItemCount}
+                            </span>
+                        )}
                     </button>
-                </PopoverTrigger>
+                </HoverCardTrigger>
 
-                <PopoverContent>
-                    <div className="h-full w-[400px] flex flex-col py-6 bg-white shadow-xl">
+                <HoverCardContent className="bg-gray-100 rounded-md shadow-lg w-96 mr-10">
+                    <div className="h-full w-full flex flex-col py-6 shadow-xl">
                         <div className="px-4 sm:px-6">
                             <h2 className="text-lg font-medium text-gray-900">
                                 New orders added
@@ -39,46 +67,42 @@ function ShoppingCart() {
                         </div>
                         <div className="mt-6 px-4 sm:px-6">
                             <ul className="space-y-4">
-                                {cartItems ? (
+                                {cartItems &&
+                                bookData &&
+                                bookData.length > 0 ? (
                                     cartItems
                                         .slice(0, maxOrdersToShow)
-                                        .map((cart) => (
-                                            <li
-                                                key={cart.bookId}
-                                                className="flex flex-row space-x-4 py-2 items-center"
-                                            >
-                                                {/* <div>
-                                                <img
-                                                    src={cart.bookId}
-                                                    alt={cart.book.name}
-                                                    className="h-12 w-12"
-                                                />
-                                            </div>
-                                            <div className="flex-1">
-                                                <h3 className="text-sm font-medium text-gray-900">
-                                                    {cart.book.name}
-                                                </h3>
-                                                <p className="mt-1 text-sm text-gray-500">
-                                                    ${cart.book.rental_price}
-                                                </p>
-                                            </div> */}
-                                                <div>
-                                                    <p className="text-sm text-gray-500">
-                                                        <span className="font-semibold text-gray-900">
-                                                            {cart.bookId}
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                                <div>
-                                                    <p className="text-sm text-gray-500">
-                                                        x{" "}
-                                                        <span className="font-semibold text-gray-900">
-                                                            {cart.quantity}
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                            </li>
-                                        ))
+                                        .map((cart, index) => {
+                                            const book = bookData[index];
+                                            return (
+                                                <li
+                                                    key={cart.bookId}
+                                                    className="flex flex-row space-x-4 py-2 items-center"
+                                                >
+                                                    <div>
+                                                        <p className="text-sm text-gray-500">
+                                                            <span className="font-semibold text-gray-900">
+                                                                {book?.name ||
+                                                                    "Book Name Not Found"}
+                                                            </span>
+                                                            <span className="font-semibold text-gray-900">
+                                                                {book?.author
+                                                                    ?.fullName ||
+                                                                    "Author Not Found"}
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-sm text-gray-500">
+                                                            x{" "}
+                                                            <span className="font-semibold text-gray-900">
+                                                                {cart.quantity}
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                            );
+                                        })
                                 ) : (
                                     <p>No items in the cart</p>
                                 )}
@@ -112,8 +136,8 @@ function ShoppingCart() {
                             </ul>
                         </div>
                     </div>
-                </PopoverContent>
-            </Popover>
+                </HoverCardContent>
+            </HoverCard>
         </div>
     );
 }

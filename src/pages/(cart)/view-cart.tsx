@@ -36,16 +36,13 @@ function ViewCart({ className, ...props }: Props) {
                             <div className="cart-checkout">
                                 <div className="flex justify-between">
                                     <div className="continue-shopping mt-4">
-                                        <Link className="flex items-center text-blue-500" to="/">
+                                        <Link className="flex items-center text-blue-500" to="/books">
                                             <Icons.arrowLeft />
                                             <span>Continue Shopping</span>
                                         </Link>
                                     </div>
                                     {user ? (
                                         null
-                                        // <Button className="cart-login bg-blue-500 text-white py-2 px-4 rounded-md mt-4 inline-block mr-20" onClick={() => navigate("/viewcheckout")}>
-                                        //     Check out
-                                        // </Button>
                                     ) : (
                                         <Button className="cart-login bg-blue-500 text-white py-2 px-4 rounded-md mt-4 inline-block" onClick={() => navigate("/login")}>
                                             Login to Check out

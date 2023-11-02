@@ -1,7 +1,4 @@
-import { getBookById } from "@/apis/book";
 import BookPage from "@/pages/(book)/BookPage";
-import { IBook } from "@/types";
-import { faker } from "@faker-js/faker";
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -29,6 +26,7 @@ const BookDetailPage = React.lazy(
 
 const CartLayout = React.lazy(() => import("@/pages/CartLayout"));
 const ShoppingCart = React.lazy(() => import("@/components/cart/cart"));
+const CartForm = React.lazy(() => import("@/components/cart/cart-form"));
 const ViewCart = React.lazy(() => import("@/pages/(cart)/view-cart"));
 const ViewCheckout = React.lazy(
     () => import("@/pages/(checkout)/view-checkout")
@@ -63,11 +61,14 @@ export const ROUTES = createBrowserRouter([
                         element: <ShoppingCart />,
                     },
                     {
+                        element: <CartForm />
+                    },
+                    {
                         path: "/viewcart",
                         element: <ViewCart />,
                     },
                     {
-                        path: "/viewcheckout",
+                        path: "/view-checkout/:id",
                         element: <ViewCheckout />,
                     },
                     {
@@ -96,20 +97,10 @@ export const ROUTES = createBrowserRouter([
             },
             {
                 path: "books",
-                loader: async () => {
-                    const book_id = faker.database.mongodbObjectId();
-                    const book: IBook = await getBookById(book_id);
-                    return book;
-                },
                 element: <BookPage />,
             },
             {
-                path: ":genre/:id",
-                loader: async () => {
-                    const book_id = faker.database.mongodbObjectId();
-                    const book: IBook = await getBookById(book_id);
-                    return book;
-                },
+                path: "books/:id",
                 element: <BookDetailPage />,
             },
         ],
