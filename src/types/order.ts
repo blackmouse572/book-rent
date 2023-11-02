@@ -2,8 +2,8 @@ import { IOrderCart } from "@/types/order_cart";
 import { User } from "@/types/user";
 
     export interface IOrder {
-        _id: string;
-        cart:IOrderCart[];
+        _id?: string;
+        cart: IOrderCart[];
         userId?: User;
         rentalDate: Date;
         returnDate: Date;
@@ -13,15 +13,19 @@ import { User } from "@/types/user";
         deposit?: number;
         penalty?: number;
         penaltyReason?: string;
-        depositType: DEPOSITTYPE;
-        status: STATUS;
+        depositType: "COD" | "ONLINE";
+        status?: STATUS;
+        createdAt?: Date;
+        updatedAt?: Date;
       }
+
     export enum STATUS {
         REJECTED = 'REJECTED',
         RETURNED = 'RETURNED',
         CANCELLED = 'CANCELLED',
         PENDING = 'PENDING',
     }
+    
     export enum DEPOSITTYPE {
         COD = "COD",
         ONLINE = "ONLINE",
