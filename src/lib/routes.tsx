@@ -1,7 +1,4 @@
-import { getBookById } from "@/apis/book";
 import BookPage from "@/pages/(book)/BookPage";
-import { IBook } from "@/types";
-import { faker } from "@faker-js/faker";
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -34,6 +31,20 @@ const BookDetailPage = React.lazy(
     () => import("@/pages/(book)/BookDetailPage.tsx")
 );
 
+const CartLayout = React.lazy(() => import("@/pages/CartLayout"));
+const ShoppingCart = React.lazy(() => import("@/components/cart/cart"));
+const CartForm = React.lazy(() => import("@/components/cart/cart-form"));
+const ViewCart = React.lazy(() => import("@/pages/(cart)/view-cart"));
+const ViewCheckout = React.lazy(
+    () => import("@/pages/(checkout)/view-checkout")
+);
+const CheckoutSuccess = React.lazy(
+    () => import("@/pages/(checkout)/checkout-success-page")
+);
+const CheckoutFailed = React.lazy(
+    () => import("@/pages/(checkout)/checkout-fail-page")
+);
+
 export const ROUTES = createBrowserRouter([
     {
         element: <MainLayout />,
@@ -60,11 +71,67 @@ export const ROUTES = createBrowserRouter([
          
             {
 
+
                 path: "/HistoryOrderPage",
                 element: <HistoryOrderPage/>,
 
+                element: <CartLayout />,
+                children: [
+                    {
+                        element: <ShoppingCart />,
+                    },
+                    {
+                        element: <CartForm />
+                    },
+                    {
+                        path: "/viewcart",
+                        element: <ViewCart />,
+                    },
+                    {
+                        path: "/view-checkout/:id",
+                        element: <ViewCheckout />,
+                    },
+                    {
+                        path: "/checkout-success",
+                        element: <CheckoutSuccess />,
+                    },
+                    {
+                        path: "/checkout-failed",
+                        element: <CheckoutFailed />,
+                    },
+                ],
+
+
                 path: "/",
                 element: <LandingPage />,
+
+            },
+            {
+                element: <CartLayout />,
+                children: [
+                    {
+                        element: <ShoppingCart />,
+                    },
+                    {
+                        element: <CartForm />
+                    },
+                    {
+                        path: "/viewcart",
+                        element: <ViewCart />,
+                    },
+                    {
+                        path: "/view-checkout/:id",
+                        element: <ViewCheckout />,
+                    },
+                    {
+                        path: "/checkout-success",
+                        element: <CheckoutSuccess />,
+                    },
+                    {
+                        path: "/checkout-failed",
+                        element: <CheckoutFailed />,
+                    },
+                ],
 
             },
             {
@@ -82,7 +149,7 @@ export const ROUTES = createBrowserRouter([
 
                     {
                         path: "/admin/category",
-                        element: <CategoryManagerPage/>,
+                        element: <CategoryManagerPage />,
                     },
 
                 ],
@@ -90,20 +157,10 @@ export const ROUTES = createBrowserRouter([
             },
             {
                 path: "books",
-                loader: async () => {
-                    const book_id = faker.database.mongodbObjectId();
-                    const book: IBook = await getBookById(book_id);
-                    return book;
-                },
                 element: <BookPage />,
             },
             {
-                path: ":genre/:id",
-                loader: async () => {
-                    const book_id = faker.database.mongodbObjectId();
-                    const book: IBook = await getBookById(book_id);
-                    return book;
-                },
+                path: "books/:id",
                 element: <BookDetailPage />,
             },
         ],
