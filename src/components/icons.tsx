@@ -1,4 +1,3 @@
-import { IconProps } from "@radix-ui/react-icons/dist/types";
 import {
     IconBell,
     IconBookmarkQuestion,
@@ -26,6 +25,14 @@ import {
     IconUser,
     IconVocabulary,
     IconX,
+    IconArrowLeft,
+    IconDiscountCheckFilled,
+    IconMoodSadSquint,
+    IconTruckLoading,
+    IconArrowLeft,
+    IconDiscountCheckFilled,
+    IconMoodSadSquint,
+    IconTruckLoading,
     type Icon as TablerIcons,
 } from "@tabler/icons-react";
 
@@ -59,6 +66,10 @@ export const Icons = {
     git: IconBrandGithub,
     dribble: IconBrandDribbble,
     questionMark: IconBookmarkQuestion,
+    arrowLeft: IconArrowLeft,
+    done: IconDiscountCheckFilled,
+    fail: IconMoodSadSquint,
+    loading: IconTruckLoading,
     sidebar: (props: IconProps) => ( <svg
         className="w-6 h-6"
         fill="none"
@@ -73,5 +84,5 @@ export const Icons = {
             strokeWidth="2"
             d="M4 6h16M4 12h16M4 18h16"
         />
-    </svg>)
+    </svg>),
 };
