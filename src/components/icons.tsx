@@ -28,6 +28,7 @@ import {
     IconArrowLeft,
     IconDiscountCheckFilled,
     IconMoodSadSquint,
+    IconTruckLoading,
     type Icon as TablerIcons,
 } from "@tabler/icons-react";
 
@@ -63,5 +64,6 @@ export const Icons = {
     questionMark: IconBookmarkQuestion,
     arrowLeft: IconArrowLeft,
     done: IconDiscountCheckFilled,
-    fail: IconMoodSadSquint
+    fail: IconMoodSadSquint,
+    loading: IconTruckLoading
 };

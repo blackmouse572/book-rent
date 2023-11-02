@@ -7,10 +7,7 @@ export async function getAllOrderApi(
     params: Partial<IQueryPagination & IQuerySearch>
 ) {
     return await authAxiosClient
-        .get<IGetAllOrderResponse>("/order", {
-            headers: {
-                Authorization: `Bearer`,
-            },
+        .get("/order", {
             params,
         })
         .then((res) => res.data);
