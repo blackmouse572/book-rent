@@ -112,15 +112,9 @@ export const ROUTES = createBrowserRouter([
                 ],
             },
             {
-                path: "/infoaccount",
-                element: <InfoAccount />,
+                path: "/HistoryOrderPage",
+                element: <HistoryOrderPage/>,
             },
-            {
-                path: "/",
-                element: <LandingPage />,
-            },
-         
-          
             {
                 path: "/admin",
                 element: <AdminLayout />,
