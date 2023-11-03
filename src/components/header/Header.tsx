@@ -3,7 +3,6 @@ import "@/index.css";
 // import AuthPreview from '../AuthPreview';
 import { Input } from "../ui/input";
 import { Icons } from "../icons";
-import ShoppingCart from "@/components/cart/cart";
 function Header() {
     return (
         <header>
@@ -60,7 +59,6 @@ function Header() {
                                         />
                                     </div>
                                 </form>
-                                <ShoppingCart />
                             </div>
                         </div>
                     </nav>

@@ -41,7 +41,7 @@ function BookPage() {
         refetchOnWindowFocus: false,
     });
 
-    const [individualBooks, setIndividualBooks] = useState<IBook[]>([]); 
+    const [individualBooks, setIndividualBooks] = useState<IBook[]>([]);
 
     useEffect(() => {
         // Fetch individual book data when data is available
