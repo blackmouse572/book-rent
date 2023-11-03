@@ -1,3 +1,4 @@
+import ChangePassword from "@/pages/(auth)/ChangePassword";
 import BookPage from "@/pages/(book)/BookPage";
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
@@ -6,9 +7,6 @@ const MainLayout = React.lazy(() => import("@/pages/MainLayout"));
 const AuthLayout = React.lazy(() => import("@/pages/AuthLayout"));
 const InfoAccount = React.lazy(() => import("@/pages/(profile)/InfoAccount"));
 const LoginPage = React.lazy(() => import("@/pages/(auth)/login/SignInPage"));
-const ChangePassword = React.lazy(
-    () => import("@/pages/(auth)/ChangePassword")
-);
 const RegisterPage = React.lazy(
     () => import("@/pages/(auth)/register/RegisterPage")
 );
@@ -21,11 +19,9 @@ const DashboardPage = React.lazy(() => import("@/pages/(admin)/Dashboard"));
 const UserManagerPage = React.lazy(
     () => import("@/pages/(admin)/UserManagerPage.tsx")
 );
-
 const CategoryManagerPage = React.lazy(
     () => import("@/pages/(admin)/CategoryManagerPage.tsx")
 );
-
 const BookDetailPage = React.lazy(
     () => import("@/pages/(book)/BookDetailPage.tsx")
 );
@@ -89,6 +85,38 @@ export const ROUTES = createBrowserRouter([
                 ],
             },
             {
+                path: "/infoaccount",
+                element: <InfoAccount />,
+            },
+
+            {
+                element: <CartLayout />,
+                children: [
+                    {
+                        element: <ShoppingCart />,
+                    },
+                    {
+                        element: <CartForm />,
+                    },
+                    {
+                        path: "/viewcart",
+                        element: <ViewCart />,
+                    },
+                    {
+                        path: "/view-checkout/:id",
+                        element: <ViewCheckout />,
+                    },
+                    {
+                        path: "/checkout-success",
+                        element: <CheckoutSuccess />,
+                    },
+                    {
+                        path: "/checkout-failed",
+                        element: <CheckoutFailed />,
+                    },
+                ],
+            },
+            {
                 path: "/",
                 element: <LandingPage />,
             },
@@ -104,7 +132,6 @@ export const ROUTES = createBrowserRouter([
                         path: "/admin/user",
                         element: <UserManagerPage />,
                     },
-
                     {
                         path: "/admin/category",
                         element: <CategoryManagerPage />,
