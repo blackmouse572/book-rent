@@ -43,10 +43,9 @@ authAxiosClient.interceptors.response.use(
         ) {
             try {
                 const { data, status } = await axiosClient.post(
-                    "/auth/refresh-token",
-                    {
-                        withCredentials: true,
-                    }
+                    "/auth/refresh",
+                    undefined,
+                    { withCredentials: true }
                 );
                 if (status === 200 || status === 201) {
                     localStorage.setItem("accessToken", data.data.accessToken);

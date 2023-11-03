@@ -11,10 +11,7 @@ export default function NavBar() {
                 <span className="ml-5">+1 246-345-0695</span>
             </div>
             <ul className="navbar__links flex space-x-4 items-center">
-                <li></li>
-                <li>
-                    <AuthPreview />
-                </li>
+                <AuthPreview />
             </ul>
         </nav>
     );

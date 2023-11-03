@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
-import { Icons } from "@/components/icons";
-import { Button, buttonVariants } from "../ui/button";
-import { useNavigate } from "react-router-dom";
-import { useOrderCart } from "@/hooks/useOrderCart";
 import { getBookById } from "@/apis/book"; // Import your getBookById function
-import { IBook } from "@/types/book";
+import { Icons } from "@/components/icons";
 import {
     HoverCard,
     HoverCardContent,
     HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { useOrderCart } from "@/hooks/useOrderCart";
+import { IBook } from "@/types/book";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "../ui/button";
 
 function ShoppingCart() {
     const [open, setOpen] = useState(false);
@@ -22,7 +22,9 @@ function ShoppingCart() {
 
     useEffect(() => {
         if (cartItems && cartItems.length > 0) {
-            const promises = cartItems.map((cart) => getBookById(cart.bookId as string));
+            const promises = cartItems.map((cart) =>
+                getBookById(cart.bookId as string)
+            );
 
             Promise.all(promises)
                 .then((bookDataArray) => {
@@ -47,18 +49,22 @@ function ShoppingCart() {
         <div className="relative z-40">
             <HoverCard>
                 <HoverCardTrigger>
-                    <button onClick={() => setOpen(!open)}>
+                    <Button
+                        variant={"outline"}
+                        onClick={() => setOpen(!open)}
+                        className="px-2"
+                    >
                         <span className="sr-only">New orders added</span>
-                        <Icons.cart size={35} aria-hidden="true" />
+                        <Icons.cart />
                         {cartItemCount > 0 && (
                             <span className="bg-red-500 text-white px-1.5 py-0.5 rounded-full absolute -top-1 -right-1 text-xs">
                                 {cartItemCount}
                             </span>
                         )}
-                    </button>
+                    </Button>
                 </HoverCardTrigger>
 
-                <HoverCardContent className="bg-gray-100 rounded-md shadow-lg w-96 mr-10">
+                <HoverCardContent>
                     <div className="h-full w-full flex flex-col py-6 shadow-xl">
                         <div className="px-4 sm:px-6">
                             <h2 className="text-lg font-medium text-gray-900">
@@ -121,12 +127,8 @@ function ShoppingCart() {
                                     ) : null}
                                     <div className="flex-shrink-0">
                                         <Button
-                                            className={
-                                                (buttonVariants({
-                                                    variant: "outline",
-                                                }),
-                                                "px-2 mx-4")
-                                            }
+                                            className={"px-2 mx-4"}
+                                            variant={"secondary"}
                                             onClick={onViewCart}
                                         >
                                             View Cart
