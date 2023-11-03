@@ -11,7 +11,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { IToken } from "../apis/auth/types/token";
 import { LoginSchema } from "../pages/(auth)/login/validation";
-import { Button } from "./ui/button/button";
 import { Checkbox } from "./ui/checkbox";
 import {
     Form,
@@ -24,6 +23,7 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { toast } from "./ui/use-toast";
+import { Button } from "./ui/button/button";
 
 type FormData = z.infer<typeof LoginSchema>;
 function LoginForm() {
@@ -119,7 +119,7 @@ function LoginForm() {
                             <FormControl>
                                 <Input
                                     disabled={isLoading}
-                                    placeholder="*********"
+                                    placeholder="*******"
                                     type="password"
                                     {...field}
                                 />

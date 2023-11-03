@@ -1,6 +1,6 @@
 import React from "react";
 import TableSizeSelector from "../table-size-selector";
-import { Button } from "../ui/button/button";
+import { Button } from "../ui/button";
 import { DataTable } from "../ui/data-table";
 import Paginition from "../ui/paginition";
 import { Skeleton } from "../ui/skeleton";
@@ -34,8 +34,6 @@ function UserTable() {
                     onPreviousPage={() => {
                         table.previousPage();
                     }}
-                    canPreviousPage={table.getCanPreviousPage()}
-                    canNextPage={table.getCanNextPage()}
                 />
                 <TableSizeSelector
                     className="max-w-[100px] "
@@ -76,23 +74,21 @@ function UserTable() {
     ]);
 
     return (
-        <div className="container mx-auto min-h-screen w-full">
-            <div className="mt-8">
-                {isError && <Button onClick={() => refetch()}>Retry</Button>}
-                {isError && <p>{error?.message}</p>}
-                <DataTable
-                    table={table}
-                    isLoading={isLoading}
-                    header={renderHeader}
-                    columns={columns}
-                    data={data?.data || []}
-                    footer={
-                        <div className="px-3 py-1.5 flex justify-end gap-2">
-                            {renderFooter}
-                        </div>
-                    }
-                />
-            </div>
+        <div className="mt-8">
+            {isError && <Button onClick={() => refetch()}>Retry</Button>}
+            {isError && <p>{error?.message}</p>}
+            <DataTable
+                table={table}
+                isLoading={isLoading}
+                header={renderHeader}
+                columns={columns}
+                data={data?.data ?? []}
+                footer={
+                    <div className="px-3 py-1.5 flex justify-end gap-2">
+                        {renderFooter}
+                    </div>
+                }
+            />
         </div>
     );
 }

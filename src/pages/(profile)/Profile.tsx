@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button/button";
+import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
     Avatar,
     AvatarFallback,
@@ -46,14 +46,20 @@ function Profile() {
                 <CardContent className="flex">
                     <Button variant={"link"}>Home</Button>
                     <Separator className="h-[none]" orientation="vertical" />
-                    <Button variant={"link"}>Profile</Button>
+                    <Link to="/infoaccount">
+                        <Button>Profile</Button>
+                    </Link>
                     <Separator className="h-[none]" orientation="vertical" />
                     <Button variant={"link"}>Settings</Button>
                 </CardContent>
                 <CardFooter>
-                    <Button onClick={onLogout} colors={"destructive"}>
+
+                    <Button onClick={onLogout}>Logout</Button>
+
+                    <Button onClick={onLogout} >
                         Logout
                     </Button>
+
                 </CardFooter>
             </Card>
         </div>

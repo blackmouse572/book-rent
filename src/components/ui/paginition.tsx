@@ -9,8 +9,9 @@ type Props = {
     onPageChange: (page: number) => void;
     onPreviousPage: () => void;
     onNextPage: () => void;
-    canNextPage?: boolean;
-    canPreviousPage?: boolean;
+    itemRender?: (page: number) => React.ReactNode;
+    hideOnSinglePage?: boolean;
+    total?: number;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 function Paginition({
@@ -19,12 +20,31 @@ function Paginition({
     onPageChange,
     onPreviousPage,
     onNextPage,
-    canNextPage,
-    canPreviousPage,
+    itemRender,
+    hideOnSinglePage = false,
     className,
     ...props
 }: Props) {
-    const renderMiddle = React.useMemo(() => {
+    const renderItems = React.useMemo(() => {
+        if (itemRender) {
+            return Array.from(
+                { length: totalPage },
+                (_, index) => index + 1
+            ).map((page) => (
+                <Button
+                    key={page}
+                    className={cn(
+                        "h-8 w-8 rounded-full hover:text-white hover:bg-primary/60",
+                        page === currentPage
+                            ? "bg-primary text-white "
+                            : "bg-white text-primary"
+                    )}
+                    onClick={() => onPageChange(page)}
+                >
+                    {itemRender(page)}
+                </Button>
+            ));
+        }
         //If total page is less than 5, render all page
         if (totalPage <= 5) {
             return Array.from(
@@ -85,20 +105,26 @@ function Paginition({
                 {page}
             </Button>
         ));
-    }, [currentPage, onPageChange, totalPage]);
+    }, [currentPage, itemRender, onPageChange, totalPage]);
+
+    if (hideOnSinglePage && totalPage <= 1) return null;
+
+    const canPreviousPage = currentPage === 1;
+    const canNextPage = currentPage === totalPage;
+
     return (
         <div className={cn("space-x-3", className)} {...props}>
             <Button
                 variant={"outline"}
-                onClick={onPreviousPage}
-                disabled={canNextPage}
                 className="px-2"
+                onClick={onPreviousPage}
+                disabled={canPreviousPage}
             >
                 <Icons.chevronLeft className="h-4 w-4" />
             </Button>
-            {renderMiddle}
+            {renderItems}
             <Button
-                disabled={canPreviousPage}
+                disabled={canNextPage}
                 variant={"outline"}
                 onClick={onNextPage}
                 className="px-2"

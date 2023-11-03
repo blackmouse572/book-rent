@@ -6,3 +6,7 @@ export interface IQueryPagination {
 export interface IQuerySearch {
     search: string;
 }
+
+export interface IDefaultQuery extends IQueryPagination, IQuerySearch {
+    [key: string]: unknown;
+}
