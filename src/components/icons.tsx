@@ -1,5 +1,6 @@
 import { IconProps } from "@radix-ui/react-icons/dist/types";
 import {
+    IconArrowLeft,
     IconBell,
     IconBook2,
     IconBookmarkQuestion,
@@ -14,10 +15,12 @@ import {
     IconChevronLeft,
     IconChevronRight,
     IconDashboard,
+    IconDiscountCheckFilled,
     IconGardenCart,
     IconLoader2,
     IconLogout,
     IconMoodEmptyFilled,
+    IconMoodSadSquint,
     IconPlus,
     IconQuestionMark,
     IconSearch,
@@ -26,6 +29,7 @@ import {
     IconStarFilled,
     IconStarOff,
     IconTruckDelivery,
+    IconTruckLoading,
     IconUser,
     IconVocabulary,
     IconX,
@@ -86,25 +90,7 @@ export const Icons = {
             />
         </svg>
     ),
-    arrowLeft: IconArrowLeft,
     done: IconDiscountCheckFilled,
     fail: IconMoodSadSquint,
     loading: IconTruckLoading,
-    sidebar: (props: IconProps) => (
-        <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            {...props}
-        >
-            <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h16"
-            />
-        </svg>
-    ),
 };
