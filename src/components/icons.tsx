@@ -1,6 +1,8 @@
 import { IconProps } from "@radix-ui/react-icons/dist/types";
 import {
+    IconArrowLeft,
     IconBell,
+    IconBook2,
     IconBookmarkQuestion,
     IconBrandDiscord,
     IconBrandDribbble,
@@ -8,13 +10,17 @@ import {
     IconBrandGithub,
     IconBrandGoogleHome,
     IconBrandTwitter,
+    IconCategory,
     IconCheck,
     IconChevronLeft,
     IconChevronRight,
+    IconDashboard,
+    IconDiscountCheckFilled,
     IconGardenCart,
     IconLoader2,
     IconLogout,
     IconMoodEmptyFilled,
+    IconMoodSadSquint,
     IconPlus,
     IconQuestionMark,
     IconSearch,
@@ -23,13 +29,10 @@ import {
     IconStarFilled,
     IconStarOff,
     IconTruckDelivery,
+    IconTruckLoading,
     IconUser,
     IconVocabulary,
     IconX,
-    IconArrowLeft,
-    IconDiscountCheckFilled,
-    IconMoodSadSquint,
-    IconTruckLoading,
     type Icon as TablerIcons,
 } from "@tabler/icons-react";
 
@@ -38,6 +41,13 @@ export type Icon = TablerIcons;
 export const Icons = {
     logo: IconVocabulary,
     close: IconX,
+    book: IconBook2,
+    category: IconCategory,
+    dashboard: IconDashboard,
+    arrowLeft: IconArrowLeft,
+    discountCheckFilled: IconDiscountCheckFilled,
+    moodSadSquint: IconMoodSadSquint,
+    truckLoading: IconTruckLoading,
     squareClose: IconSquareRoundedXFilled,
     home: IconBrandGoogleHome,
     signOut: IconLogout,
@@ -63,23 +73,24 @@ export const Icons = {
     git: IconBrandGithub,
     dribble: IconBrandDribbble,
     questionMark: IconBookmarkQuestion,
-    arrowLeft: IconArrowLeft,
+    sidebar: (props: IconProps) => (
+        <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            {...props}
+        >
+            <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16"
+            />
+        </svg>
+    ),
     done: IconDiscountCheckFilled,
     fail: IconMoodSadSquint,
     loading: IconTruckLoading,
-    sidebar: (props: IconProps) => ( <svg
-        className="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-        {...props}
-    >
-        <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M4 6h16M4 12h16M4 18h16"
-        />
-    </svg>),
 };

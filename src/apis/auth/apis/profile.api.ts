@@ -7,7 +7,6 @@ async function profileApi(
     token: string,
     callback: (error: AxiosError | null, result: User | null) => void
 ) {
-    console.log("Get profile with token: " + token);
     return await authAxiosClient
         .get<IProfileResponse>("/user/profile", {
             headers: {

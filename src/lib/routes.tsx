@@ -1,12 +1,12 @@
+import ChangePassword from "@/pages/(auth)/ChangePassword";
 import BookPage from "@/pages/(book)/BookPage";
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 
 const MainLayout = React.lazy(() => import("@/pages/MainLayout"));
 const AuthLayout = React.lazy(() => import("@/pages/AuthLayout"));
-const InfoAccount =React.lazy(() => import("@/pages/(profile)/InfoAccount"));
+const InfoAccount = React.lazy(() => import("@/pages/(profile)/InfoAccount"));
 const LoginPage = React.lazy(() => import("@/pages/(auth)/login/SignInPage"));
-const ChangePassword =React.lazy(() => import("@/pages/(auth)/ChangePassword"));
 const RegisterPage = React.lazy(
     () => import("@/pages/(auth)/register/RegisterPage")
 );
@@ -15,17 +15,13 @@ const HomePage = React.lazy(() => import("@/pages/HomePage"));
 const LandingPage = React.lazy(() => import("@/pages/LandingPage"));
 const HistoryOrderPage = React.lazy(() => import("@/pages/historyOrder/HistoryOrderPage"));
 const ProfilePage = React.lazy(() => import("@/pages/(profile)/Profile"));
+const DashboardPage = React.lazy(() => import("@/pages/(admin)/Dashboard"));
 const UserManagerPage = React.lazy(
     () => import("@/pages/(admin)/UserManagerPage.tsx")
 );
-
-
-
-
 const CategoryManagerPage = React.lazy(
     () => import("@/pages/(admin)/CategoryManagerPage.tsx")
 );
-
 
 const BookDetailPage = React.lazy(
     () => import("@/pages/(book)/BookDetailPage.tsx")
@@ -68,11 +64,8 @@ export const ROUTES = createBrowserRouter([
                 element: <LandingPage />,
 
             },
-         
-            {
-
-
-                path: "/HistoryOrderPage",
+          {
+                path: "/profile/orders",
                 element: <HistoryOrderPage/>,
             },
             {
@@ -82,7 +75,7 @@ export const ROUTES = createBrowserRouter([
                         element: <ShoppingCart />,
                     },
                     {
-                        element: <CartForm />
+                        element: <CartForm />,
                     },
                     {
                         path: "/viewcart",
@@ -103,10 +96,10 @@ export const ROUTES = createBrowserRouter([
                 ],
             },
             {
-                path: "/",
-                element: <LandingPage />,
-
+                path: "/infoaccount",
+                element: <InfoAccount />,
             },
+
             {
                 element: <CartLayout />,
                 children: [
@@ -114,7 +107,7 @@ export const ROUTES = createBrowserRouter([
                         element: <ShoppingCart />,
                     },
                     {
-                        element: <CartForm />
+                        element: <CartForm />,
                     },
                     {
                         path: "/viewcart",
@@ -135,32 +128,30 @@ export const ROUTES = createBrowserRouter([
                 ],
 
             },
-            {
-                path: "/HistoryOrderPage",
-                element: <HistoryOrderPage/>,
-            },
+          
          
           
             {
+                path: "/",
+                element: <LandingPage />,
+            },
+            {
                 path: "/admin",
+
                 children: [
+                    {
+                        index: true,
+                        element: <DashboardPage />,
+                    },
                     {
                         path: "/admin/user",
                         element: <UserManagerPage />,
                     },
-
-                   
-
-
-                   
-
                     {
                         path: "/admin/category",
                         element: <CategoryManagerPage />,
                     },
-
                 ],
-                    
             },
             {
                 path: "books",
