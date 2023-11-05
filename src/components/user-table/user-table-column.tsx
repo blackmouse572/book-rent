@@ -50,7 +50,7 @@ export const columns: ColumnDef<User>[] = [
             return (
                 <div className="flex gap-2 ">
                     <Button variant="outline" size="sm">
-                        Edit
+                        Ban
                     </Button>
                     <Button variant="outline" size="sm">
                         Delete
