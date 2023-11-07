@@ -80,7 +80,7 @@ export default function BookDetailPage() {
                             <h3 className="text-3xl font-medium tracking-wide">
                                 {book.name}
                             </h3>
-                            <p>By&nbsp;{book.author?.fullName}</p>
+                            <p>By&nbsp;{book.author}</p>
                         </div>
 
                         <div className="space-y-2">
@@ -90,18 +90,18 @@ export default function BookDetailPage() {
                             <p className="line-clamp-3">{book.description}</p>
                         </div>
 
-                        <div className="space-y-4">
-                            <div className="space-x-4">
-                                <Button disabled={book.isAvailable}>
-                                    Rent Now
-                                </Button>
-                                <Button
-                                    disabled={book.isAvailable}
-                                    onClick={handleAddToCart}
-                                >
-                                    {isBookInCart ? "Add More" : "Add to Cart"}
-                                </Button>{" "}
-                            </div>
+                        <div className="flex gap-2">
+                            <Button disabled={book.isAvailable}>
+                                Rent Now
+                            </Button>
+                            <Button
+                                disabled={book.isAvailable}
+                                onClick={handleAddToCart}
+                                variant={"outline"}
+                            >
+                                <Icons.addRound className="mr-2" />
+                                {isBookInCart ? "Add one" : "Add to Cart"}
+                            </Button>
                         </div>
                     </article>
 
