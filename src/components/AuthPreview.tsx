@@ -16,7 +16,7 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { cn, getLabelByFullname } from "@/lib/utils";
 import { ROLE } from "@/types";
-import React from "react";
+import React, { useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button, buttonVariants } from "./ui/button";
@@ -60,13 +60,14 @@ function AuthPreview({ className, ...prosp }: Props) {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
 
-    const onLogin = () => {
+    const onLogin = useCallback(() => {
         navigate("/login");
-    };
-    const onLogout = () => {
+    }, [navigate]);
+
+    const onLogout = useCallback(() => {
         logout();
         navigate("/");
-    };
+    }, [logout, navigate]);
 
     const onGetProfile = () => {
         const accessToken = localStorage.getItem("access_token");
