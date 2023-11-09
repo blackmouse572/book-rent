@@ -1,5 +1,5 @@
 import { ICategory } from "@/types/category";
-import { IGenre, IReview, User } from ".";
+import { IGenre, User } from ".";
 
 export interface IBook {
     _id: string;
