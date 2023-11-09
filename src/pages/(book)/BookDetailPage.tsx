@@ -47,7 +47,7 @@ export default function BookDetailPage() {
             {
                 key: "books",
                 label: genre,
-                href: `/books?genre=${genre}`,
+                href: genre === "books" ? "books" : `/books?genre=${genre}`,
             },
             {
                 key: "book",
