@@ -1,4 +1,4 @@
-import { getBookById } from "@/apis/book";
+import { getBookById, postBookReview } from "@/apis/book";
 import { IBreadcrumb } from "@/components/breadcrumb";
 import Breadcrumb from "@/components/breadcrumb/breadcrumb";
 import { Icons } from "@/components/icons";
@@ -14,11 +14,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { useOrderCart } from "@/hooks/useOrderCart";
 import { IBook, IReview } from "@/types";
 import { format, parseISO } from "date-fns";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { useMutation } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/useAuth";
 
 type FormValue = {
     review: string;
@@ -26,7 +27,7 @@ type FormValue = {
 };
 export default function BookDetailPage() {
     const [book, setBook] = useState<IBook | null>(null);
-
+    const user = useAuth();
     useEffect(() => {
         const bookId = window.location.pathname.split("/")[2];
         getBookById(bookId).then((bookData) => {
@@ -45,6 +46,22 @@ export default function BookDetailPage() {
 
     const isBookInCart =
         book && cartItems?.some((item) => item.bookId === book._id);
+
+    const addReview = useCallback(
+        (review: IReview) => {
+            if (!book?.reviews) {
+                return;
+            }
+
+            const updatedBook: IBook = {
+                ...book,
+                reviews: [...book.reviews, review],
+            };
+
+            setBook(updatedBook);
+        },
+        [book]
+    );
 
     const breadcrumb = React.useMemo<IBreadcrumb[]>(() => {
         const paths = pathname.split("/");
@@ -101,7 +118,30 @@ export default function BookDetailPage() {
         []
     );
 
-    // const {} = useMutation();
+    const id = useId();
+
+    const { mutateAsync, isLoading } = useMutation({
+        mutationFn: postBookReview,
+        onSuccess: (_, { data: { comment, rating } }) => {
+            if (!book) return;
+
+            addReview({
+                _id: id,
+                author: {
+                    _id: "",
+                    email: "",
+                    fullName: "",
+                    avatar: "",
+                    ...user.user,
+                },
+                comment,
+                rating,
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+            });
+        },
+    });
+
     const renderReviews = React.useMemo(() => {
         return book?.reviews?.map((reviewer) => (
             <div key={reviewer._id} className="w-full mb-2">
@@ -157,12 +197,26 @@ export default function BookDetailPage() {
                 rating,
             };
 
-            toast({
-                title: "Submit",
-                description: JSON.stringify(payload),
-            });
+            mutateAsync({
+                book_Id: book?._id || "",
+                data: payload,
+            })
+                .then(() => {
+                    toast({
+                        type: "foreground",
+                        title: "Post a comment successfully",
+                        description: "Your comment have been recorded",
+                    });
+                })
+                .catch((e) => {
+                    toast({
+                        type: "foreground",
+                        title: "Error",
+                        description: JSON.stringify(e),
+                    });
+                });
         },
-        [toast]
+        [book?._id, mutateAsync, toast]
     );
 
     // const renderSubmitReviewForm = useMemo(() => {
@@ -284,6 +338,7 @@ export default function BookDetailPage() {
                                 onChange={(value: number) =>
                                     setValue("rating", value)
                                 }
+                                isDisabled={isLoading}
                             />
                             {renderReviewRatingBadge(watch("rating"))}
                         </div>
@@ -296,6 +351,7 @@ export default function BookDetailPage() {
                                 minLength: 2,
                                 maxLength: 255,
                             })}
+                            disabled={isLoading}
                         />
                     </div>
                     <Button type="submit">Submit</Button>
