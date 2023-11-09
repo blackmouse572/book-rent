@@ -2,33 +2,46 @@ import "@/index.css";
 // import AuthPreview from '../AuthPreview';
 import { Icons } from "../icons";
 import { Input } from "../ui/input";
+import { Link, useNavigate } from "react-router-dom";
+import { useCallback } from "react";
 function Header() {
-
-  return (
-   
-    
+    const nav = useNavigate();
+    const onSubmit = useCallback(
+        (e: React.SyntheticEvent) => {
+            console.log("sbumt");
+            e.preventDefault();
+            const target = e.target as typeof e.target & {
+                search: { value: string };
+            };
+            nav(`/books?search=${target.search.value}`);
+        },
+        [nav]
+    );
+    return (
         <header>
             <div className="navbar-wrapper container-wrapper">
                 <hr className="border-gray-200 sm:mx-auto dark:border-gray-700" />
-
             </div>
             <div className="flex items-center pl-0">
                 <div className="bg-white-500 flex h-24 w-full items-center justify-around">
                     <div className="logo">
-                        <h1 className="text-black-100 cursor-pointer text-3xl font-extrabold xs:text-2xl">
+                        <Link
+                            to={"/"}
+                            className="text-black-100 cursor-pointer text-3xl font-extrabold xs:text-2xl"
+                        >
                             BRental
-                        </h1>
+                        </Link>
                     </div>
                     <nav className="w-1/2 xs:hidden">
                         <div className="flex items-center justify-evenly">
-                            <a href="#" className="active">
+                            <Link to="#" className="active">
                                 Home
-                            </a>
-                            <a href="#">Category</a>
-                            <a href="#">About Us</a>
+                            </Link>
+                            <Link to="#">Category</Link>
+                            <Link to="#">About Us</Link>
                         </div>
                     </nav>
-                    <form>
+                    <form onSubmit={onSubmit}>
                         <label
                             htmlFor="default-search"
                             className="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -36,14 +49,14 @@ function Header() {
                             Search
                         </label>
                         <div className="flex flex-row items-center">
-                            <Icons.search className="m-1" size={25} />
+                            <Icons.search className="mr-1" size={16} />
                             <Input
                                 className="w-72"
+                                name={"search"}
                                 placeholder="Search by Keyword"
                             />
                         </div>
                     </form>
-                    <Icons.cart size={25} />
                 </div>
             </div>
         </header>

@@ -36,14 +36,22 @@ function BookPage() {
     }, []);
     const [bookState, setBookState] =
         React.useState<GetManyBooksParams>(initBookState);
+
     const { data, isLoading, isError } = useGetManyBooks(bookState, {
         refetchOnWindowFocus: false,
     });
 
     const renderBooks = React.useMemo(() => {
         if (isLoading) return <BookGridLoading pageSize={bookState.perPage!} />;
-        if (!data) return null;
-        return data.data.map((book) => {
+        if (!data?.data || data.data.length === 0)
+            return (
+                <div className="w-full h-full col-span-full row-span-full">
+                    <h3 className="text-slate-300 text-center">
+                        No result found
+                    </h3>
+                </div>
+            );
+        return data?.data.map((book) => {
             return (
                 <Link
                     to={`/books/${book._id}`}
@@ -67,14 +75,16 @@ function BookPage() {
                 </Link>
             );
         });
-    }, [bookState.perPage, data, isLoading]);
+
+    }, [bookState.perPage, data?.data, isLoading]);
+
     const totalPage = React.useMemo(() => {
         return data?._pagination?.totalPage || 1;
     }, [data?._pagination?.totalPage]);
 
     if (isError) return <div>Something went wrong</div>;
     return (
-        <main className="container mx-auto grid place-items-center min-h-screen w-full">
+        <main className="container mx-auto min-h-screen w-full">
             <MetaData title="Books" />
             <Breadcrumb items={breadcrumb} className="my-8 w-full" />
             <div className="flex gap-2 w-full">
