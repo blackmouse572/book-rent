@@ -94,5 +94,5 @@ export const Icons = {
     ),
     done: IconDiscountCheckFilled,
     fail: IconMoodSadSquint,
-    loading: IconTruckLoading,
+    loading: IconLoader2,
 };
