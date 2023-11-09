@@ -13,7 +13,7 @@ export interface IBook {
     keywords?: string[];
     genres?: IGenre[];
     reviews?: IReview[];
-    author?: User;
+    author?: string;
     creatAt?: Date;
     updaetAt?: Date;
     status?: "ENABLE" | "DISABLE";
