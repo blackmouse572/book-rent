@@ -1,5 +1,5 @@
 import { ICategory } from "@/types/category";
-import { IGenre, IReview, User } from ".";
+import { IGenre, User } from ".";
 
 export interface IBook {
     _id: string;
@@ -14,7 +14,16 @@ export interface IBook {
     genres?: IGenre[];
     reviews?: IReview[];
     author?: User;
-    creatAt?:Date;
+    creatAt?: Date;
     updaetAt?: Date;
-    status?: "ENABLE" | "DISABLE"
+    status?: "ENABLE" | "DISABLE";
+}
+
+export interface IReview {
+    _id: string;
+    author: Pick<User, "_id" | "email" | "avatar" | "fullName">;
+    comment: string;
+    rating: number;
+    createdAt: string;
+    updatedAt: string;
 }
