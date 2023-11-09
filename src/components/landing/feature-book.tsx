@@ -1,20 +1,34 @@
+import { getManyBooks } from "@/apis/book";
+import Book from "@/components/book";
+import BookGridLoading from "@/components/book-grid-loading";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import React from "react";
 import { Link } from "react-router-dom";
-import { API_GET_ALL_USER_QUERY_KEYS, getAllUserApi } from "../../apis/users";
-import { IResponse, User } from "../../types";
+import { API_GET_ALL_USER_QUERY_KEYS } from "../../apis/users";
+import { IBook, IResponse } from "../../types";
 import { Icons } from "../icons";
 
 function FeatureBook() {
-    const queryController = useQuery<IResponse<User[]>, AxiosError>(
+    const { data, isLoading } = useQuery<IResponse<IBook[]>, AxiosError>(
         [...API_GET_ALL_USER_QUERY_KEYS],
-        () => getAllUserApi({}),
+        () =>
+            getManyBooks({
+                genres: "Top 100 books of all time",
+            }),
         {
             keepPreviousData: true,
         }
     );
 
-    const users: User[] = queryController.data?.data || [];
+    const renderBooks = React.useMemo(() => {
+        if (isLoading) return <BookGridLoading className="h-32" pageSize={2} />;
+        return data?.data.map((book, index) => (
+            <div key={index} className={`carousel-item flex-none w-60 mr-4`}>
+                <Book book={book} />
+            </div>
+        ));
+    }, [data?.data, isLoading]);
 
     return (
         <div className="bg-gray-100">
@@ -36,37 +50,7 @@ function FeatureBook() {
                     </div>
                     <div className="mt-6 relative">
                         <div className="carousel-container flex overflow-hidden overflow-x-auto">
-                            {users.map((user, index) => (
-                                <div
-                                    key={index}
-                                    className={`carousel-item flex-none w-60 mr-4`}
-                                >
-                                    <div className="relative h-90 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 pb-5">
-                                        <img
-                                            src={
-                                                "https://bookworm.madrasthemes.com/wp-content/uploads/2020/08/22-300x449.jpg"
-                                            }
-                                            alt={user.fullName}
-                                            className=" object-cover object-center"
-                                        />
-                                        <h3 className="mt-6 text-sm text-center text-gray-500">
-                                            <div>
-                                                <link
-                                                    rel="stylesheet"
-                                                    href={user.role}
-                                                />
-                                                {user.email}
-                                            </div>
-                                        </h3>
-                                        <p className="text-base text-center font-semibold text-gray-900">
-                                            {user.role}
-                                        </p>
-                                        <p className="text-2xl text-center font-semibold text-gray-900">
-                                            $1.30
-                                        </p>
-                                    </div>
-                                </div>
-                            ))}
+                            {renderBooks}
                         </div>
                     </div>
                 </div>

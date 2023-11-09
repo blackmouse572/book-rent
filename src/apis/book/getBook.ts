@@ -15,7 +15,7 @@ export async function getBookById(book_Id: string) {
 }
 
 export type GetManyBooksParams = {
-    genres?: string[];
+    genres?: string;
     authors?: string[];
     reviews?: number;
 } & Partial<IDefaultQuery>;

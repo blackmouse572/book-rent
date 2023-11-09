@@ -2,11 +2,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 type Props = {
     pageSize: number;
-};
+} & React.HTMLAttributes<HTMLDivElement>;
 
-function BookGridLoading({ pageSize }: Props) {
+function BookGridLoading({ pageSize, ...props }: Props) {
     return (
-        <>
+        <div {...props}>
             {Array.from({ length: pageSize }).map((_, index) => {
                 return (
                     <div key={index} className="w-full">
@@ -16,7 +16,7 @@ function BookGridLoading({ pageSize }: Props) {
                     </div>
                 );
             })}
-        </>
+        </div>
     );
 }
 
