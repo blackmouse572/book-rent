@@ -75,6 +75,7 @@ function BookPage() {
                 </Link>
             );
         });
+
     }, [bookState.perPage, data?.data, isLoading]);
 
     const totalPage = React.useMemo(() => {
