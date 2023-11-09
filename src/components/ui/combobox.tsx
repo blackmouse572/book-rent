@@ -38,7 +38,6 @@ export const Combobox: React.FC<ChildProps> = ({
 }) => {
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState("");
-    console.log(defaultValue);
     React.useEffect(() => {
         setValue(defaultValue || "");
     }, [data, defaultValue, clear]);
