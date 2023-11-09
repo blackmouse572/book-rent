@@ -34,6 +34,7 @@ function BookPage() {
             },
         ];
     }, []);
+
     const [bookState, setBookState] =
         React.useState<GetManyBooksParams>(initBookState);
 
