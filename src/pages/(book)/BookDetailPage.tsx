@@ -3,15 +3,27 @@ import { IBreadcrumb } from "@/components/breadcrumb";
 import Breadcrumb from "@/components/breadcrumb/breadcrumb";
 import { Icons } from "@/components/icons";
 import MetaData from "@/components/metadata";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge/badge";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Rating } from "@smastrom/react-rating";
+import "@smastrom/react-rating/style.css";
 import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 import { useOrderCart } from "@/hooks/useOrderCart";
-import { IBook } from "@/types";
-import { format } from "date-fns";
-import React, { useEffect, useState } from "react";
+import { IBook, IReview } from "@/types";
+import { format, parseISO } from "date-fns";
+import React, { useCallback, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { Link, useLocation } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
+import { useMutation } from "@tanstack/react-query";
 
+type FormValue = {
+    review: string;
+    rating: number;
+};
 export default function BookDetailPage() {
     const [book, setBook] = useState<IBook | null>(null);
 
@@ -51,10 +63,112 @@ export default function BookDetailPage() {
             },
             {
                 key: "book",
-                label: book?.name || "", // Handle book.name when book is null
+                label: book?.name ?? "", // Handle book.name when book is null
             },
         ];
     }, [book, pathname]);
+
+    const renderReviewer = React.useCallback(
+        ({ author, rating, updatedAt }: IReview) => (
+            <div className="flex items-center gap-3 w-full">
+                <Avatar>
+                    <AvatarImage src={author.avatar} alt={`${author.email}`} />
+                    <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                <div className="flex gap-4 justify-between flex-1">
+                    <div>
+                        <div className="font-medium text-lg">
+                            {author.fullName}
+                        </div>
+                        <div className="text-slate-400">{author.email}</div>
+                    </div>
+                    <div className="flex flex-col justify-end items-end">
+                        <h5 className="font-medium text-lg flex w-fit items-center">
+                            {rating}&nbsp;
+                            <Icons.star
+                                className={"text-yellow-500"}
+                                size={16}
+                            />
+                        </h5>
+                        <p className="text-xs text-slate-300 text-right">
+                            Reviewed at{" "}
+                            {format(parseISO(updatedAt), "dd/MM/yyyy")}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        ),
+        []
+    );
+
+    // const {} = useMutation();
+    const renderReviews = React.useMemo(() => {
+        return book?.reviews?.map((reviewer) => (
+            <div key={reviewer._id} className="w-full mb-2">
+                {renderReviewer(reviewer)}
+                <p className="w-3/4 mt-2">{reviewer.comment}</p>
+            </div>
+        ));
+    }, [book?.reviews, renderReviewer]);
+    const { toast } = useToast();
+
+    const { setValue, watch, register, handleSubmit } = useForm<FormValue>({
+        defaultValues: {
+            review: "",
+            rating: 5,
+        },
+    });
+
+    const renderReviewRatingBadge = useCallback((rating: number) => {
+        switch (rating) {
+            case 5:
+                return (
+                    <Badge className="bg-slate-800 text-slate-200">
+                        Excellent
+                    </Badge>
+                );
+            case 4:
+                return (
+                    <Badge className="bg-slate-800 text-slate-200">
+                        Greate
+                    </Badge>
+                );
+            case 3:
+                return (
+                    <Badge className="bg-slate-800 text-slate-200">Good</Badge>
+                );
+            case 2:
+                return (
+                    <Badge className="bg-slate-800 text-slate-200">Bad</Badge>
+                );
+            case 1:
+                return (
+                    <Badge className="bg-slate-800 text-slate-200">
+                        No worth
+                    </Badge>
+                );
+        }
+    }, []);
+
+    const handleReviewSubmit = useCallback(
+        ({ rating, review }: FormValue) => {
+            const payload = {
+                comment: review,
+                rating,
+            };
+
+            toast({
+                title: "Submit",
+                description: JSON.stringify(payload),
+            });
+        },
+        [toast]
+    );
+
+    // const renderSubmitReviewForm = useMemo(() => {
+    //     return (
+    //     );
+    // }, [handleReviewSubmit, handleSubmit, register, setValue, watch]);
 
     return (
         <div className="container mx-auto">
@@ -149,33 +263,43 @@ export default function BookDetailPage() {
 
             <Separator />
 
-            <section key={"main.reviews"} className="w-full min-h-screen py-10">
-                <h3 className="text-3xl font-medium">
+            <section key={"main.reviews"} className="w-full py-10">
+                <h3 className="text-3xl font-medium mb-8">
                     Reviewers ({book ? book.reviews?.length : 0})
                 </h3>
-                <div className="space-y-8 my-4">
-                    {book?.reviews?.map((reviewer) => (
-                        <div key={reviewer._id} className="s">
-                            <div className="flex gap-4">
-                                <h5 className="font-medium text-lg">
-                                    {reviewer.user_id}
-                                </h5>
-                                <h5 className="font-medium text-lg flex w-fit justify-center items-center">
-                                    {reviewer.rating}&nbsp;
-                                    <Icons.star
-                                        className={"text-yellow-500"}
-                                        size={16}
-                                    />
-                                </h5>
-                            </div>
-                            <p className="text-sm text-slate-500">
-                                Reviewed on&nbsp;
-                                {format(reviewer.createdAt, "dd/MM/yyyy")}
-                            </p>
-                            <p className="w-3/4 mt-2">{reviewer.comment}</p>
+                <div className="space-y-8 my-4">{renderReviews}</div>
+            </section>
+            <Separator />
+            <section key={"main.myurevbiew"} className="w-full py-10">
+                <form
+                    onSubmit={handleSubmit(handleReviewSubmit)}
+                    className="space-y-2"
+                >
+                    <div>
+                        <Label>Rating</Label>
+                        <div className="flex gap-2 items-center">
+                            <Rating
+                                style={{ maxWidth: 100 }}
+                                value={watch("rating")}
+                                onChange={(value: number) =>
+                                    setValue("rating", value)
+                                }
+                            />
+                            {renderReviewRatingBadge(watch("rating"))}
                         </div>
-                    ))}
-                </div>
+                    </div>
+                    <div>
+                        <Label htmlFor="review">Your review</Label>
+                        <Textarea
+                            placeholder={""}
+                            {...register("review", {
+                                minLength: 2,
+                                maxLength: 255,
+                            })}
+                        />
+                    </div>
+                    <Button type="submit">Submit</Button>
+                </form>
             </section>
         </div>
     );
