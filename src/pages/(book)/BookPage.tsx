@@ -1,4 +1,4 @@
-import { GetManyBooksParams, getBookById } from "@/apis/book";
+import { GetManyBooksParams } from "@/apis/book";
 import BookFilterSidebar from "@/components/book-filter-sidebar";
 import BookGridLoading from "@/components/book-grid-loading";
 import { IBreadcrumb } from "@/components/breadcrumb";
@@ -6,8 +6,7 @@ import Breadcrumb from "@/components/breadcrumb/breadcrumb";
 import MetaData from "@/components/metadata";
 import Paginition from "@/components/ui/paginition";
 import useGetManyBooks from "@/pages/(book)/useGetManyBooks";
-import { IBook } from "@/types/book";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 const initBookState: GetManyBooksParams = {
@@ -41,26 +40,10 @@ function BookPage() {
         refetchOnWindowFocus: false,
     });
 
-    const [individualBooks, setIndividualBooks] = useState<IBook[]>([]);
-
-    useEffect(() => {
-        // Fetch individual book data when data is available
-        if (!isLoading && data) {
-            const bookIds = data.data.map((book) => book._id);
-            const fetchBooks = async () => {
-                const individualBookData = await Promise.all(
-                    bookIds.map(async (bookId) => {
-                        return await getBookById(bookId);
-                    })
-                );
-                setIndividualBooks(individualBookData);
-            };
-            fetchBooks();
-        }
-    }, [data, isLoading]);
     const renderBooks = React.useMemo(() => {
         if (isLoading) return <BookGridLoading pageSize={bookState.perPage!} />;
-        return individualBooks.map((book) => {
+        if (!data) return null;
+        return data.data.map((book) => {
             return (
                 <Link
                     to={`/books/${book._id}`}
@@ -77,14 +60,14 @@ function BookPage() {
                         />
                     </div>
                     <h3 className="text-base font-medium">{book.name}</h3>
-                    <p className="text-xs">By&nbsp;{book.author?.fullName}</p>
+                    <p className="text-xs">By&nbsp;{book.author}</p>
                     <h6 className="text-lg font-bold mt-1">
                         ${book.rental_price}
                     </h6>
                 </Link>
             );
         });
-    }, [bookState.perPage, individualBooks, isLoading]);
+    }, [bookState.perPage, data, isLoading]);
     const totalPage = React.useMemo(() => {
         return data?._pagination?.totalPage || 1;
     }, [data?._pagination?.totalPage]);

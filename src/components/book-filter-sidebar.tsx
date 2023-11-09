@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
+import { Combobox, IComboboxData } from "@/components/ui/combobox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import useGetAllCategory from "@/pages/(book)/useGetManyCategory";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSearchParams } from "react-router-dom";
 import { z } from "zod";
@@ -13,29 +15,39 @@ type Props = {
 
 const FilterSchema = z.object({
     search: z.string().optional(),
-    author: z.string().optional(),
-    genre: z.string().optional(),
-    review: z.number({}).gt(0).lt(6).optional(),
+    category: z.string().optional(),
+    genres: z.string().optional(),
 });
 
 type FilterForm = z.infer<typeof FilterSchema>;
 
 function BookFilterSidebar({ onFilterChange }: Props) {
     const [searchParams, setSearchParams] = useSearchParams();
-    const { control, handleSubmit, reset, setValue } = useForm<FilterForm>({
-        resolver: zodResolver(FilterSchema),
-    });
+    const { control, handleSubmit, reset, setValue, watch } =
+        useForm<FilterForm>({
+            resolver: zodResolver(FilterSchema),
+        });
+
+    const { isLoading: isCategoryLoading, data: categories } =
+        useGetAllCategory();
+
+    const categoriesCombobox = useMemo(() => {
+        if (!categories) return [];
+        else
+            return categories.map<IComboboxData>((ct) => ({
+                label: ct.name,
+                value: ct._id,
+            }));
+    }, [categories]);
 
     useEffect(() => {
         const search = searchParams.get("search") || "";
-        const author = searchParams.get("author") || "";
-        const genre = searchParams.get("genre") || "";
-        const review = Number(searchParams.get("review")) || undefined;
+        const genres = searchParams.get("genres") || "";
+        const category = searchParams.get("category") || "";
 
         setValue("search", search);
-        setValue("author", author);
-        setValue("genre", genre);
-        setValue("review", review);
+        setValue("category", category);
+        setValue("genres", genres);
     }, [searchParams, setValue]);
 
     const onSubmit = React.useCallback(
@@ -43,9 +55,8 @@ function BookFilterSidebar({ onFilterChange }: Props) {
             const searchParams = new URLSearchParams();
 
             data.search && searchParams.set("search", data.search);
-            data.author && searchParams.set("author", data.author);
-            data.genre && searchParams.set("genre", data.genre);
-            data.review && searchParams.set("review", data.review.toString());
+            data.category && searchParams.set("category", data.category);
+            data.genres && searchParams.set("genres", data.genres);
 
             setSearchParams(searchParams, { replace: true });
 
@@ -55,9 +66,10 @@ function BookFilterSidebar({ onFilterChange }: Props) {
         },
         [onFilterChange, setSearchParams]
     );
-
+    const [clearFlag, setClearFlag] = useState(false);
     const onClear = React.useCallback(() => {
         reset();
+        setClearFlag((prev) => !prev);
     }, [reset]);
 
     return (
@@ -72,25 +84,24 @@ function BookFilterSidebar({ onFilterChange }: Props) {
                     />
                 </div>
                 <div>
-                    <Label htmlFor="author">Author</Label>
-                    <Input
-                        id="author"
-                        {...control.register("author")}
-                        className="bg-card"
+                    <Label htmlFor="category">Category</Label>
+                    <Combobox
+                        isLoading={isCategoryLoading}
+                        data={categoriesCombobox}
+                        defaultValue={watch("category")}
+                        onSelection={(category) =>
+                            setValue("category", category)
+                        }
+                        clear={clearFlag}
                     />
                 </div>
                 <div>
                     <Label htmlFor="genre">Genre</Label>
                     <Input
                         id="genre"
-                        {...control.register("genre")}
+                        {...control.register("genres")}
                         className="bg-card"
                     />
-                </div>
-                <div className="flex flex-col">
-                    <Label htmlFor="review" className="flex">
-                        Review
-                    </Label>
                 </div>
                 <div className="flex justify-between">
                     <Button type="submit">Find now</Button>

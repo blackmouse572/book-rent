@@ -13,7 +13,7 @@ const RegisterPage = React.lazy(
 
 const HomePage = React.lazy(() => import("@/pages/HomePage"));
 const LandingPage = React.lazy(() => import("@/pages/LandingPage"));
-
+const HistoryOrderPage = React.lazy(() => import("@/pages/historyOrder/HistoryOrderPage"));
 const ProfilePage = React.lazy(() => import("@/pages/(profile)/Profile"));
 const DashboardPage = React.lazy(() => import("@/pages/(admin)/Dashboard"));
 const UserManagerPage = React.lazy(
@@ -22,6 +22,7 @@ const UserManagerPage = React.lazy(
 const CategoryManagerPage = React.lazy(
     () => import("@/pages/(admin)/CategoryManagerPage.tsx")
 );
+
 const BookDetailPage = React.lazy(
     () => import("@/pages/(book)/BookDetailPage.tsx")
 );
@@ -55,8 +56,18 @@ export const ROUTES = createBrowserRouter([
             {
                 path: "/infoaccount",
                 element: <InfoAccount />,
-            },
 
+            },
+         
+            {
+                path: "/",
+                element: <LandingPage />,
+
+            },
+          {
+                path: "/profile/orders",
+                element: <HistoryOrderPage/>,
+            },
             {
                 element: <CartLayout />,
                 children: [
@@ -115,7 +126,11 @@ export const ROUTES = createBrowserRouter([
                         element: <CheckoutFailed />,
                     },
                 ],
+
             },
+          
+         
+          
             {
                 path: "/",
                 element: <LandingPage />,

@@ -30,4 +30,3 @@ import { User } from "@/types/user";
         COD = "COD",
         ONLINE = "ONLINE",
     }
-

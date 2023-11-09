@@ -49,6 +49,7 @@ function Profile() {
                     <Link to="/infoaccount">
                         <Button>Profile</Button>
                     </Link>
+
                     <Separator className="h-[none]" orientation="vertical" />
                     <Button variant={"link"}>Settings</Button>
                 </CardContent>
@@ -56,9 +57,13 @@ function Profile() {
 
                     <Button onClick={onLogout}>Logout</Button>
 
+
+                    <Button onClick={onLogout}>Logout</Button>
+
                     <Button onClick={onLogout} >
                         Logout
                     </Button>
+
 
                 </CardFooter>
             </Card>
