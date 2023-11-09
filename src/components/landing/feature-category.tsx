@@ -1,13 +1,12 @@
 import { getManyBooks } from "@/apis/book";
+import Book from "@/components/book";
 import BookGridLoading from "@/components/book-grid-loading";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import React from "react";
 import { Link } from "react-router-dom";
-import { API_GET_ALL_USER_QUERY_KEYS } from "../../apis/users";
 import { IBook, IResponse } from "../../types";
 import { Icons } from "../icons";
-import Book from "@/components/book";
 
 function FeartureCategory() {
     const { data, isLoading } = useQuery<IResponse<IBook[]>, AxiosError>(
