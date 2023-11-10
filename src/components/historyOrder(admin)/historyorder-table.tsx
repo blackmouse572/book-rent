@@ -4,13 +4,13 @@ import { Button } from "../ui/button";
 import { DataTable } from "../ui/data-table";
 import Paginition from "../ui/paginition";
 import { Skeleton } from "../ui/skeleton";
-import { useUserTable } from "./useUserTable";
-import { columns } from "./user-table-column";
-import { UserTableToolbar } from "./user-table-toolbar";
+import { useHistoryOrderTable } from "@/components/historyOrder(admin)/useHistoryOrderTable";
+import { historyOrderColumns } from "@/components/historyOrder(admin)/historyorder-table-column";
+import { HistoryOrderTableToolbar } from "@/components/historyOrder(admin)/historyorder-table-toolbar";
 
-function UserTable() {
+function HistoryOrderTableAdmin() {
     const { isError, isLoading, table, error, refetch, data, tableStates } =
-        useUserTable(columns);
+        useHistoryOrderTable(historyOrderColumns);
 
     const renderFooter = React.useMemo(() => {
         if (isLoading)
@@ -48,7 +48,7 @@ function UserTable() {
 
     const renderHeader = React.useMemo(() => {
         return (
-            <UserTableToolbar
+            <HistoryOrderTableToolbar
                 table={table}
                 queries={{
                     page: tableStates.pagination.pageIndex + 1,
@@ -59,8 +59,8 @@ function UserTable() {
                     table.setGlobalFilter(value.search);
                     table.setColumnFilters(() => [
                         {
-                            id: "role",
-                            value: value.role,
+                            id: "status",
+                            value: value.status,
                         },
                     ]);
                 }}
@@ -74,23 +74,25 @@ function UserTable() {
     ]);
 
     return (
-        <div className="mt-8">
-            {isError && <Button onClick={() => refetch()}>Retry</Button>}
-            {isError && <p>{error?.message}</p>}
-            <DataTable
-                table={table}
-                isLoading={isLoading}
-                header={renderHeader}
-                columns={columns}
-                data={data?.data ?? []}
-                footer={
-                    <div className="px-3 py-1.5 flex justify-end gap-2">
-                        {renderFooter}
-                    </div>
-                }
-            />
+        <div className="container mx-auto min-h-screen w-full">
+            <div className="mt-8">
+                {isError && <Button onClick={() => refetch()}>Retry</Button>}
+                {isError && <p>{error?.message}</p>}
+                <DataTable
+                    table={table}
+                    isLoading={isLoading}
+                    header={renderHeader}
+                    columns={historyOrderColumns}
+                    data={data?.data || []}
+                    footer={
+                        <div className="px-3 py-1.5 flex justify-end gap-2">
+                            {renderFooter}
+                        </div>
+                    }
+                />
+            </div>
         </div>
     );
 }
 
-export default UserTable;
+export default HistoryOrderTableAdmin;

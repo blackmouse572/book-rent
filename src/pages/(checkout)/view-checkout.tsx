@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IOrder } from "@/types/order";
-import { getOrderApi } from "@/apis/order(user)/get-order";
+import { getOrderApi } from "@/apis/order/get-order";
 // import PayButton from "@/components/checkout/pay-button";
 import { Icons } from "@/components/icons";
 

@@ -15,6 +15,6 @@ export interface IBook {
     reviews?: IReview[];
     author?: User;
     creatAt?:Date;
-    updaetAt?: Date;
+    updatedAt?: Date;
     status?: "ENABLE" | "DISABLE"
 }

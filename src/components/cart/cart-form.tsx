@@ -26,7 +26,7 @@ import { useOrderCart } from "@/hooks/useOrderCart";
 import { useEffect, useState } from "react";
 import { IBook } from "@/types";
 import { getBookById } from "@/apis/book";
-import { postOrderApi } from "@/apis/order(user)/post-order";
+import { postOrderApi } from "@/apis/order/post-order";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { IOrder } from "@/types/order";
 import { toast } from "@/components/ui/use-toast";

@@ -4,9 +4,7 @@ import { IDefaultQuery, IResponse } from "../../types";
 
 export type IGetBookResponse = IResponse<IBook>;
 
-export async function getBookById(
-    book_Id: string,
-) {
+export async function getBookById(book_Id: string) {
     return await axiosClient
         .get(`/book/${book_Id}`, {
             headers: {
@@ -22,12 +20,10 @@ export type GetManyBooksParams = {
     reviews?: number;
 } & Partial<IDefaultQuery>;
 
-export async function getManyBooks(
-    params: GetManyBooksParams
-) {
+export async function getManyBooks(params: GetManyBooksParams) {
     return axiosClient
-    .get("/book/list", {
-        params,
-    })
-    .then((res) => res.data);
+        .get("/book/list", {
+            params,
+        })
+        .then((res) => res.data);
 }

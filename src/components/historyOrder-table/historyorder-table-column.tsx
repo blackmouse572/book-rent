@@ -1,22 +1,19 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { IOrder } from "@/apis/Ioders.ts/Ioders";
+import { IOrder } from "@/apis/order/get-all-order";
 import { Badge } from "../ui/badge/badge";
+import { Button } from "@/components/ui/button";
+
+import { Link } from "react-router-dom";
 
 export const historyOrderColumns: ColumnDef<IOrder>[] = [
     {
-        accessorKey: "id",
-        header: "id",
+        accessorKey: "index",
+        header: "No",
         cell({ row }) {
-            const { _id } = row.original;
-            return (
-                <div className="flex gap-2">
-                    <div className="">
-                        <h6 className="font-medium">{_id}</h6>
-                    </div>
-                </div>
-            );
+            return <p>{row.index + 1}</p>;
         },
     },
+
     {
         accessorKey: "rentalDate",
         header: "Rental Date",
@@ -34,38 +31,19 @@ export const historyOrderColumns: ColumnDef<IOrder>[] = [
         },
     },
     {
-        accessorKey: "pickupLocation",
-        header: "Pickup Location",
-        cell({ getValue }) {
-            const returnDate: Date = getValue() as Date;
-            return <p>{returnDate.toString()}</p>;
-        },
-    },
-    {
-        accessorKey: "returnLocation",
-        header: "Return Location",
-        cell({ getValue }) {
-            const returnDate: Date = getValue() as Date;
-            return <p>{returnDate.toString()}</p>;
-        },
-    },
-    {
         accessorKey: "totalPrice",
         header: "Total Price ",
         cell({ getValue }) {
-            const returnDate: Date = getValue() as Date;
-            return <p>{returnDate.toString()}</p>;
+            const totalPrice: number = getValue() as number;
+            return <p>{totalPrice}</p>;
         },
     },
     {
         accessorKey: "status",
         header: "Status",
         cell({ getValue }) {
-            const STATUS: "REJECTED" | "RETURNED" | "CANCELLED" | "PENDING"= getValue() as
-                | "REJECTED"
-                | "RETURNED"
-                | "CANCELLED"
-                | "PENDING";
+            const STATUS: "REJECTED" | "RETURNED" | "CANCELLED" | "PENDING" =
+                getValue() as "REJECTED" | "RETURNED" | "CANCELLED" | "PENDING";
             return <Badge>{STATUS}</Badge>;
         },
     },
@@ -77,6 +55,22 @@ export const historyOrderColumns: ColumnDef<IOrder>[] = [
                 | "ONLINE"
                 | "COD";
             return <Badge>{depositType}</Badge>;
+        },
+    },
+    {
+        accessorKey: "_id",
+        header: "Action",
+        cell({ row }) {
+            const { _id } = row.original;
+            return (
+                <div className="flex gap-2 ">
+                    <Link to={`/order/${_id}`}>
+                        <Button variant="outline" size="sm">
+                            Detail
+                        </Button>
+                    </Link>
+                </div>
+            );
         },
     },
 ];

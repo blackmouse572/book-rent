@@ -12,3 +12,5 @@ export async function getAllOrderApi(
         })
         .then((res) => res.data);
 }
+
+export type { IOrder };

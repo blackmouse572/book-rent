@@ -1,20 +1,25 @@
+
+
+import ChangePassword from "@/pages/(auth)/ChangePassword";
 import BookPage from "@/pages/(book)/BookPage";
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 
 const MainLayout = React.lazy(() => import("@/pages/MainLayout"));
 const AuthLayout = React.lazy(() => import("@/pages/AuthLayout"));
-const InfoAccount =React.lazy(() => import("@/pages/(profile)/InfoAccount"));
+const InfoAccount = React.lazy(() => import("@/pages/(profile)/InfoAccount"));
 const LoginPage = React.lazy(() => import("@/pages/(auth)/login/SignInPage"));
-const ChangePassword =React.lazy(() => import("@/pages/(auth)/ChangePassword"));
 const RegisterPage = React.lazy(
     () => import("@/pages/(auth)/register/RegisterPage")
 );
-
+const OrderDetailPage = React.lazy(() => import("@/components/historyOrder-table/orderDetail"));
+const OrderDetailPageAdmin = React.lazy(() => import("@/components/historyOrder(admin)/orderDetailAdmin"));
 const HomePage = React.lazy(() => import("@/pages/HomePage"));
 const LandingPage = React.lazy(() => import("@/pages/LandingPage"));
 const HistoryOrderPage = React.lazy(() => import("@/pages/historyOrder/HistoryOrderPage"));
+const HistoryOrderManagerPage = React.lazy(() => import("@/pages/(admin)/HistoryOrderManagerPage"));
 const ProfilePage = React.lazy(() => import("@/pages/(profile)/Profile"));
+const DashboardPage = React.lazy(() => import("@/pages/(admin)/Dashboard"));
 const UserManagerPage = React.lazy(
     () => import("@/pages/(admin)/UserManagerPage.tsx")
 );
@@ -62,6 +67,7 @@ export const ROUTES = createBrowserRouter([
                 element: <InfoAccount />,
 
             },
+        
          
             {
                 path: "/",
@@ -69,11 +75,15 @@ export const ROUTES = createBrowserRouter([
 
             },
          
+           
             {
-
-
-                path: "/HistoryOrderPage",
-                element: <HistoryOrderPage/>,
+                path: "/order/:orderId",
+                element:  <OrderDetailPage  />,
+            },
+            
+            {
+                path: "/orders/:orderId",
+                element:  <OrderDetailPageAdmin />,
             },
             {
                 element: <CartLayout />,
@@ -82,7 +92,7 @@ export const ROUTES = createBrowserRouter([
                         element: <ShoppingCart />,
                     },
                     {
-                        element: <CartForm />
+                        element: <CartForm />,
                     },
                     {
                         path: "/viewcart",
@@ -103,10 +113,10 @@ export const ROUTES = createBrowserRouter([
                 ],
             },
             {
-                path: "/",
-                element: <LandingPage />,
-
+                path: "/infoaccount",
+                element: <InfoAccount />,
             },
+
             {
                 element: <CartLayout />,
                 children: [
@@ -114,7 +124,7 @@ export const ROUTES = createBrowserRouter([
                         element: <ShoppingCart />,
                     },
                     {
-                        element: <CartForm />
+                        element: <CartForm />,
                     },
                     {
                         path: "/viewcart",
@@ -143,10 +153,19 @@ export const ROUTES = createBrowserRouter([
           
             {
                 path: "/admin",
+
                 children: [
+                    {
+                        index: true,
+                        element: <DashboardPage />,
+                    },
                     {
                         path: "/admin/user",
                         element: <UserManagerPage />,
+                    },
+                    {
+                        path: "/admin/historyorder",
+                        element:  <HistoryOrderManagerPage />,
                     },
 
                    
@@ -158,9 +177,7 @@ export const ROUTES = createBrowserRouter([
                         path: "/admin/category",
                         element: <CategoryManagerPage />,
                     },
-
                 ],
-                    
             },
             {
                 path: "books",
