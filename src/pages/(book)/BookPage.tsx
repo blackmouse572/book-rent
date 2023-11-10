@@ -43,6 +43,23 @@ function BookPage() {
         refetchOnWindowFocus: false,
     });
 
+    const [individualBooks, setIndividualBooks] = useState<IBook[]>([]);
+
+    useEffect(() => {
+        // Fetch individual book data when data is available
+        if (!isLoading && data) {
+            const bookIds = data.data.map((book) => book._id);
+            const fetchBooks = async () => {
+                const individualBookData = await Promise.all(
+                    bookIds.map(async (bookId) => {
+                        return await getBookById(bookId);
+                    })
+                );
+                setIndividualBooks(individualBookData);
+            };
+            fetchBooks();
+        }
+    }, [data, isLoading]);
     const renderBooks = React.useMemo(() => {
         if (isLoading)
             return (

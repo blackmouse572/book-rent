@@ -3,7 +3,7 @@ import { User } from "@/types/user";
 
     export interface IOrder {
         _id?: string;
-        cart: IOrderCart[];
+        cart?: IOrderCart[];
         userId?: User;
         rentalDate: Date;
         returnDate: Date;

@@ -9,16 +9,15 @@ const MainLayout = React.lazy(() => import("@/pages/MainLayout"));
 const AuthLayout = React.lazy(() => import("@/pages/AuthLayout"));
 const InfoAccount = React.lazy(() => import("@/pages/(profile)/InfoAccount"));
 const LoginPage = React.lazy(() => import("@/pages/(auth)/login/SignInPage"));
-const ChangePassword =React.lazy(() => import("@/pages/(auth)/ChangePassword"));
 const RegisterPage = React.lazy(
     () => import("@/pages/(auth)/register/RegisterPage")
 );
-
+const OrderDetailPage = React.lazy(() => import("@/components/historyOrder-table/orderDetail"));
+const OrderDetailPageAdmin = React.lazy(() => import("@/components/historyOrder(admin)/orderDetailAdmin"));
 const HomePage = React.lazy(() => import("@/pages/HomePage"));
 const LandingPage = React.lazy(() => import("@/pages/LandingPage"));
-const HistoryOrderPage = React.lazy(
-    () => import("@/pages/historyOrder/HistoryOrderPage")
-);
+const HistoryOrderPage = React.lazy(() => import("@/pages/historyOrder/HistoryOrderPage"));
+const HistoryOrderManagerPage = React.lazy(() => import("@/pages/(admin)/HistoryOrderManagerPage"));
 const ProfilePage = React.lazy(() => import("@/pages/(profile)/Profile"));
 const DashboardPage = React.lazy(() => import("@/pages/(admin)/Dashboard"));
 const UserManagerPage = React.lazy(
@@ -72,8 +71,19 @@ export const ROUTES = createBrowserRouter([
             {
                 path: "/",
                 element: <LandingPage />,
+
             },
-        
+         
+           
+            {
+                path: "/order/:orderId",
+                element:  <OrderDetailPage  />,
+            },
+            
+            {
+                path: "/orders/:orderId",
+                element:  <OrderDetailPageAdmin />,
+            },
             {
                 element: <CartLayout />,
                 children: [
@@ -124,6 +134,16 @@ export const ROUTES = createBrowserRouter([
                         element: <UserManagerPage />,
                     },
                     {
+                        path: "/admin/historyorder",
+                        element:  <HistoryOrderManagerPage />,
+                    },
+
+                   
+
+
+                   
+
+                    {
                         path: "/admin/category",
                         element: <CategoryManagerPage />,
                     },
@@ -136,7 +156,6 @@ export const ROUTES = createBrowserRouter([
                         element: <BookDetailAdminPage />,
                     },
                 ],
-                    
             },
             {
                 path: "books",

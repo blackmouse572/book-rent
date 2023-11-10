@@ -1,4 +1,5 @@
 import ShoppingCart from "@/components/cart/cart";
+import ShoppingCart from "@/components/cart/cart";
 import { Icons } from "@/components/icons";
 import Notification from "@/components/notification";
 import {
@@ -7,7 +8,11 @@ import {
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuPortal,
+    DropdownMenuPortal,
     DropdownMenuSeparator,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
     DropdownMenuSub,
     DropdownMenuSubContent,
     DropdownMenuSubTrigger,
@@ -16,7 +21,7 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { cn, getLabelByFullname } from "@/lib/utils";
 import { ROLE } from "@/types";
-import React, { useCallback } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
@@ -53,6 +58,38 @@ export const ADMIN_SECTION_ITEMS: {
     },
 ];
 
+export const ADMIN_SECTION_ITEMS: {
+    to: string;
+    title: string;
+    icon: keyof typeof Icons;
+}[] = [
+    {
+        to: "/admin",
+        title: "Dashboard",
+        icon: "dashboard",
+    },
+    {
+        to: "/admin/user",
+        title: "Users",
+        icon: "user",
+    },
+    {
+        to: "/admin/book",
+        title: "Books",
+        icon: "book",
+    },
+    {
+        to: "/admin/order",
+        title: "Orders",
+        icon: "cart",
+    },
+    {
+        to: "/admin/order",
+        title: "Category",
+        icon: "category",
+    },
+];
+
 type Props = React.HTMLAttributes<HTMLDivElement>;
 
 function AuthPreview({ className, ...prosp }: Props) {
@@ -68,6 +105,41 @@ function AuthPreview({ className, ...prosp }: Props) {
         navigate("/");
     }, [logout, navigate]);
 
+    const AdminSection = React.useMemo(() => {
+        if (user?.role === ROLE.USER) {
+            return <></>;
+        }
+        return (
+            <DropdownMenuSub>
+                <DropdownMenuSubTrigger>Admin center</DropdownMenuSubTrigger>
+                <DropdownMenuPortal>
+                    <DropdownMenuSubContent>
+                        {ADMIN_SECTION_ITEMS.map(({ icon, title, to }) => {
+                            const Icon = Icons[icon] || <span />;
+                            return (
+                                <DropdownMenuItem key={title}>
+                                    <Link
+                                        to={to}
+                                        className="flex justify-center items-center"
+                                    >
+                                        <Icon
+                                            size={12}
+                                            className="w-4 h-4 mr-2"
+                                        />
+                                        <p>{title}</p>
+                                    </Link>
+                                </DropdownMenuItem>
+                            );
+                        })}
+                    </DropdownMenuSubContent>
+                </DropdownMenuPortal>
+            </DropdownMenuSub>
+        );
+    }, [user?.role]);
+
+    const renderUserDropdown = React.useMemo(() => {
+        if (!user) return <></>;
+        return (
     const AdminSection = React.useMemo(() => {
         if (user?.role === ROLE.USER) {
             return <></>;
@@ -140,18 +212,26 @@ function AuthPreview({ className, ...prosp }: Props) {
             </DropdownMenu>
         );
     }, [AdminSection, onLogout, user]);
-
     return (
         <div className={(cn(className), "flex")} {...prosp}>
             {user ? (
-                <div className="flex justify-between items-center gap-2">
+                <React.Fragment>
                     <ShoppingCart />
-                    <Notification />
+                    <Link
+                        className={cn(
+                            buttonVariants({
+                                variant: "outline",
+                            }),
+                            "px-2 mx-4"
+                        )}
+                        to="#"
+                    >
+                        <Icons.bell />
+                    </Link>
                     {renderUserDropdown}
-                </div>
+                </React.Fragment>
             ) : (
                 <Button onClick={onLogin}>Login</Button>
-              
             )}
         </div>
     );
