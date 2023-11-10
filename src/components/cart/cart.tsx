@@ -96,6 +96,7 @@ function ShoppingCart() {
                                                                     "Book Name Not Found"}
                                                             </span>
                                                             <span className="font-semibold text-gray-900">
+
                                                                 {book?.author ||
                                                                     "Author Not Found"}
                                                             </span>

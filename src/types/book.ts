@@ -4,18 +4,16 @@ import {  User } from ".";
 export interface IBook {
     _id: string;
     name: string;
+    author: string;
     image: string ;
     description: string;
-    category: ICategory[];
     rental_price: number;
-    isAvailable: boolean;
-    deposit?: number;
+    category?: ICategory[];
+    reviews?: IReview[];
+    createdAt?: Date;
+    updatedAt?: Date; 
     keywords?: string[];
     genres?: string[];
-    reviews?: IReview[];
-    author?: string;
-    creatAt?: Date;
-    updaetAt?: Date;
     status?: "ENABLE" | "DISABLE";
 }
 

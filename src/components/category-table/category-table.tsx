@@ -9,7 +9,6 @@ function CategoryTable() {
     const { isError, isLoading, table, error, refetch, data, tableStates } =
         useCategoryTable(columns);
 
-
     const renderHeader = React.useMemo(() => {
         return (
             <CategoryTableToolbar

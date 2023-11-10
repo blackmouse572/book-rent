@@ -1,6 +1,6 @@
 import { IBook } from "@/types/book";
 import { axiosClient } from "../../lib/axios";
-import { IDefaultQuery, IResponse } from "../../types";
+import { IDefaultQuery,  IResponse, } from "../../types";
 
 export type IGetBookResponse = IResponse<IBook>;
 

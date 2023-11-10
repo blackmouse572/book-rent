@@ -285,6 +285,7 @@ export default function BookDetailPage() {
                             <p className="line-clamp-3">{book.description}</p>
                         </div>
 
+
                         <div className="flex gap-2">
                             <Button disabled={book.isAvailable}>
                                 Rent Now
