@@ -8,6 +8,7 @@ export interface IBook {
     author: string;
     image: string ;
     description: string;
+    deposit?: number;
     rental_price: number;
     category?: ICategory[];
     reviews?: IReview[];
