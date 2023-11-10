@@ -50,6 +50,10 @@ function BookFilterSidebar({ onFilterChange, totalBooks, onRentAll }: Props) {
         setValue("search", search);
         setValue("category", category);
         setValue("genres", genres);
+
+        control.handleSubmit((data) => {
+            onFilterChange && onFilterChange(data);
+        })();
     }, [searchParams, setValue]);
 
     const onSubmit = React.useCallback(
