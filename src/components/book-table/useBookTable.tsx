@@ -6,12 +6,11 @@ import {
 } from "@tanstack/react-table";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
-import { API_GET_ALL_USER_QUERY_KEYS } from "../../apis/users";
-import { IQueryPagination, IQuerySearch } from "../../types";
-import { ICategory } from "@/types/category";
-import { getAllCategoryApi } from "@/apis/category";
+import { API_GET_ALL_USER_QUERY_KEYS} from "../../apis/users";
+import { IBook, IQueryPagination, IQuerySearch, IResponse} from "../../types";
+import { getManyBooks } from "@/apis/book/getBook";
 
-export function useCategoryTable(columns: ColumnDef<ICategory>[]) {
+export function useBookTable(columns: ColumnDef<IBook>[]) {
     const [queries, setQueries] = useState<
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         Partial<IQueryPagination & IQuerySearch> & { [key: string]: any }
@@ -20,17 +19,17 @@ export function useCategoryTable(columns: ColumnDef<ICategory>[]) {
         perPage: 10,
     });
 
-    const queryController = useQuery<ICategory[], AxiosError>(
+    const queryController = useQuery<IResponse<IBook[]>, AxiosError>(
         [...API_GET_ALL_USER_QUERY_KEYS, queries],
-        () => getAllCategoryApi(queries),
+        () => getManyBooks(queries),
         {
             keepPreviousData: true,
         }
     );
 
-    const table = useReactTable<ICategory>({
+    const table = useReactTable<IBook>({
         columns,
-        data: queryController.data || [],
+        data: queryController.data?.data || [],
         manualPagination: true,
         initialState: {
             pagination: {
@@ -50,7 +49,7 @@ export function useCategoryTable(columns: ColumnDef<ICategory>[]) {
     table.setOptions((prev) => ({
         ...prev,
         state: tableStates,
-        // pageCount: queryController.data?._pagination?.totalPage || 0,
+        pageCount: queryController.data?._pagination?.totalPage || 0,
         onStateChange: setTableStates,
         debugTable: tableStates.pagination.pageIndex > 2,
     }));
@@ -71,12 +70,12 @@ export function useCategoryTable(columns: ColumnDef<ICategory>[]) {
         tableStates.pagination.pageSize,
     ]);
 
-    // useEffect(() => {
-    //     if (!queryController.data?._pagination) return;
+    useEffect(() => {
+        if (!queryController.data?._pagination) return;
 
-    //     const pageCount = queryController.data?._pagination?.totalPage || 0;
-    //     table.setPageCount(pageCount);
-    // }, [queryController.data?._pagination, table]);
+        const pageCount = queryController.data?._pagination?.totalPage || 0;
+        table.setPageCount(pageCount);
+    }, [queryController.data?._pagination, table]);
 
     return {
         ...queryController,

@@ -18,7 +18,7 @@ function ShoppingCart() {
     const navigate = useNavigate();
     const { cartItems } = useOrderCart();
     const [bookData, setBookData] = useState<IBook[]>([]);
-    const [cartItemCount, setCartItemCount] = useState(0);
+    const [totalQuantity, setTotalQuantity] = useState(0);
 
     useEffect(() => {
         if (cartItems && cartItems.length > 0) {
@@ -29,15 +29,19 @@ function ShoppingCart() {
             Promise.all(promises)
                 .then((bookDataArray) => {
                     setBookData(bookDataArray);
-                    // Set the cart item count based on the length of cartItems
-                    setCartItemCount(cartItems.length);
+                    // Tính tổng số lượng sách trong giỏ hàng
+                    const quantitySum = cartItems.reduce(
+                        (total, cart) => total + cart.quantity,
+                        0
+                    );
+                    setTotalQuantity(quantitySum);
                 })
                 .catch((error) => {
                     console.error("Error fetching book data:", error);
                 });
         } else {
-            // If cartItems is empty, set cartItemCount to 0
-            setCartItemCount(0);
+            // Nếu giỏ hàng trống, đặt tổng số lượng sách là 0
+            setTotalQuantity(0);
         }
     }, [cartItems]);
 
@@ -56,9 +60,9 @@ function ShoppingCart() {
                     >
                         <span className="sr-only">New orders added</span>
                         <Icons.cart />
-                        {cartItemCount > 0 && (
+                        {totalQuantity > 0 && (
                             <span className="bg-red-500 text-white px-1.5 py-0.5 rounded-full absolute -top-1 -right-1 text-xs">
-                                {cartItemCount}
+                                {totalQuantity}
                             </span>
                         )}
                     </Button>

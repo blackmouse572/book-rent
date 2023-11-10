@@ -1,9 +1,9 @@
 import { authAxiosClient } from "../../lib/axios";
 
-export async function getCategoryApi(
-    _id: string,
+export async function getUserApi(
+    userId: string,
 ) {
     return authAxiosClient
-        .get(`/category/${_id}`)
+        .get(`/user/get/${userId}`)
         .then((res) => res.data);
 }

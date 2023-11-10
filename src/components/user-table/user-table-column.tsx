@@ -3,7 +3,9 @@ import { getLabelByFullname } from "../../lib/utils";
 import { ROLE, User } from "../../types";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Badge } from "../ui/badge/badge";
-import { Button } from "../ui/button/button";
+import { UserDetail } from "@/components/user-table/manage-user/user-detail";
+import { BanUserApi } from "@/components/user-table/manage-user/user-ban";
+import { UnBanUserApi } from "@/components/user-table/manage-user/user-unban";
 
 export const columns: ColumnDef<User>[] = [
     {
@@ -44,19 +46,25 @@ export const columns: ColumnDef<User>[] = [
         },
     },
     {
-        accessorFn: ({ _id }) => _id,
+        accessorKey: "_id",
         header: "Action",
-        cell() {
+        cell({ row }) {
+            const { _id, blocked } = row.original;
             return (
                 <div className="flex gap-2 ">
-                    <Button variant="outline" size="sm">
-                        Ban
-                    </Button>
-                    <Button variant="outline" size="sm">
-                        Delete
-                    </Button>
+                    {blocked ? (
+                        _id ? (
+                            <UnBanUserApi userId={_id} />
+                        ) : null
+                    ) : (
+                        _id ? (
+                            <BanUserApi userId={_id} />
+                        ) : null
+                    )}
+                    {_id && <UserDetail userid={_id} />}{" "}
                 </div>
             );
         },
-    },
+    }
+    
 ];

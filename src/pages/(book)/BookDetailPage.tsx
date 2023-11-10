@@ -80,7 +80,7 @@ export default function BookDetailPage() {
                             <h3 className="text-3xl font-medium tracking-wide">
                                 {book.name}
                             </h3>
-                            <p>By&nbsp;{book.author?.fullName}</p>
+                            <p>By&nbsp;{book.author}</p>
                         </div>
 
                         <div className="space-y-2">
@@ -92,11 +92,10 @@ export default function BookDetailPage() {
 
                         <div className="space-y-4">
                             <div className="space-x-4">
-                                <Button disabled={book.isAvailable}>
+                                <Button>
                                     Rent Now
                                 </Button>
                                 <Button
-                                    disabled={book.isAvailable}
                                     onClick={handleAddToCart}
                                 >
                                     {isBookInCart ? "Add More" : "Add to Cart"}
@@ -126,16 +125,23 @@ export default function BookDetailPage() {
                             {book.description}
                         </p>
                         <ul className="flex gap-1">
-                            {book.keywords?.map((keyword) => (
-                                <Link key={keyword} to={`/${keyword}`}>
-                                    <Badge
-                                        isPressable
-                                        className="bg-slate-100 text-slate-600"
-                                    >
-                                        # {keyword}
-                                    </Badge>
-                                </Link>
-                            ))}
+                        {book && (
+    <ul className="flex gap-1">
+        {Array.isArray(book.keyword)
+            ? book.keyword.map((keyword) => (
+                <Link key={keyword} to={`/${keyword}`}>
+                    <Badge
+                        isPressable
+                        className="bg-slate-100 text-slate-600"
+                    >
+                        # {keyword}
+                    </Badge>
+                </Link>
+            ))
+            : "No keywords available"}
+    </ul>
+)}
+
                         </ul>
                     </div>
                 </section>
@@ -169,9 +175,12 @@ export default function BookDetailPage() {
                                 </h5>
                             </div>
                             <p className="text-sm text-slate-500">
-                                Reviewed on&nbsp;
-                                {format(reviewer.createdAt, "dd/MM/yyyy")}
-                            </p>
+    Reviewed on&nbsp;
+    {reviewer.createdAt
+        ? format(new Date(reviewer.createdAt), "dd/MM/yyyy")
+        : "N/A"}
+</p>
+
                             <p className="w-3/4 mt-2">{reviewer.comment}</p>
                         </div>
                     ))}

@@ -4,13 +4,13 @@ import { Button } from "../ui/button";
 import { DataTable } from "../ui/data-table";
 import Paginition from "../ui/paginition";
 import { Skeleton } from "../ui/skeleton";
-import { useCategoryTable } from "./useCategoryTable";
-import { columns } from "./category-table-column";
-import { CategoryTableToolbar } from "@/components/category-table/category-table-toolbar";
+import { columns } from "./book-table-column";
+import { BookTableToolbar } from "./book-table-toolbar";
+import { useBookTable } from "@/components/book-table/useBookTable";
 
-function CategoryTable() {
+function BookTable() {
     const { isError, isLoading, table, error, refetch, data, tableStates } =
-        useCategoryTable(columns);
+        useBookTable(columns);
 
     const renderFooter = React.useMemo(() => {
         if (isLoading)
@@ -48,7 +48,7 @@ function CategoryTable() {
 
     const renderHeader = React.useMemo(() => {
         return (
-            <CategoryTableToolbar
+            <BookTableToolbar
                 table={table}
                 queries={{
                     page: tableStates.pagination.pageIndex + 1,
@@ -82,7 +82,7 @@ function CategoryTable() {
                 isLoading={isLoading}
                 header={renderHeader}
                 columns={columns}
-                data={data || []}
+                data={data?.data ?? []}
                 footer={
                     <div className="px-3 py-1.5 flex justify-end gap-2">
                         {renderFooter}
@@ -93,4 +93,4 @@ function CategoryTable() {
     );
 }
 
-export default CategoryTable;
+export default BookTable;
