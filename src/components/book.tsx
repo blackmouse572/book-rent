@@ -5,12 +5,16 @@ type Props = { book: IBook };
 
 function Book({ book }: Props) {
     return (
-        <Link to={`/books/${book._id}`} key={book._id} className="w-full group">
-            <div className="overflow-clip aspect-[5/7] w-full rounded-md shadow-md border border-gray-200 group-hover:shadow-xl transition-all duration-300">
+        <Link
+            to={`/books/${book._id}`}
+            key={book._id}
+            className="w-full h-full group"
+        >
+            <div className="overflow-clip aspect-[5/7] rounded-md shadow-md border border-gray-200 group-hover:shadow-xl transition-all duration-300">
                 <img
                     src={book.image}
                     alt={book.name}
-                    className="aspect-[5/7] object-contain group-hover:scale-105 transition-all duration-300"
+                    className="aspect-[5/7] object-contain group-hover:scale-105 transition-all duration-300 w-full"
                     height={700}
                     width={500}
                 />

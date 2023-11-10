@@ -1,4 +1,6 @@
-import { getBookById, postBookReview } from "@/apis/book";
+import { postBookReview } from "@/apis/book";
+import Book from "@/components/book";
+import BookGridLoading from "@/components/book-grid-loading";
 import { IBreadcrumb } from "@/components/breadcrumb";
 import Breadcrumb from "@/components/breadcrumb/breadcrumb";
 import { Icons } from "@/components/icons";
@@ -7,35 +9,49 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge/badge";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Rating } from "@smastrom/react-rating";
-import "@smastrom/react-rating/style.css";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { useOrderCart } from "@/hooks/useOrderCart";
-import { IBook, IReview } from "@/types";
-import { format, parseISO } from "date-fns";
-import React, { useCallback, useEffect, useId, useState } from "react";
-import { useForm } from "react-hook-form";
-import { Link, useLocation } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
-import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/useAuth";
+import { useOrderCart } from "@/hooks/useOrderCart";
+import BookShouldByWith from "@/pages/(book)/BookShouldByWith";
+import useGetManyBooks from "@/pages/(book)/useGetManyBooks";
+import { IBook, IReview } from "@/types";
+import { Rating } from "@smastrom/react-rating";
+import "@smastrom/react-rating/style.css";
+import { useMutation } from "@tanstack/react-query";
+import { format, parseISO } from "date-fns";
+import React, { useCallback, useEffect, useId } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useLoaderData, useLocation } from "react-router-dom";
 
 type FormValue = {
     review: string;
     rating: number;
 };
 export default function BookDetailPage() {
-    const [book, setBook] = useState<IBook | null>(null);
-    const user = useAuth();
+    const data = useLoaderData() as { book: IBook };
+    const [book, setBook] = React.useState<IBook | null>(data.book);
+
+    const { toast } = useToast();
     useEffect(() => {
-        const bookId = window.location.pathname.split("/")[2];
-        getBookById(bookId).then((bookData) => {
-            setBook(bookData);
-        });
-    }, []);
+        setBook(data.book);
+    }, [data]);
+
+    const { data: relatedBooks, isLoading } = useGetManyBooks(
+        {
+            category:
+                book?.category?.length && book.category.length > 0
+                    ? book.category[0]._id
+                    : "",
+        },
+        {
+            enabled: !!book?.category,
+        }
+    );
 
     const { pathname } = useLocation();
+    const user = useAuth();
     const { addToCart, cartItems } = useOrderCart();
 
     const handleAddToCart = () => {
@@ -43,6 +59,18 @@ export default function BookDetailPage() {
             addToCart(book._id);
         }
     };
+
+    const renderRelatedBooks = React.useMemo(() => {
+        if (isLoading) return <BookGridLoading pageSize={4} />;
+
+        const _relatedBooks =
+            relatedBooks?.data.slice(
+                0,
+                relatedBooks?.data.length > 4 ? 4 : relatedBooks?.data.length
+            ) || [];
+
+        return _relatedBooks?.map((book) => <Book book={book} />);
+    }, [isLoading, relatedBooks?.data]);
 
     const isBookInCart =
         book && cartItems?.some((item) => item.bookId === book._id);
@@ -120,7 +148,7 @@ export default function BookDetailPage() {
 
     const id = useId();
 
-    const { mutateAsync, isLoading } = useMutation({
+    const { mutateAsync, isLoading: isAddReview } = useMutation({
         mutationFn: postBookReview,
         onSuccess: (_, { data: { comment, rating } }) => {
             if (!book) return;
@@ -150,7 +178,6 @@ export default function BookDetailPage() {
             </div>
         ));
     }, [book?.reviews, renderReviewer]);
-    const { toast } = useToast();
 
     const { setValue, watch, register, handleSubmit } = useForm<FormValue>({
         defaultValues: {
@@ -313,6 +340,16 @@ export default function BookDetailPage() {
 
             <section key={"main.suggest"} className="w-full min-h-[70vh] py-10">
                 <h3 className="text-3xl font-medium">You might also like</h3>
+                <div className="flex gap-3 h-30 py-4">{renderRelatedBooks}</div>
+            </section>
+
+            <section key={"main.buywith"} className="w-full py-10 h-screen">
+                <div className="flex justify-between items-center">
+                    <h3 className="text-3xl font-medium">Usually buy with</h3>
+                </div>
+                <div>
+                    <BookShouldByWith book={book} />
+                </div>
             </section>
 
             <Separator />
@@ -338,7 +375,7 @@ export default function BookDetailPage() {
                                 onChange={(value: number) =>
                                     setValue("rating", value)
                                 }
-                                isDisabled={isLoading}
+                                isDisabled={isAddReview}
                             />
                             {renderReviewRatingBadge(watch("rating"))}
                         </div>
@@ -351,7 +388,7 @@ export default function BookDetailPage() {
                                 minLength: 2,
                                 maxLength: 255,
                             })}
-                            disabled={isLoading}
+                            disabled={isAddReview}
                         />
                     </div>
                     <Button type="submit">Submit</Button>
