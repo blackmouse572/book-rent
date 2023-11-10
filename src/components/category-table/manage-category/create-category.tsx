@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
-    //   DialogClose,
     DialogContent,
     DialogFooter,
     DialogHeader,
@@ -25,6 +24,8 @@ import { categogySchema } from "@/components/category-table/manage-category/vali
 import { ICategory } from "@/types/category";
 import { postCategoryApi } from "@/apis/category";
 import { toast } from "@/components/ui/use-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 type FormData = z.infer<typeof categogySchema>;
 
@@ -33,34 +34,44 @@ export function CreateCategory() {
         resolver: zodResolver(categogySchema),
     });
 
-    const onSubmit = async (data: FormData) => {
-        await postCategoryApi(data)
-            .then((category: ICategory) => {
+    const queryClient = useQueryClient();
+
+    const { mutate: addCategory } = useMutation(
+        (data: FormData) => postCategoryApi(data),
+        {
+            onSuccess: (category: ICategory) => {
                 if (category && category._id) {
-                    console.log("Order ID:", category._id);
+                    console.log("Category ID:", category._id);
                     toast({
                         title: "Successful!!!",
                         description: "Add Category Success!",
                     });
+                    // Invalidate and refetch the category list query
+                    queryClient.invalidateQueries();
                 } else {
                     toast({
                         title: "Invalid category response",
                         description: "No category ID in the response.",
                     });
                 }
-            })
-            .catch((error) => {
+            },
+            onError: (error: Error) => {
                 toast({
                     title: "Error submitting category",
                     description: error.message,
                 });
-            });
+            },
+        }
+    );
+
+    const onSubmit = (data: FormData) => {
+        addCategory(data);
     };
 
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="outline">Add Categoty</Button>
+                <Button variant="outline">Add Category</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
@@ -115,6 +126,7 @@ export function CreateCategory() {
                                         >
                                             Submit
                                         </Button>
+                                        <DialogClose>Close</DialogClose>
                                     </DialogFooter>
                                 </div>
                             </form>

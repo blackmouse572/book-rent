@@ -2,7 +2,7 @@ import { ICategory } from "@/types/category";
 import {  User } from ".";
 
 export interface IBook {
-    _id?: string;
+    _id: string;
     name: string;
     image: string ;
     description: string;

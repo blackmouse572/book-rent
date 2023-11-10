@@ -1,85 +1,96 @@
-import { Button } from "@/components/ui/button";
-import {
-    Dialog,
-    //   DialogClose,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { categogyUpdateSchema } from "@/components/category-table/manage-category/validation-category";
+import { updateCategoryApi } from "@/apis/category/update-category";
+import { getCategoryApi } from "@/apis/category";
 import { ICategory } from "@/types/category";
 import { toast } from "@/components/ui/use-toast";
-import { DialogClose } from "@radix-ui/react-dialog";
-import { updateCategoryApi } from "@/apis/category/update-category";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useEffect, useState } from "react";
-import { getCategoryApi } from "@/apis/category";
+import { DialogClose } from "@radix-ui/react-dialog";
+import { categogyUpdateSchema } from "@/components/category-table/manage-category/validation-category";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type FormData = z.infer<typeof categogyUpdateSchema>;
 
 export function UpdateCategory({ categoryId }: { categoryId: string }) {
-    const form = useForm<FormData>({
-        resolver: zodResolver(categogyUpdateSchema),
-    });
-
+    const queryClient = useQueryClient();
     const [category, setCategory] = useState<ICategory | undefined>(undefined);
 
-    useEffect(() => {
-        getCategoryApi(categoryId)
-            .then((category: ICategory) => {
-                if (category && category._id) {
-                    setCategory(category);
-                } else {
-                    toast({
-                        title: "Invalid category response",
-                        description: "No category ID in the response.",
-                    });
-                }
-            })
-            .catch((error) => {
+    const form = useForm<FormData>({
+        resolver: zodResolver(categogyUpdateSchema),
+        defaultValues: {
+            name: category?.name || "",
+            description: category?.description || "",
+            status: category?.status || "ENABLE",
+        },
+    });
+
+    const { mutate: updateCategory } = useMutation(
+        (updatedData: Partial<ICategory>) => updateCategoryApi(categoryId, updatedData as ICategory),
+        {
+            onSuccess: (updatedCategory) => {
                 toast({
-                    title: "Error category detail",
-                    description: error.message,
+                    title: "Successful!!",
+                    description: "Update Category Success",
                 });
+                setCategory(updatedCategory);
+                queryClient.invalidateQueries(); // You might need to replace "category" with the actual query key
+            },
+            onError: () => {
+                toast({
+                    title: "Error updating category",
+                });
+            },
+        }
+    );
+
+    const fetchDataAndUpdateForm = async () => {
+        try {
+            const fetchedCategory = await getCategoryApi(categoryId);
+            if (fetchedCategory && fetchedCategory._id) {
+                setCategory(fetchedCategory);
+                // Reset the form with the fetched data
+                form.reset(fetchedCategory);
+            } else {
+                toast({
+                    title: "Invalid category response",
+                    description: "No category ID in the response.",
+                });
+            }
+        } catch (error) {
+            toast({
+                title: "Error category detail",
             });
+        }
+    };
+
+    useEffect(() => {
+        fetchDataAndUpdateForm();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [categoryId]);
 
-    const onSubmit = async (data: FormData) => {
-        await updateCategoryApi(categoryId, data)
-            .then((category: ICategory) => {
-                if (category && category._id) {
-                    toast({
-                        title: "Successful!!",
-                        description: "Update Categogy Success",
-                    });
-                } else {
-                    toast({
-                        title: "Invalid order response",
-                        description: "No order ID in the response.",
-                    });
-                }
-            })
-            .catch((error) => {
-                toast({
-                    title: "Error submitting order",
-                    description: error.message,
-                });
-            });
+    const onSubmit = (data: FormData) => {
+        // Only include fields that have changed
+        const updatedData: Partial<ICategory> = {};
+
+        if (data.name !== category?.name) {
+            updatedData.name = data.name!;
+        }
+
+        if (data.description !== category?.description) {
+            updatedData.description = data.description!;
+        }
+
+        if (data.status !== category?.status) {
+            updatedData.status = data.status!;
+        }
+
+        updateCategory(updatedData);
     };
 
     return (
@@ -105,13 +116,7 @@ export function UpdateCategory({ categoryId }: { categoryId: string }) {
                                         <FormItem>
                                             <FormLabel> Name </FormLabel>
                                             <FormControl>
-                                                <Input
-                                                    defaultValue={
-                                                        category?.name
-                                                    }
-                                                    placeholder={category?.name}
-                                                    {...field}
-                                                />
+                                                <Input defaultValue={category?.name} {...field} />
                                             </FormControl>
                                             <FormDescription />
                                             <FormMessage />
@@ -125,15 +130,7 @@ export function UpdateCategory({ categoryId }: { categoryId: string }) {
                                         <FormItem>
                                             <FormLabel> Description </FormLabel>
                                             <FormControl>
-                                                <Input
-                                                    placeholder={
-                                                        category?.description
-                                                    }
-                                                    defaultValue={
-                                                        category?.description
-                                                    }
-                                                    {...field}
-                                                />
+                                                <Input defaultValue={category?.description} {...field} />
                                             </FormControl>
                                             <FormDescription />
                                             <FormMessage />
@@ -148,14 +145,7 @@ export function UpdateCategory({ categoryId }: { categoryId: string }) {
                                             <FormLabel>Status</FormLabel>
                                             <FormControl>
                                                 <RadioGroup
-                                                    onValueChange={(value) =>
-                                                        form.setValue(
-                                                            "status",
-                                                            value as
-                                                                | "ENABLE"
-                                                                | "DISABLE"
-                                                        )
-                                                    }
+                                                    onValueChange={(value) => form.setValue("status", value as "ENABLE" | "DISABLE")}
                                                     defaultValue={field.value}
                                                     className="flex flex-row justify-between"
                                                 >
@@ -163,17 +153,13 @@ export function UpdateCategory({ categoryId }: { categoryId: string }) {
                                                         <FormControl>
                                                             <RadioGroupItem value="ENABLE" />
                                                         </FormControl>
-                                                        <FormLabel className="font-normal">
-                                                            Enable
-                                                        </FormLabel>
+                                                        <FormLabel className="font-normal">Enable</FormLabel>
                                                     </FormItem>
                                                     <FormItem className="flex items-center space-x-3 space-y-0">
                                                         <FormControl>
                                                             <RadioGroupItem value="DISABLE" />
                                                         </FormControl>
-                                                        <FormLabel className="font-normal">
-                                                            Disable
-                                                        </FormLabel>
+                                                        <FormLabel className="font-normal">Disable</FormLabel>
                                                     </FormItem>
                                                 </RadioGroup>
                                             </FormControl>
@@ -184,10 +170,7 @@ export function UpdateCategory({ categoryId }: { categoryId: string }) {
                                 />
                                 <div className="space-y-2">
                                     <DialogFooter className="sm:justify-start">
-                                        <Button
-                                            type="submit"
-                                            className="w-full"
-                                        >
+                                        <Button type="submit" className="w-full">
                                             Submit
                                         </Button>
                                         <DialogClose>Close</DialogClose>
