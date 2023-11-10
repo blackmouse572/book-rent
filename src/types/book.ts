@@ -2,6 +2,7 @@ import { ICategory } from "@/types/category";
 import {  User } from ".";
 
 export interface IBook {
+    isAvailable?: boolean | undefined;
     _id: string;
     name: string;
     author: string;
