@@ -8,7 +8,6 @@ const MainLayout = React.lazy(() => import("@/pages/MainLayout"));
 const AuthLayout = React.lazy(() => import("@/pages/AuthLayout"));
 const InfoAccount = React.lazy(() => import("@/pages/(profile)/InfoAccount"));
 const LoginPage = React.lazy(() => import("@/pages/(auth)/login/SignInPage"));
-const ChangePassword =React.lazy(() => import("@/pages/(auth)/ChangePassword"));
 const RegisterPage = React.lazy(
     () => import("@/pages/(auth)/register/RegisterPage")
 );
@@ -150,7 +149,6 @@ export const ROUTES = createBrowserRouter([
                         element: <BookDetailAdminPage />,
                     },
                 ],
-                    
             },
             {
                 path: "books",

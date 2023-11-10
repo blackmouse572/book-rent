@@ -1,11 +1,16 @@
 import { profileApi } from "@/apis/auth/apis/profile.api";
+import ShoppingCart from "@/components/cart/cart";
 import { Icons } from "@/components/icons";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
+    DropdownMenuPortal,
     DropdownMenuSeparator,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/useAuth";
@@ -17,6 +22,38 @@ import { Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button, buttonVariants } from "./ui/button";
 import { toast } from "./ui/use-toast";
+
+export const ADMIN_SECTION_ITEMS: {
+    to: string;
+    title: string;
+    icon: keyof typeof Icons;
+}[] = [
+    {
+        to: "/admin",
+        title: "Dashboard",
+        icon: "dashboard",
+    },
+    {
+        to: "/admin/user",
+        title: "Users",
+        icon: "user",
+    },
+    {
+        to: "/admin/book",
+        title: "Books",
+        icon: "book",
+    },
+    {
+        to: "/admin/order",
+        title: "Orders",
+        icon: "cart",
+    },
+    {
+        to: "/admin/order",
+        title: "Category",
+        icon: "category",
+    },
+];
 
 type Props = React.HTMLAttributes<HTMLDivElement>;
 
