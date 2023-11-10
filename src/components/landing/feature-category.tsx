@@ -1,17 +1,16 @@
 import { getManyBooks } from "@/apis/book";
+import Book from "@/components/book";
 import BookGridLoading from "@/components/book-grid-loading";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import React from "react";
 import { Link } from "react-router-dom";
-import { API_GET_ALL_USER_QUERY_KEYS } from "../../apis/users";
 import { IBook, IResponse } from "../../types";
 import { Icons } from "../icons";
-import Book from "@/components/book";
 
 function FeartureCategory() {
     const { data, isLoading } = useQuery<IResponse<IBook[]>, AxiosError>(
-        [...API_GET_ALL_USER_QUERY_KEYS],
+        ["FeatureCategory"],
         () =>
             getManyBooks({
                 genres: "Top features",
@@ -36,10 +35,10 @@ function FeartureCategory() {
                 <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
                     <div className="flex flex-row justify-between">
                         <h2 className="text-2xl font-bold text-gray-900">
-                            Feature Book
+                            Feature Category
                         </h2>
                         <Link
-                            to="books"
+                            to="books?genres=Top features"
                             className="text-sm text-gray-900 flex items-center"
                         >
                             Browse all books

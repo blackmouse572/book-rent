@@ -5,13 +5,12 @@ import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import React from "react";
 import { Link } from "react-router-dom";
-import { API_GET_ALL_USER_QUERY_KEYS } from "../../apis/users";
 import { IBook, IResponse } from "../../types";
 import { Icons } from "../icons";
 
 function FeatureBook() {
     const { data, isLoading } = useQuery<IResponse<IBook[]>, AxiosError>(
-        [...API_GET_ALL_USER_QUERY_KEYS],
+        ["Feature"],
         () =>
             getManyBooks({
                 genres: "Top 100 books of all time",
@@ -20,6 +19,8 @@ function FeatureBook() {
             keepPreviousData: true,
         }
     );
+
+    console.log(data)
 
     const renderBooks = React.useMemo(() => {
         if (isLoading) return <BookGridLoading className="h-32" pageSize={2} />;
@@ -39,7 +40,7 @@ function FeatureBook() {
                             Feature Book
                         </h2>
                         <Link
-                            to="books"
+                            to="books?genres=Top 100 books of all time"
                             className="text-sm text-gray-900 flex items-center"
                         >
                             Browse all books

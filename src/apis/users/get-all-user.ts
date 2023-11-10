@@ -6,7 +6,7 @@ export async function getAllUserApi(
     params: Partial<IQueryPagination & IQuerySearch>
 ) {
     return authAxiosClient
-        .get("/user/list", {
+        .get("/user", {
             params,
         })
         .then((res) => res.data);
