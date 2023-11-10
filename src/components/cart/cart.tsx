@@ -116,7 +116,7 @@ function ShoppingCart() {
                                     {cartItems &&
                                     cartItems.length > maxOrdersToShow ? (
                                         <div className="flex-1">
-                                            <p>
+                                            <p className="text-slate-500 text-xs">
                                                 {" "}
                                                 {cartItems.length -
                                                     maxOrdersToShow}{" "}
@@ -126,6 +126,7 @@ function ShoppingCart() {
                                     ) : null}
                                     <div className="flex-shrink-0">
                                         <Button
+                                            size={"sm"}
                                             className={"px-2 mx-4"}
                                             variant={"secondary"}
                                             onClick={onViewCart}

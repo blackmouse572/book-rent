@@ -5,6 +5,7 @@ import { IBreadcrumb } from "@/components/breadcrumb";
 import Breadcrumb from "@/components/breadcrumb/breadcrumb";
 import MetaData from "@/components/metadata";
 import Paginition from "@/components/ui/paginition";
+import { useOrderCart } from "@/hooks/useOrderCart";
 import useGetManyBooks from "@/pages/(book)/useGetManyBooks";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -76,12 +77,24 @@ function BookPage() {
                 </Link>
             );
         });
-
     }, [bookState.perPage, data?.data, isLoading]);
+    const { addToCart } = useOrderCart();
+    const onRentAll = React.useCallback(() => {
+        const bookIds = data?.data.map((book) => book._id);
+        if (bookIds) {
+            bookIds.forEach((bookId) => {
+                addToCart(bookId);
+            });
+        }
+    }, [addToCart, data?.data]);
 
     const totalPage = React.useMemo(() => {
         return data?._pagination?.totalPage || 1;
     }, [data?._pagination?.totalPage]);
+
+    const totalBook = React.useMemo(() => {
+        return data?._pagination?.total || 0;
+    }, [data?._pagination?.total]);
 
     if (isError) return <div>Something went wrong</div>;
     return (
@@ -100,6 +113,8 @@ function BookPage() {
                                 ...data,
                             }));
                         }}
+                        onRentAll={onRentAll}
+                        totalBooks={totalBook}
                     />
                 </section>
                 <section

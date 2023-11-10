@@ -11,6 +11,8 @@ import { z } from "zod";
 
 type Props = {
     onFilterChange?: (filter: Record<string, unknown>) => void;
+    totalBooks?: number;
+    onRentAll?: () => void;
 };
 
 const FilterSchema = z.object({
@@ -21,7 +23,7 @@ const FilterSchema = z.object({
 
 type FilterForm = z.infer<typeof FilterSchema>;
 
-function BookFilterSidebar({ onFilterChange }: Props) {
+function BookFilterSidebar({ onFilterChange, totalBooks, onRentAll }: Props) {
     const [searchParams, setSearchParams] = useSearchParams();
     const { control, handleSubmit, reset, setValue, watch } =
         useForm<FilterForm>({
@@ -72,8 +74,22 @@ function BookFilterSidebar({ onFilterChange }: Props) {
         setClearFlag((prev) => !prev);
     }, [reset]);
 
+    const rentAll = React.useCallback(() => {
+        onRentAll && onRentAll();
+    }, [onRentAll]);
+
     return (
         <React.Fragment key={"sidebar.filter"}>
+            {totalBooks && (
+                <div className="flex items-center justify-between">
+                    <p className="text-sm text-slate-500">
+                        {totalBooks} books found
+                    </p>
+                    <Button onClick={rentAll} size={"sm"} variant={"outline"}>
+                        Rent all
+                    </Button>
+                </div>
+            )}
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
                 <div aria-label="search">
                     <Label htmlFor="search">Find book</Label>
