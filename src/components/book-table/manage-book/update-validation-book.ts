@@ -5,7 +5,7 @@ export const updateBookSchema = z.object({
   rental_price: z.coerce.number().min(0),
   description: z.string().min(10),
   category: z.string(), 
-  keyword: z.string().min(10),
+  keyword: z.string().min(3),
   genres: z.string(), 
   author: z.string().min(3).max(50),
   status: z.enum(["ENABLE", "DISABLE"]),

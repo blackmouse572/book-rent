@@ -77,7 +77,7 @@ function BookPage() {
                         />
                     </div>
                     <h3 className="text-base font-medium">{book.name}</h3>
-                    <p className="text-xs">By&nbsp;{book.author?.fullName}</p>
+                    <p className="text-xs">By&nbsp;{book.author}</p>
                     <h6 className="text-lg font-bold mt-1">
                         ${book.rental_price}
                     </h6>

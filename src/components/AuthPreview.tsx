@@ -63,6 +63,7 @@ function AuthPreview({ className, ...prosp }: Props) {
     const onLogin = () => {
         navigate("/login");
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const onLogout = () => {
         logout();
         navigate("/");

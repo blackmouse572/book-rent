@@ -2,10 +2,10 @@ import { ICategory } from "@/types/category";
 import { IGenre, IReview } from ".";
 
 export interface IBook {
-    _id?: string;
+    _id: string;
     name: string;
     author: string;
-    image: File | null;
+    image: string;
     description: string;
     deposit?: number;
     rental_price: number;

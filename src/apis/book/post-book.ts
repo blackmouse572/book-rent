@@ -5,14 +5,15 @@ async function postBookApi(
   bookData: {
     category: string;
     genres: string;
-    image: File | null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    image?: any;
     name: string;
     rental_price: number;
     description: string;
     keyword: string;
     author: string;
   },
-  image: File | null
+  image: string
 ) {
     
     const data = new FormData();

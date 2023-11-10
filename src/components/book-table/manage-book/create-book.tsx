@@ -28,11 +28,9 @@ import { IBook } from "@/types/book";
 import { ICategory } from "@/types/category";
 import { useEffect, useState } from "react";
 import { getAllCategoryNoPramApi } from "@/apis/category";
-import React from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Check, ChevronsUpDown, Command } from "lucide-react";
-import { CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
-import { cn } from "@/lib/utils";
+import { DataTableFacetedFilter } from "@/components/ui/data-table-facet";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 type FormData = z.infer<typeof createBookSchema>;
 
@@ -41,47 +39,59 @@ export function CreateBook() {
         resolver: zodResolver(createBookSchema),
     });
 
+    const queryClient = useQueryClient();
+
     const onSubmit = async (data: FormData) => {
+        const genres = data.genres.split(',').map((genre) => genre.trim());
+        // Trigger the mutation
         const bookData = {
             ...(data as FormData),
+            genres: JSON.stringify(genres),
             image: data.image,
         };
-
-        await postBookApi(bookData, bookData.image)
-            .then((book: IBook) => {
+        addBookMutation.mutate(bookData);
+    };
+    const addBookMutation = useMutation(
+        (data: FormData) => postBookApi(data, data.image),
+        {
+            onSuccess: (book: IBook) => {
                 if (book && book._id) {
+                    console.log("Category ID:", book._id);
                     toast({
-                        title: "Success",
-                        description: "Added Book",
+                        title: "Successful!!!",
+                        description: "Add book Success!",
                     });
+                    // Invalidate and refetch the category list query
+                    queryClient.invalidateQueries();
                 } else {
                     toast({
-                        title: "Invalid book response",
-                        description: "No book ID in the response.",
+                        title: "Invalid category response",
+                        description: "No category ID in the response.",
                     });
                 }
-            })
-            .catch((error) => {
+                // Additional logic after successful mutation
+            },
+            onError: (error: Error) => {
                 toast({
                     title: "Error submitting book",
                     description: error.message,
                 });
-            });
-    };
+            },
+        }
+    );
 
-    
     const [category, setCategory] = useState<ICategory[]>();
 
     useEffect(() => {
         getAllCategoryNoPramApi()
             .then((category: ICategory[]) => {
-                if(category) {
+                if (category) {
                     setCategory(category);
                 } else {
                     toast({
                         title: "Invalid category response",
                         description: "No category ID in the response.",
-                    })
+                    });
                 }
             })
             .catch((error) => {
@@ -90,14 +100,7 @@ export function CreateBook() {
                     description: error.message,
                 });
             });
-});
-const frameworks = category?.map((category) => ({
-    value: category?._id,
-    label: category?.name,
-})) || [];
-
-  const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
+    });
 
     return (
         <Dialog>
@@ -225,55 +228,31 @@ const frameworks = category?.map((category) => ({
                                         </FormItem>
                                     )}
                                 />
-<FormField
-  control={form.control}
-  name="category"
-  render={({ field }) => (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-[200px] justify-between"
-        >
-          {value
-            ? frameworks.find((item) => item.value === value)?.label
-            : "Select category..."}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command>
-          <CommandInput placeholder="Search category..." />
-          <CommandEmpty>No category found.</CommandEmpty>
-          <CommandGroup>
-            {frameworks.map((item) => (
-              <CommandItem
-                key={item.value}
-                value={item.value}
-                onSelect={(currentValue) => {
-                  field.onChange(currentValue);
-                  setValue(currentValue === value ? "" : currentValue);
-                  setOpen(false);
-                }}
-              >
-                <Check
-                  className={cn(
-                    "mr-2 h-4 w-4",
-                    field.value === item.value ? "opacity-100" : "opacity-0"
-                  )}
-                />
-                {item.label}
-              </CommandItem>
-            ))}
-          </CommandGroup>
-        </Command>
-      </PopoverContent>
-    </Popover>
-  )}
-/>
-
+                                <FormField
+                                    control={form.control}
+                                    name="category"
+                                    render={() => (
+                                        <DataTableFacetedFilter
+                                            title="Category"
+                                            onOptionsChange={(options) => {
+                                                form.setValue(
+                                                    "category",
+                                                    JSON.stringify(
+                                                        options.map(
+                                                            (o) => o.value
+                                                        )
+                                                    )
+                                                );
+                                            }}
+                                            options={
+                                                category?.map((c) => ({
+                                                    label: c.name,
+                                                    value: c._id || "",
+                                                })) || []
+                                            }
+                                        />
+                                    )}
+                                />
 
                                 <FormField
                                     control={form.control}
@@ -292,6 +271,7 @@ const frameworks = category?.map((category) => ({
                                         </FormItem>
                                     )}
                                 />
+
                                 <FormField
                                     control={form.control}
                                     name="image"
@@ -324,6 +304,7 @@ const frameworks = category?.map((category) => ({
                                         >
                                             Submit
                                         </Button>
+                                        <DialogClose>Close</DialogClose>
                                     </DialogFooter>
                                 </div>
                             </form>
