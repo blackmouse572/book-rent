@@ -1,53 +1,54 @@
-import { Icons } from '../icons';
-import { useState } from "react";
-import { API_GET_ALL_USER_QUERY_KEYS, getAllUserApi } from "../../apis/users";
-import { IResponse, User } from "../../types";
+import { getManyBooks } from '@/apis/book';
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import clsx from 'clsx';
+import { useState } from "react";
+import { API_GET_ALL_USER_QUERY_KEYS } from "../../apis/users";
+import { IBook, IResponse } from "../../types";
+import { Icons } from '../icons';
 
 function Carousel() {
     const [currentSlide, setCurrentSlide] = useState(0);
 
-    const queryController = useQuery<IResponse<User[]>, AxiosError>(
+    const queryController = useQuery<IResponse<IBook[]>, AxiosError>(
         [...API_GET_ALL_USER_QUERY_KEYS],
-        () => getAllUserApi({}),
+        () => getManyBooks({genres: "Top 100 books of all time"}),
         {
             keepPreviousData: true,
         }
     );
 
-    const users = queryController.data?.data || [];
+    const books = queryController.data?.data || [];
 
     const nextSlide = () => {
-        setCurrentSlide((prevSlide) => (prevSlide + 1) % users.length);
+        setCurrentSlide((prevSlide) => (prevSlide + 1) % books.length);
     };
 
     const previousSlide = () => {
         setCurrentSlide(
-            (prevSlide) => (prevSlide - 1 + users.length) % users.length
+            (prevSlide) => (prevSlide - 1 + books.length) % books.length
         );
     };
 
-    const userContent = (
+    const booksContent = (
         <div className="flex flex-row justify-between">
-            {users.map((user, index) => (
+            {books.map((book, index) => (
                 <div
                     key={index}
                     className={`h-full absolute text-center top-10 pr-40 right-0 ${
                         index === currentSlide ? "opacity-100" : "opacity-0"
                     }`}
                 >
-                    <h2 className="text-right text-2xl pr-40">{user.fullName}</h2>
-                    <p className="text-right pr-40">{user.email}</p>                 
-                    <p className="text-right pr-40">{user.address}</p>
+                    <h2 className="text-right text-2xl pr-40">{book.name}</h2>
+                    <p className="text-right pr-40">{book?.category?.pop()?.name}</p>                 
+                    <p className="text-right pr-40">{book.author}</p>
                 </div>
             ))}
-            {users.map((user, index) => (
+            {books.map((book, index) => (
                 <img
                     key={index}
-                    src="https://bookworm.madrasthemes.com/wp-content/uploads/2020/08/22-300x449.jpg"
-                    alt={user.fullName}
+                    src={book.image}
+                    alt={book.name}
                     className={`h-full absolute top-0 ${
                         index === currentSlide ? "right-0" : "left-0"
                     } justify-end ${
@@ -58,7 +59,7 @@ function Carousel() {
         </div>
     );
 
-const slideButtons = users.map((_, index) => (
+const slideButtons = books.map((_, index) => (
     <button
         key={index}
         type="button"
@@ -102,7 +103,7 @@ const slideButtons = users.map((_, index) => (
                                     </div>
                                 </div>
                                 <div className="text-center text-right h-56 md:h-96 ">
-                                    {userContent}
+                                    {booksContent}
                                 </div>
                             </div>
                         </div>

@@ -1,3 +1,4 @@
+import { getBookById } from "@/apis/book";
 import ChangePassword from "@/pages/(auth)/ChangePassword";
 import BookPage from "@/pages/(book)/BookPage";
 import React from "react";
@@ -13,7 +14,9 @@ const RegisterPage = React.lazy(
 
 const HomePage = React.lazy(() => import("@/pages/HomePage"));
 const LandingPage = React.lazy(() => import("@/pages/LandingPage"));
-const HistoryOrderPage = React.lazy(() => import("@/pages/historyOrder/HistoryOrderPage"));
+const HistoryOrderPage = React.lazy(
+    () => import("@/pages/historyOrder/HistoryOrderPage")
+);
 const ProfilePage = React.lazy(() => import("@/pages/(profile)/Profile"));
 const DashboardPage = React.lazy(() => import("@/pages/(admin)/Dashboard"));
 const UserManagerPage = React.lazy(
@@ -62,17 +65,15 @@ export const ROUTES = createBrowserRouter([
             {
                 path: "/infoaccount",
                 element: <InfoAccount />,
-
             },
-         
+
             {
                 path: "/",
                 element: <LandingPage />,
-
             },
-          {
+            {
                 path: "/profile/orders",
-                element: <HistoryOrderPage/>,
+                element: <HistoryOrderPage />,
             },
             {
                 element: <CartLayout />,
@@ -132,11 +133,8 @@ export const ROUTES = createBrowserRouter([
                         element: <CheckoutFailed />,
                     },
                 ],
-
             },
-          
-         
-          
+
             {
                 path: "/",
                 element: <LandingPage />,
@@ -174,6 +172,12 @@ export const ROUTES = createBrowserRouter([
             },
             {
                 path: "books/:id",
+                loader: async ({ params }) => {
+                    const book = await getBookById(params.id as string);
+                    return {
+                        book,
+                    };
+                },
                 element: <BookDetailPage />,
             },
         ],

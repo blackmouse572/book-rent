@@ -1,11 +1,12 @@
 import { IOrderCart } from "@/types/order_cart";
-import { useState, useEffect, createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 export interface ContextType {
     cartItems: IOrderCart[];
     addToCart: (_id: string) => void;
     decreaseToCart: (_id: string) => void;
     removeFromCart: (_id: string) => void;
+    clearCart: () => void;
 }
 
 export const Context = createContext<ContextType | undefined>(undefined);
@@ -52,7 +53,7 @@ export const CartProvider = ({ children }: React.PropsWithChildren) => {
         } else {
             setCartItems((prevItems) => [
                 ...prevItems,
-                { bookId: _id, quantity: 1 },
+                { bookId: _id, quantity: 1, _id: new Date().toISOString() },
             ]);
         }
     };
@@ -73,9 +74,19 @@ export const CartProvider = ({ children }: React.PropsWithChildren) => {
         );
     };
 
+    const clearCart = () => {
+        setCartItems([]);
+    };
+
     return (
         <Context.Provider
-            value={{ cartItems, addToCart, decreaseToCart, removeFromCart }}
+            value={{
+                cartItems,
+                addToCart,
+                decreaseToCart,
+                removeFromCart,
+                clearCart,
+            }}
         >
             {children}
         </Context.Provider>

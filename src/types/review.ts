@@ -1,9 +1,10 @@
-export interface IReview {
+import { User } from "@/types";
+
+export default interface IReview {
     _id: string;
-    user_id: string;
-    book_id: string;
+    author: Pick<User, "_id" | "email" | "avatar" | "fullName">;
     comment: string;
     rating: number;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 }

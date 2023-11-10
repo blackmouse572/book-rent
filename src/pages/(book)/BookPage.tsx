@@ -1,13 +1,13 @@
-import { GetManyBooksParams, getBookById } from "@/apis/book";
+import { GetManyBooksParams } from "@/apis/book";
 import BookFilterSidebar from "@/components/book-filter-sidebar";
 import BookGridLoading from "@/components/book-grid-loading";
 import { IBreadcrumb } from "@/components/breadcrumb";
 import Breadcrumb from "@/components/breadcrumb/breadcrumb";
 import MetaData from "@/components/metadata";
 import Paginition from "@/components/ui/paginition";
+import { useOrderCart } from "@/hooks/useOrderCart";
 import useGetManyBooks from "@/pages/(book)/useGetManyBooks";
-import { IBook } from "@/types/book";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 const initBookState: GetManyBooksParams = {
@@ -35,32 +35,25 @@ function BookPage() {
             },
         ];
     }, []);
+
     const [bookState, setBookState] =
         React.useState<GetManyBooksParams>(initBookState);
+
     const { data, isLoading, isError } = useGetManyBooks(bookState, {
         refetchOnWindowFocus: false,
     });
 
-    const [individualBooks, setIndividualBooks] = useState<IBook[]>([]);
-
-    useEffect(() => {
-        // Fetch individual book data when data is available
-        if (!isLoading && data) {
-            const bookIds = data.data.map((book) => book._id);
-            const fetchBooks = async () => {
-                const individualBookData = await Promise.all(
-                    bookIds.map(async (bookId) => {
-                        return await getBookById(bookId);
-                    })
-                );
-                setIndividualBooks(individualBookData);
-            };
-            fetchBooks();
-        }
-    }, [data, isLoading]);
     const renderBooks = React.useMemo(() => {
         if (isLoading) return <BookGridLoading pageSize={bookState.perPage!} />;
-        return individualBooks.map((book) => {
+        if (!data?.data || data.data.length === 0)
+            return (
+                <div className="w-full h-full col-span-full row-span-full">
+                    <h3 className="text-slate-300 text-center">
+                        No result found
+                    </h3>
+                </div>
+            );
+        return data?.data.map((book) => {
             return (
                 <Link
                     to={`/books/${book._id}`}
@@ -84,14 +77,28 @@ function BookPage() {
                 </Link>
             );
         });
-    }, [bookState.perPage, individualBooks, isLoading]);
+    }, [bookState.perPage, data?.data, isLoading]);
+    const { addToCart } = useOrderCart();
+    const onRentAll = React.useCallback(() => {
+        const bookIds = data?.data.map((book) => book._id);
+        if (bookIds) {
+            bookIds.forEach((bookId) => {
+                addToCart(bookId);
+            });
+        }
+    }, [addToCart, data?.data]);
+
     const totalPage = React.useMemo(() => {
         return data?._pagination?.totalPage || 1;
     }, [data?._pagination?.totalPage]);
 
+    const totalBook = React.useMemo(() => {
+        return data?._pagination?.total || 0;
+    }, [data?._pagination?.total]);
+
     if (isError) return <div>Something went wrong</div>;
     return (
-        <main className="container mx-auto grid place-items-center min-h-screen w-full">
+        <main className="container mx-auto min-h-screen w-full">
             <MetaData title="Books" />
             <Breadcrumb items={breadcrumb} className="my-8 w-full" />
             <div className="flex gap-2 w-full">
@@ -106,6 +113,8 @@ function BookPage() {
                                 ...data,
                             }));
                         }}
+                        onRentAll={onRentAll}
+                        totalBooks={totalBook}
                     />
                 </section>
                 <section

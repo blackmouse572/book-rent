@@ -15,11 +15,11 @@ export async function getBookById(book_Id: string) {
 }
 
 export type GetManyBooksParams = {
-    genres?: IGenre[];
-    reviews?: IReview[];
+    genres?: string;
+    category?: string;
 } & Partial<IDefaultQuery>;
 
-export async function getManyBooks(    params: Partial<IQueryPagination & IQuerySearch>
+export async function getManyBooks(    params: GetManyBooksParams
     ) {
     return axiosClient
         .get("/book/list", {

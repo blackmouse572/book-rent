@@ -1,5 +1,5 @@
 import { ICategory } from "@/types/category";
-import { IGenre, IReview } from ".";
+import { User } from ".";
 
 export interface IBook {
     _id: string;
@@ -9,14 +9,22 @@ export interface IBook {
     description: string;
     deposit?: number;
     rental_price: number;
-    status?: "ENABLE" | "DISABLE";
     category?: ICategory[];
-    keyword?: string[];
-    genres?: IGenre[] | undefined;
     reviews?: IReview[];
     createdAt?: Date;
     updatedAt?: Date; 
-    
+    keywords?: string[];
+    genres?: string[];
+    status?: "ENABLE" | "DISABLE";
+}
+
+export interface IReview {
+    _id: string;
+    author: Pick<User, "_id" | "email" | "avatar" | "fullName">;
+    comment: string;
+    rating: number;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export enum STATUS {

@@ -25,6 +25,7 @@ import {
     IconQuestionMark,
     IconSearch,
     IconSmartHome,
+    IconSquareRoundedPlus,
     IconSquareRoundedXFilled,
     IconStarFilled,
     IconStarOff,
@@ -46,6 +47,7 @@ export const Icons = {
     dashboard: IconDashboard,
     arrowLeft: IconArrowLeft,
     discountCheckFilled: IconDiscountCheckFilled,
+    addRound: IconSquareRoundedPlus,
     moodSadSquint: IconMoodSadSquint,
     truckLoading: IconTruckLoading,
     squareClose: IconSquareRoundedXFilled,
@@ -92,5 +94,5 @@ export const Icons = {
     ),
     done: IconDiscountCheckFilled,
     fail: IconMoodSadSquint,
-    loading: IconTruckLoading,
+    loading: IconLoader2,
 };
