@@ -1,6 +1,7 @@
 import { profileApi } from "@/apis/auth/apis/profile.api";
 import ShoppingCart from "@/components/cart/cart";
 import { Icons } from "@/components/icons";
+import Notification from "@/components/notification";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -19,7 +20,7 @@ import { ROLE } from "@/types";
 import React, { useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Button, buttonVariants } from "./ui/button";
+import { Button } from "./ui/button";
 import { toast } from "./ui/use-toast";
 
 export const ADMIN_SECTION_ITEMS: {
@@ -159,24 +160,15 @@ function AuthPreview({ className, ...prosp }: Props) {
             </DropdownMenu>
         );
     }, [AdminSection, onLogout, user]);
+
     return (
         <div className={(cn(className), "flex")} {...prosp}>
             {user ? (
-                <React.Fragment>
+                <div className="flex justify-between items-center gap-2">
                     <ShoppingCart />
-                    <Link
-                        className={cn(
-                            buttonVariants({
-                                variant: "outline",
-                            }),
-                            "px-2 mx-4"
-                        )}
-                        to="#"
-                    >
-                        <Icons.bell />
-                    </Link>
+                    <Notification />
                     {renderUserDropdown}
-                </React.Fragment>
+                </div>
             ) : (
                 <Button onClick={onLogin}>Login</Button>
             )}
