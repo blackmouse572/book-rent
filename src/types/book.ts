@@ -1,12 +1,12 @@
 import { ICategory } from "@/types/category";
-import { User } from ".";
+import {  User } from ".";
 
 export interface IBook {
-    _id: string;
+    _id?: string;
     name: string;
-    category?: ICategory[];
-    image: string;
+    image: string ;
     description: string;
+    category: ICategory[];
     rental_price: number;
     isAvailable: boolean;
     deposit?: number;
@@ -19,6 +19,10 @@ export interface IBook {
     status?: "ENABLE" | "DISABLE";
 }
 
+export enum STATUS {
+    ENABLE = 'ENABLE',
+    DISABLE = 'DISABLE',
+}
 export interface IReview {
     _id: string;
     author: Pick<User, "_id" | "email" | "avatar" | "fullName">;

@@ -38,7 +38,7 @@ function BookFilterSidebar({ onFilterChange, totalBooks, onRentAll }: Props) {
         else
             return categories.map<IComboboxData>((ct) => ({
                 label: ct.name,
-                value: ct._id,
+                value: ct._id || "",
             }));
     }, [categories]);
 
@@ -54,7 +54,7 @@ function BookFilterSidebar({ onFilterChange, totalBooks, onRentAll }: Props) {
         control.handleSubmit((data) => {
             onFilterChange && onFilterChange(data);
         })();
-    }, [searchParams, setValue]);
+    }, [control, onFilterChange, searchParams, setValue]);
 
     const onSubmit = React.useCallback(
         (data: FilterForm) => {

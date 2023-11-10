@@ -1,9 +1,9 @@
 import { authAxiosClient } from "../../lib/axios";
 
-export async function getCategoryApi(
-    _id: string,
+export async function postUnbanUserApi(
+    userId: string,
 ) {
     return authAxiosClient
-        .get(`/category/${_id}`)
+        .post(`/user/unban/${userId}`)
         .then((res) => res.data);
 }

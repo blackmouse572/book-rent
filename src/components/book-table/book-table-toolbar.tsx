@@ -1,12 +1,11 @@
 import { Table } from "@tanstack/react-table";
 import React from "react";
 import { cn } from "../../lib/utils";
-import { IQueryPagination, IQuerySearch } from "../../types";
+import { IBook, IQueryPagination, IQuerySearch } from "../../types";
+import { DataTableFacetedFilter } from "../ui/data-table-facet";
 import SearchInput from "../ui/search-input";
-import { ICategory } from "@/types/category";
-import { CreateCategory } from "@/components/category-table/manage-category/create-category";
-import { DataTableFacetedFilter } from "@/components/ui/data-table-facet";
-import { TABLE_CATEGORY_STATUS_FACET_OPTIONS } from "@/components/category-table/options";
+import { TABLE_BOOK_STATUS_FACET_OPTIONS } from "@/components/book-table/options";
+import { CreateBook } from "@/components/book-table/manage-book/create-book";
 
 export interface DataTableToolbarProps<TData>
     extends React.HTMLAttributes<HTMLDivElement> {
@@ -18,13 +17,13 @@ export interface DataTableToolbarProps<TData>
     ) => void;
 }
 
-export function CategoryTableToolbar({
+export function BookTableToolbar({
     table,
     queries,
     setSearchQuery,
     className,
     ...props
-}: DataTableToolbarProps<ICategory>) {
+}: DataTableToolbarProps<IBook>) {
     return (
         <div
             className={cn(
@@ -58,10 +57,10 @@ export function CategoryTableToolbar({
                                     status,
                                 });
                         }}
-                        options={TABLE_CATEGORY_STATUS_FACET_OPTIONS}
+                        options={TABLE_BOOK_STATUS_FACET_OPTIONS}
                     />
                 )}
-                <CreateCategory />
+                <CreateBook />
             </div>
         </div>
     );

@@ -19,7 +19,8 @@ export type GetManyBooksParams = {
     category?: string;
 } & Partial<IDefaultQuery>;
 
-export async function getManyBooks(params: GetManyBooksParams) {
+export async function getManyBooks(    params: GetManyBooksParams
+    ) {
     return axiosClient
         .get("/book/list", {
             params,

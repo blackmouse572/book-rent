@@ -1,6 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { Button } from "../ui/button/button";
-import { ICategory } from "@/types/category";
+import { ICategory, STATUS } from "@/types/category";
+import { Badge } from "@/components/ui/badge";
+import { UpdateCategory } from "@/components/category-table/manage-category/update-category";
 
 export const columns: ColumnDef<ICategory>[] = [
     {
@@ -20,19 +21,23 @@ export const columns: ColumnDef<ICategory>[] = [
         },
     },
     {
-        accessorFn: ({ _id }) => _id,
-        header: "Action",
-        cell() {
-            return (
-                <div className="flex gap-2 ">
-                    <Button variant="outline" size="sm">
-                        Edit
-                    </Button>
-                    <Button variant="outline" size="sm">
-                        Delete
-                    </Button>
-                </div>
-            );
+        accessorKey: "status",
+        header: "Status",
+        cell({ getValue }) {
+            const status: STATUS = getValue() as STATUS;
+            return <Badge>{status}</Badge>;
         },
     },
+    {
+        accessorFn: ({ _id }) => _id,
+        header: "Action",
+        cell({ getValue }) {
+          const _id: string = getValue() as string;
+          return (
+            <div className="flex gap-2">
+              <UpdateCategory categoryId={_id} />
+            </div>
+          );
+        },
+    },           
 ];

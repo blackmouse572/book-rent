@@ -1,15 +1,19 @@
 export interface User {
-    _id: string;
+    _id?: string;
     email: string;
     fullName: string;
-    role: ROLE;
-    username: string;
-    blocked: boolean;
-    address?: string | null;
-    password?: string;
+    role?: "ADMIN" | "SUPER_ADMIN" | "USER";
+    phone: string;
     avatar?: string;
-    createdAt: Date;
-    updatedAt: Date;
+    address?: string | null;
+    username: string;
+    password: string;
+    passwordAttempt?: number;
+    blocked?: boolean;
+    blockedDate?: Date;
+    salt?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 export enum ROLE {
