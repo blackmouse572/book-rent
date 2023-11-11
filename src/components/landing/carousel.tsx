@@ -108,7 +108,7 @@ function Carousel() {
                                         </a>
                                     </div>
                                 </div>
-                                <div className="text-center text-right h-56 md:h-96 ">
+                                <div className="text-center h-56 md:h-96 ">
                                     {booksContent}
                                 </div>
                             </div>

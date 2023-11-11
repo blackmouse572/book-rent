@@ -16,6 +16,7 @@ const DashboardPage = () => {
                         "bg-warning/20 text-warning": index === 2,
                         "bg-destructive/20 text-destructive": index === 3,
                         "bg-cyan-500/20 text-cyan-500": index === 4,
+                        "bg-zinc-500/20 text-zinc-500": index === 5,
                     })}
                     to={to}
                     icon={icon}

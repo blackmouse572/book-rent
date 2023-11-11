@@ -6,7 +6,7 @@ function AdminTransaction() {
     return (
         <>
             <MetaData title="Transactions" />
-            <TransactionTable getAllTransaction={getAllTransactionUser} />;
+            <TransactionTable getAllTransaction={getAllTransactionUser} />
         </>
     );
 }

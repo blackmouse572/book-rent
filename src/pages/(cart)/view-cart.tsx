@@ -80,7 +80,6 @@ function ViewCart({ className, ...props }: Props) {
                         </div>
                     </div>
                 )}
-                M
             </div>
         </div>
     );

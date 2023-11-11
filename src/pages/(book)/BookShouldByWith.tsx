@@ -4,6 +4,7 @@ import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useOrderCart } from "@/hooks/useOrderCart";
+import { formatPrice } from "@/lib/utils";
 import useGetManyBooks from "@/pages/(book)/useGetManyBooks";
 import { IBook } from "@/types";
 import React, { useCallback } from "react";
@@ -22,12 +23,17 @@ function BookShouldByWith({ book }: Props) {
         });
 
     const relatedBooks = React.useMemo(() => {
-        if (isLoadingShouldBuyWithBooks) return [];
-        return (
-            shouldByWithBooks?.data.filter((book) => book._id !== book?._id) ||
-            []
-        );
-    }, [isLoadingShouldBuyWithBooks, shouldByWithBooks?.data]);
+        if (isLoadingShouldBuyWithBooks || !book) return [];
+
+        const arr =
+            shouldByWithBooks?.data
+                .filter((b) => b._id !== book?._id)
+                .slice(0, 4) || [];
+        //Add current book to the first position
+        arr.unshift(book);
+
+        return arr;
+    }, [book, isLoadingShouldBuyWithBooks, shouldByWithBooks?.data]);
 
     const { toast } = useToast();
     const { addToCart } = useOrderCart();
@@ -44,29 +50,27 @@ function BookShouldByWith({ book }: Props) {
 
     const totalShouldBuyWith = React.useMemo(() => {
         if (isLoadingShouldBuyWithBooks) return 0;
-        return shouldByWithBooks?.data.length || 0;
-    }, [isLoadingShouldBuyWithBooks, shouldByWithBooks?.data]);
+        return relatedBooks.length || 0;
+    }, [isLoadingShouldBuyWithBooks, relatedBooks.length]);
 
     const totalPriceShouldBuyWith = React.useMemo(() => {
         if (isLoadingShouldBuyWithBooks) return 0;
-        return shouldByWithBooks?.data.reduce(
-            (acc, book) => acc + book.rental_price,
-            0
-        );
-    }, [isLoadingShouldBuyWithBooks, shouldByWithBooks?.data]);
+        return relatedBooks.reduce((acc, book) => acc + book.rental_price, 0);
+    }, [isLoadingShouldBuyWithBooks, relatedBooks]);
 
     const addShouldBuyWithToCart = useCallback(() => {
-        if (shouldByWithBooks?.data) {
-            shouldByWithBooks?.data.forEach((book) => {
-                addToCart(book._id as string);
-            });
-        }
+        if (relatedBooks.length === 0) return;
+
+        relatedBooks.forEach((book) => {
+            addToCart(book._id as string);
+        });
+
         toast({
             type: "foreground",
             title: "Add to cart successfully",
             description: "Your cart have been updated",
         });
-    }, [addToCart, shouldByWithBooks?.data, toast]);
+    }, [addToCart, relatedBooks, toast]);
 
     if (!book) return null;
 
@@ -83,10 +87,10 @@ function BookShouldByWith({ book }: Props) {
                         <p>Add {totalShouldBuyWith}</p>
                     </Button>
                     <p className="text-xl font-bold">
-                        ${totalPriceShouldBuyWith}
+                        {formatPrice(totalPriceShouldBuyWith)}
                     </p>
                     <p className="text-sm text-gray-500">
-                        for {totalShouldBuyWith} books
+                        for {relatedBooks.length} books
                     </p>
                 </div>
             )}

@@ -7,6 +7,7 @@ import { getCheckoutUrlApi } from "@/apis/transaction/getCheckoutURL";
 import { Icons } from "@/components/icons";
 import MetaData from "@/components/metadata";
 import { Button } from "@/components/ui/button";
+import { formatPrice } from "@/lib/utils";
 
 function ViewCheckout() {
     const { id } = useParams<{ id: string }>();
@@ -142,18 +143,17 @@ function ViewCheckout() {
                                                 cartItem.book && (
                                                     <>
                                                         <td className="px-6 py-4 whitespace-nowrap">
-                                                            $
-                                                            {cartItem.book.rental_price.toFixed(
-                                                                2
+                                                            {formatPrice(
+                                                                cartItem.book
+                                                                    .rental_price
                                                             )}
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap">
-                                                            $
-                                                            {(
-                                                                cartItem.quantity *
+                                                            {formatPrice(
                                                                 cartItem.book
-                                                                    .rental_price
-                                                            ).toFixed(2)}
+                                                                    .rental_price *
+                                                                    cartItem.quantity
+                                                            )}
                                                         </td>
                                                     </>
                                                 )}
@@ -173,7 +173,7 @@ function ViewCheckout() {
                                         Subtotal
                                     </p>
                                     <p className="text-base leading-4 text-gray-600">
-                                        {order.totalPrice}
+                                        {formatPrice(order.totalPrice)}
                                     </p>
                                 </div>
                                 <div className="flex justify-between items-center w-full">
@@ -181,7 +181,7 @@ function ViewCheckout() {
                                         Deposit
                                     </p>
                                     <p className="text-base leading-4 text-gray-600">
-                                        {order.deposit?.toFixed(2)}
+                                        {formatPrice(order.deposit)}
                                     </p>
                                 </div>
                             </div>
@@ -191,9 +191,7 @@ function ViewCheckout() {
                                 </p>
                                 <p className="text-base font-semibold leading-4 text-gray-600">
                                     {order.totalPrice && order.deposit
-                                        ? (
-                                              order.totalPrice + order.deposit
-                                          ).toFixed(2)
+                                        ? formatPrice(order.totalPrice)
                                         : ""}
                                 </p>
                             </div>

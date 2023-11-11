@@ -1,8 +1,12 @@
 import { getOrderApi } from "@/apis/order(user)/get-order";
 import { Icons } from "@/components/icons";
+import { Button } from "@/components/ui/button";
+import { useOrderCart } from "@/hooks/useOrderCart";
+import { formatPrice } from "@/lib/utils";
 import { IOrder } from "@/types/order";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { format } from "date-fns";
+import { useCallback, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { Badge } from "../ui/badge/badge";
 
 const OrderDetailPage = () => {
@@ -23,6 +27,21 @@ const OrderDetailPage = () => {
 
         fetchOrder();
     }, [orderId]);
+
+    const formatDate = useCallback((date: string | Date) => {
+        const _date = new Date(date);
+        return format(_date, "dd/MM/yyyy");
+    }, []);
+
+    const { addToCart } = useOrderCart();
+
+    const reOrder = useCallback(() => {
+        if (order) {
+            order.cart?.forEach((item) => {
+                if (item.book?._id) addToCart(item.book?._id);
+            });
+        }
+    }, [order, addToCart]);
 
     if (!order) {
         return (
@@ -75,7 +94,7 @@ const OrderDetailPage = () => {
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="text-sm text-center text-gray-500">
-                                    {order.rentalDate.toString()}
+                                    {formatDate(order.rentalDate)}
                                 </div>
                             </td>
                         </tr>
@@ -87,7 +106,7 @@ const OrderDetailPage = () => {
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="text-sm text-center text-gray-500">
-                                    {order.returnDate.toString()}
+                                    {formatDate(order.returnDate)}
                                 </div>
                             </td>
                         </tr>
@@ -124,7 +143,7 @@ const OrderDetailPage = () => {
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="text-sm text-center text-red-500">
-                                    {order.totalPrice}
+                                    {formatPrice(order.totalPrice)}
                                 </div>
                             </td>
                         </tr>
@@ -136,7 +155,7 @@ const OrderDetailPage = () => {
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="text-sm text-center  text-red-500 ">
-                                    {order.deposit}
+                                    {formatPrice(order.deposit)}
                                 </div>
                             </td>
                         </tr>
@@ -148,7 +167,7 @@ const OrderDetailPage = () => {
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="text-sm text-center text-red-500 ">
-                                    {order.penalty}
+                                    {formatPrice(order.penalty)}
                                 </div>
                             </td>
                         </tr>
@@ -165,7 +184,7 @@ const OrderDetailPage = () => {
                                     </div>
                                 ) : (
                                     <div className="text-sm text-center text-red-500">
-                                        None
+                                        --
                                     </div>
                                 )}
                             </td>
@@ -204,27 +223,46 @@ const OrderDetailPage = () => {
                     <table className="min-w-full divide-y divide-gray-200 bg-white border border-gray-300 rounded-lg overflow-hidden">
                         <tbody className="divide-y divide-gray-200">
                             <tr className="bg-gray-50">
-                                <td className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Cart
+                                <td className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider flex justify-between items-center">
+                                    <p>Cart</p>
+                                    <Button
+                                        size={"sm"}
+                                        variant={"outline"}
+                                        onClick={reOrder}
+                                    >
+                                        <Icons.addRound className="mr-2" />
+                                        Reorder
+                                    </Button>
                                 </td>
                             </tr>
                             {order.cart.map((item, index) => (
-                                <tr key={index} className="bg-white">
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <div className="text-sm font-medium text-gray-900">
-                                            Book Name: {item.book?.name}
-                                        </div>
-                                        <div className="text-sm text-gray-500">
-                                            Quantity: {item.quantity}
-                                        </div>
-                                        <div className="text-sm text-gray-500">
-                                            Price: {item.book?.rental_price}
-                                        </div>
-                                        <img
-                                            src={item.book?.image}
-                                            alt={item.book?.name}
-                                        />
-                                    </td>
+                                <tr
+                                    key={index}
+                                    className="bg-white hover:bg-accent transition-colors"
+                                >
+                                    <Link to={`/books/${item.book?._id}`}>
+                                        <td className="px-6 py-4 whitespace-nowrap flex justify-between items-center">
+                                            <div>
+                                                <div className="text-sm font-medium text-gray-900">
+                                                    Book Name: {item.book?.name}
+                                                </div>
+                                                <div className="text-sm text-gray-500">
+                                                    Quantity: {item.quantity}
+                                                </div>
+                                                <div className="text-sm text-gray-500">
+                                                    Price:{" "}
+                                                    {formatPrice(
+                                                        item.book?.rental_price
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <img
+                                                className="h-full w-32"
+                                                src={item.book?.image}
+                                                alt={item.book?.name}
+                                            />
+                                        </td>
+                                    </Link>
                                 </tr>
                             ))}
                         </tbody>

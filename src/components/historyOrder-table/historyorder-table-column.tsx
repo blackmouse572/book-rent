@@ -1,5 +1,6 @@
-import { ColumnDef } from "@tanstack/react-table";
 import { IOrder } from "@/apis/Ioders(admin)/Ioders";
+import { ColumnDef } from "@tanstack/react-table";
+import { Link } from "react-router-dom";
 import { Badge } from "../ui/badge/badge";
 
 export const historyOrderColumns: ColumnDef<IOrder>[] = [
@@ -9,11 +10,11 @@ export const historyOrderColumns: ColumnDef<IOrder>[] = [
         cell({ row }) {
             const { _id } = row.original;
             return (
-                <div className="flex gap-2">
+                <Link to={`/order/${_id}`} className="flex gap-2">
                     <div className="">
                         <h6 className="font-medium">{_id}</h6>
                     </div>
-                </div>
+                </Link>
             );
         },
     },

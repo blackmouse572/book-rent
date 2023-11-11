@@ -14,6 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { useOrderCart } from "@/hooks/useOrderCart";
+import { formatPrice } from "@/lib/utils";
 import BookShouldByWith from "@/pages/(book)/BookShouldByWith";
 import useGetManyBooks from "@/pages/(book)/useGetManyBooks";
 import { IBook, IReview } from "@/types";
@@ -81,7 +82,9 @@ export default function BookDetailPage() {
                 relatedBooks?.data.length > 4 ? 4 : relatedBooks?.data.length
             ) || [];
 
-        return _relatedBooks?.map((book) => <Book book={book} />);
+        return _relatedBooks?.map((book) => (
+            <Book key={book._id} book={book} />
+        ));
     }, [isLoading, relatedBooks?.data]);
 
     const bookInCartAmount = useMemo(() => {
@@ -306,7 +309,7 @@ export default function BookDetailPage() {
 
                         <div className="space-y-2">
                             <h1 className="text-xl font-bold">
-                                $ {book.rental_price}
+                                {formatPrice(book.rental_price)}
                             </h1>
                             <p className="line-clamp-3">{book.description}</p>
                         </div>

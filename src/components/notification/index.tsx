@@ -1,5 +1,6 @@
 import { Icons } from "@/components/icons";
 import usePendingOrder from "@/components/notification/usePendingOrder";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
     Popover,
@@ -7,11 +8,38 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
+import { formatDistance } from "date-fns";
 import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Notification() {
     const { isError, isLoading, data } = usePendingOrder();
+    const sortedData = React.useMemo(() => {
+        if (isLoading) return [];
+        if (isError) return [];
+        return data?.data.sort((a, b) => {
+            return (
+                new Date(b.createdAt!).getTime() -
+                new Date(a.createdAt!).getTime()
+            );
+        });
+    }, [data?.data, isError, isLoading]);
+    const renderDueDate = React.useCallback((returnDate: Date) => {
+        const dueDate = new Date(returnDate);
+        const currentDate = new Date();
+        const diff = dueDate.getTime() - currentDate.getTime();
+        if (diff < 0)
+            return (
+                <Badge className="text-xs bg-destructive">
+                    Overdue {formatDistance(currentDate, dueDate)} ago
+                </Badge>
+            );
+        return (
+            <Badge className="text-xs" colors={"success"}>
+                Due in {formatDistance(currentDate, dueDate)}
+            </Badge>
+        );
+    }, []);
     const renderData = React.useMemo(() => {
         if (isLoading) return <div>Loading...</div>;
         if (isError) return <div>Error</div>;
@@ -24,21 +52,24 @@ export default function Notification() {
                     </span>
                     &nbsp;pending order to return
                 </h3>
-                <Separator />
-                <ul className="max-h-[50vh] overflow-y-auto pt-4">
-                    {data?.data.map((order) => (
+                <Separator className="mt-2 my-2" />
+                <ul className="max-h-[50vh] overflow-y-auto space-y-12">
+                    {sortedData.map((order) => (
                         <Link to={`/order/${order._id}`} key={order._id}>
-                            <div className="hover:bg-accent px-2.5 py-1.5 rounded-md cursor-pointer">
-                                <h6 className="text-xs text-slate-300 ">
+                            <div className="hover:bg-accent px-2.5 py-1.5 rounded-md cursor-pointer space-y-2">
+                                <h6 className="text-sm text-slate-500 ">
                                     Order: {order._id}
                                 </h6>
                                 <div className="flex justify-between">
                                     <p className="text-sm text-slate-600">
-                                        {order.cart&&order.cart.length} items
+                                        {order.cart && order.cart.length} items
                                     </p>
                                     <p className="text-sm font-bold text-slate-600">
-                                        {order.totalPrice}$
+                                        D:&nbsp;
+                                        {order.deposit}$
                                     </p>
+                                    {/* Display is order return date > current date */}
+                                    {renderDueDate(order.returnDate)}
                                 </div>
                             </div>
                         </Link>
@@ -46,7 +77,13 @@ export default function Notification() {
                 </ul>
             </>
         );
-    }, [data?._pagination?.total, data?.data, isError, isLoading]);
+    }, [
+        data?._pagination?.total,
+        isError,
+        isLoading,
+        renderDueDate,
+        sortedData,
+    ]);
 
     const totalPending = React.useMemo(() => {
         if (isLoading) return 0;

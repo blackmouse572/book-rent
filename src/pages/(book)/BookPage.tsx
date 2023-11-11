@@ -6,6 +6,7 @@ import Breadcrumb from "@/components/breadcrumb/breadcrumb";
 import MetaData from "@/components/metadata";
 import Paginition from "@/components/ui/paginition";
 import { useOrderCart } from "@/hooks/useOrderCart";
+import { formatPrice } from "@/lib/utils";
 import useGetManyBooks from "@/pages/(book)/useGetManyBooks";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -78,7 +79,7 @@ function BookPage() {
                     <h3 className="text-base font-medium">{book.name}</h3>
                     <p className="text-xs">By&nbsp;{book.author}</p>
                     <h6 className="text-lg font-bold mt-1">
-                        ${book.rental_price}
+                        {formatPrice(book.rental_price)}
                     </h6>
                 </Link>
             );
@@ -108,7 +109,7 @@ function BookPage() {
         <main className="container mx-auto min-h-screen w-full">
             <MetaData title="Books" />
             <Breadcrumb items={breadcrumb} className="my-8 w-full" />
-            <div className="flex gap-2 w-full">
+            <div className="flex gap-2 w-full mb-8">
                 <section
                     key="main.section.sidebar"
                     className="w-1/4 h-min bg-accent sticky top-20 rounded-md px-4 py-5"

@@ -20,8 +20,6 @@ function FeatureBook() {
         }
     );
 
-    console.log(data)
-
     const renderBooks = React.useMemo(() => {
         if (isLoading) return <BookGridLoading className="h-32" pageSize={2} />;
         return data?.data.map((book, index) => (
