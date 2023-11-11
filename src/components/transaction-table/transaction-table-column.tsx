@@ -35,6 +35,14 @@ export const columns: ColumnDef<ITransaction>[] = [
         },
     },
     {
+        accessorKey: "amount",
+        header: "Amount",
+        cell({ getValue }) {
+            const amount: number = getValue() as number;
+            return <p className="text-slate-400 max-w-[30rem]">{amount}</p>;
+        },
+    },
+    {
         accessorKey: "createdAt",
         header: "Date",
         cell({ getValue }) {
