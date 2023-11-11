@@ -42,7 +42,7 @@ export function CreateBook() {
     const queryClient = useQueryClient();
 
     const onSubmit = async (data: FormData) => {
-        const genres = data.genres.split(',').map((genre) => genre.trim());
+        const genres = data.genres.split(",").map((genre) => genre.trim());
         // Trigger the mutation
         const bookData = {
             ...(data as FormData),
@@ -94,13 +94,13 @@ export function CreateBook() {
                     });
                 }
             })
-            .catch((error:Error) => {
+            .catch((error: Error) => {
                 toast({
                     title: "Error category detail",
                     description: error.message,
                 });
             });
-    });
+    }, []);
 
     return (
         <Dialog>

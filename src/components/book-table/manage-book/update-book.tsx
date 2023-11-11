@@ -1,11 +1,14 @@
+import { updateBookApi } from "@/apis/book/update-book";
+import { getAllCategories } from "@/apis/category";
+import { updateBookSchema } from "@/components/book-table/manage-book/update-validation-book";
 import { Button } from "@/components/ui/button";
+import { DataTableFacetedFilter } from "@/components/ui/data-table-facet";
 import {
     Dialog,
     DialogContent,
     DialogFooter,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import {
     Form,
     FormControl,
@@ -14,20 +17,16 @@ import {
     FormItem,
     FormLabel,
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "@/components/ui/use-toast";
 import { IBook } from "@/types/book";
-import { updateBookApi } from "@/apis/book/update-book";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { updateBookSchema } from "@/components/book-table/manage-book/update-validation-book";
-import { DataTableFacetedFilter } from "@/components/ui/data-table-facet";
-import { useEffect, useState } from "react";
-import { getAllCategories } from "@/apis/category";
 import { ICategory } from "@/types/category";
-import { getBookById } from "@/apis/book/getBook";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 type FormData = z.infer<typeof updateBookSchema>;
 
@@ -37,48 +36,12 @@ export function UpdateBook({ bookId }: { bookId: string }) {
     });
 
     const [category, setCategory] = useState<ICategory[]>();
-    useEffect(() => {
-        // Fetch existing book data and set it as the initial values
-        // For example, you can use your API to get the existing book data
-        const fetchBookData = async () => {
-          try {
-            const existingBookData = await getBookById(bookId); // Replace with your API call
-            form.reset(existingBookData);
-          } catch (error) {
-            toast({
-              title: 'Error fetching book data',
-            });
-          }
-        };
-    
-        // Fetch category data
-        getAllCategories()
-          .then((categoryData: ICategory[]) => {
-            if (categoryData) {
-              setCategory(categoryData);
-            } else {
-              toast({
-                title: 'Invalid category response',
-                description: 'No category ID in the response.',
-              });
-            }
-          })
-          .catch((error: Error) => {
-            toast({
-              title: 'Error fetching category detail',
-              description: error.message,
-            });
-          });
-    
-        // Fetch book data and set as initial values
-        fetchBookData();
-      }, [bookId, form]);
 
     useEffect(() => {
         getAllCategories()
-            .then((category: ICategory[]) => {
-                if (category) {
-                    setCategory(category);
+            .then((categoryData: ICategory[]) => {
+                if (categoryData) {
+                    setCategory(categoryData);
                 } else {
                     toast({
                         title: "Invalid category response",
@@ -88,14 +51,14 @@ export function UpdateBook({ bookId }: { bookId: string }) {
             })
             .catch((error: Error) => {
                 toast({
-                    title: "Error category detail",
+                    title: "Error fetching category detail",
                     description: error.message,
                 });
             });
-    });
+    }, []);
 
     const onSubmit = async (data: FormData) => {
-        const genres = data.genres.split(',').map((genre) => genre.trim());
+        const genres = data.genres.split(",").map((genre) => genre.trim());
 
         const bookData = {
             ...(data as FormData),
