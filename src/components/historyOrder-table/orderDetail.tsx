@@ -1,9 +1,9 @@
+import { getOrderApi } from "@/apis/order(user)/get-order";
+import { Icons } from "@/components/icons";
+import { IOrder } from "@/types/order";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getOrderApi } from "@/apis/order(user)/get-order";
-import { IOrder } from "@/types/order";
 import { Badge } from "../ui/badge/badge";
-import { Icons } from "@/components/icons";
 
 const OrderDetailPage = () => {
     const { orderId } = useParams<{ orderId?: string }>();
@@ -26,15 +26,8 @@ const OrderDetailPage = () => {
 
     if (!order) {
         return (
-            <div className="text-3xl font-bold mb-4 text-center">
-               <button
-                disabled
-                type="button"
-                className="m-5 text-white bg-blue-700 align-center hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center"
-            >
-                <Icons.loading />
-                Loading...
-            </button>
+            <div className="text-3xl font-bold mb-4 text-center min-h-screen flex items-center justify-center">
+                <Icons.loading className="animate-spin ease-out text-primary" />
             </div>
         );
     }
@@ -208,37 +201,39 @@ const OrderDetailPage = () => {
             <div style={{ flex: 1, marginLeft: "20px" }}>
                 <h2 className="text-3xl font-bold mb-4 text-center">Cart</h2>
                 {order.cart ? (
-                <table className="min-w-full divide-y divide-gray-200 bg-white border border-gray-300 rounded-lg overflow-hidden">
-                    <tbody className="divide-y divide-gray-200">
-                        <tr className="bg-gray-50">
-                            <td className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Cart
-                            </td>
-                        </tr>
-                        {order.cart.map((item, index) => (
-                            <tr key={index} className="bg-white">
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="text-sm font-medium text-gray-900">
-                                        Book Name: {item.book?.name}
-                                    </div>
-                                    <div className="text-sm text-gray-500">
-                                        Quantity: {item.quantity}
-                                    </div>
-                                    <div className="text-sm text-gray-500">
-                                        Price: {item.book?.rental_price}
-                                    </div>
-                                    <img
-                                        src={item.book?.image}
-                                        alt={item.book?.name}
-                                    />
+                    <table className="min-w-full divide-y divide-gray-200 bg-white border border-gray-300 rounded-lg overflow-hidden">
+                        <tbody className="divide-y divide-gray-200">
+                            <tr className="bg-gray-50">
+                                <td className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Cart
                                 </td>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-                 ) : (
-                    <div className="text-2xl font-bold mb-4 text-center">empty cart</div>
-                  )}
+                            {order.cart.map((item, index) => (
+                                <tr key={index} className="bg-white">
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <div className="text-sm font-medium text-gray-900">
+                                            Book Name: {item.book?.name}
+                                        </div>
+                                        <div className="text-sm text-gray-500">
+                                            Quantity: {item.quantity}
+                                        </div>
+                                        <div className="text-sm text-gray-500">
+                                            Price: {item.book?.rental_price}
+                                        </div>
+                                        <img
+                                            src={item.book?.image}
+                                            alt={item.book?.name}
+                                        />
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                ) : (
+                    <div className="text-2xl font-bold mb-4 text-center">
+                        empty cart
+                    </div>
+                )}
             </div>
         </div>
     );

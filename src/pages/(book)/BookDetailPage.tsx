@@ -23,7 +23,12 @@ import { useMutation } from "@tanstack/react-query";
 import { format, parseISO } from "date-fns";
 import React, { useCallback, useEffect, useId, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useLoaderData, useLocation } from "react-router-dom";
+import {
+    Link,
+    useLoaderData,
+    useLocation,
+    useNavigate,
+} from "react-router-dom";
 
 type FormValue = {
     review: string;
@@ -52,9 +57,14 @@ export default function BookDetailPage() {
 
     const { pathname } = useLocation();
     const user = useAuth();
+    const navigate = useNavigate();
     const { addToCart, cartItems } = useOrderCart();
 
     const handleAddToCart = () => {
+        if (!user.user) {
+            navigate("/login");
+            return;
+        }
         if (book) {
             addToCart(book._id as string);
         }

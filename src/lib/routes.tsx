@@ -93,11 +93,6 @@ export const ROUTES = createBrowserRouter([
                 path: "/order/:orderId",
                 element: <OrderDetailPage />,
             },
-
-            {
-                path: "/orders/:orderId",
-                element: <OrderDetailPageAdmin />,
-            },
             {
                 path: "/transaction",
                 element: <UserTransaction />,
@@ -130,7 +125,7 @@ export const ROUTES = createBrowserRouter([
                 ],
             },
             {
-                path: "/HistoryOrderPage",
+                path: "/profile/orders",
                 element: <HistoryOrderPage />,
             },
             {
@@ -146,7 +141,7 @@ export const ROUTES = createBrowserRouter([
                         element: <UserManagerPage />,
                     },
                     {
-                        path: "/admin/historyorder",
+                        path: "/admin/orders",
                         element: <HistoryOrderManagerPage />,
                     },
 
@@ -165,6 +160,10 @@ export const ROUTES = createBrowserRouter([
                     {
                         path: "/admin/transaction",
                         element: <AdminTransaction />,
+                    },
+                    {
+                        path: "/admin/orders/:orderId",
+                        element: <OrderDetailPageAdmin />,
                     },
                 ],
             },

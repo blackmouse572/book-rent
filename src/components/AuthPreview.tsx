@@ -41,7 +41,7 @@ export const ADMIN_SECTION_ITEMS: {
         icon: "book",
     },
     {
-        to: "/admin/order",
+        to: "/admin/orders",
         title: "Orders",
         icon: "cart",
     },

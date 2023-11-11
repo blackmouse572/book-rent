@@ -1,18 +1,18 @@
-import { getManyBooks } from '@/apis/book';
+import { getManyBooks } from "@/apis/book";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import clsx from 'clsx';
+import clsx from "clsx";
 import { useState } from "react";
 import { API_GET_ALL_USER_QUERY_KEYS } from "../../apis/users";
 import { IBook, IResponse } from "../../types";
-import { Icons } from '../icons';
+import { Icons } from "../icons";
 
 function Carousel() {
     const [currentSlide, setCurrentSlide] = useState(0);
 
     const queryController = useQuery<IResponse<IBook[]>, AxiosError>(
         [...API_GET_ALL_USER_QUERY_KEYS],
-        () => getManyBooks({genres: "Top 100 books of all time"}),
+        () => getManyBooks({ genres: "Top 100 books of all time" }),
         {
             keepPreviousData: true,
         }
@@ -35,12 +35,14 @@ function Carousel() {
             {books.map((book, index) => (
                 <div
                     key={index}
-                    className={`h-full absolute text-center top-10 pr-40 right-0 ${
+                    className={`h-full absolute text-right top-10 pr-40 right-24 ${
                         index === currentSlide ? "opacity-100" : "opacity-0"
                     }`}
                 >
                     <h2 className="text-right text-2xl pr-40">{book.name}</h2>
-                    <p className="text-right pr-40">{book?.category?.pop()?.name}</p>                 
+                    <p className="text-right pr-40">
+                        {book?.category?.pop()?.name}
+                    </p>
                     <p className="text-right pr-40">{book.author}</p>
                 </div>
             ))}
@@ -59,26 +61,27 @@ function Carousel() {
         </div>
     );
 
-const slideButtons = books.map((_, index) => (
-    <button
-        key={index}
-        type="button"
-        className={clsx(
-            'w-3 h-3 rounded-full',
-            {
-                'bg-white': index === currentSlide,
-                'bg-gray-300': index !== currentSlide,
-                'dark:bg-gray-800/30': true,
-            }
-        )}
-        aria-current={index === currentSlide}
-        aria-label={`Slide ${index + 1}`}
-        data-carousel-slide-to={index}
-    />
-));
+    const slideButtons = books.map((_, index) => (
+        <button
+            key={index}
+            type="button"
+            className={clsx("w-3 h-3 rounded-full", {
+                "bg-white": index === currentSlide,
+                "bg-gray-300": index !== currentSlide,
+                "dark:bg-gray-800/30": true,
+            })}
+            aria-current={index === currentSlide}
+            aria-label={`Slide ${index + 1}`}
+            data-carousel-slide-to={index}
+        />
+    ));
 
     return (
-        <div id="default-carousel" className="relative w-full" data-carousel="slide">
+        <div
+            id="default-carousel"
+            className="relative w-full"
+            data-carousel="slide"
+        >
             <div className="relative h-56 md:h-96 overflow-hidden rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500">
                 <div className="flex flex-col">
                     <div className="flex items-center px-4 py-16 lg:py-0 ">
@@ -97,7 +100,10 @@ const slideButtons = books.map((_, index) => (
                                                 February
                                             </span>
                                         </h2>
-                                        <a href="#" className="btn dark btn-wide rounded-0">
+                                        <a
+                                            href="#"
+                                            className="btn dark btn-wide rounded-0"
+                                        >
                                             <span>See More</span>
                                         </a>
                                     </div>

@@ -3,9 +3,10 @@ import { DEPOSITTYPE, IOrder } from "@/types/order";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 // import PayButton from "@/components/checkout/pay-button";
-import { Icons } from "@/components/icons";
-import { Button } from "@/components/ui/button";
 import { getCheckoutUrlApi } from "@/apis/transaction/getCheckoutURL";
+import { Icons } from "@/components/icons";
+import MetaData from "@/components/metadata";
+import { Button } from "@/components/ui/button";
 
 function ViewCheckout() {
     const { id } = useParams<{ id: string }>();
@@ -75,7 +76,7 @@ function ViewCheckout() {
                 </Button>
             </Link>
         );
-    }, [checkoutUrl]);
+    }, [checkoutUrl, order?.depositType]);
 
     if (!order) {
         return (
@@ -87,6 +88,7 @@ function ViewCheckout() {
 
     return (
         <div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
+            <MetaData title="Checkout" />
             <div className="flex justify-start item-start space-y-2 flex-col">
                 <h1 className="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9 text-gray-800">
                     Order #{order._id}
@@ -96,6 +98,7 @@ function ViewCheckout() {
                         ? order.createdAt.toLocaleString()
                         : "No date available"}
                 </p>
+                MeSM
             </div>
             <div className="mt-10 flex flex-col xl:flex-row justify-center items-stretch w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
                 <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">

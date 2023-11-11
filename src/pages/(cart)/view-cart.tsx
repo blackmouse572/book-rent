@@ -1,5 +1,6 @@
 import CartForm from "@/components/cart/cart-form";
 import { Icons } from "@/components/icons";
+import MetaData from "@/components/metadata";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useOrderCart } from "@/hooks/useOrderCart";
@@ -26,6 +27,7 @@ function ViewCart({ className, ...props }: Props) {
             )}
             {...props}
         >
+            <MetaData title="Cart" />
             <div className="mx-auto p-8 max-w-screen-xl">
                 <div className="flex justify-between">
                     <h2 className="text-3xl font-semibold mb-4">
@@ -78,6 +80,7 @@ function ViewCart({ className, ...props }: Props) {
                         </div>
                     </div>
                 )}
+                M
             </div>
         </div>
     );
