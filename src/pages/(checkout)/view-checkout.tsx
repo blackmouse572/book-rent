@@ -1,15 +1,18 @@
 import { getOrderApi } from "@/apis/order(user)/get-order";
-import { IOrder } from "@/types/order";
+import { DEPOSITTYPE, IOrder } from "@/types/order";
 import { useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 // import PayButton from "@/components/checkout/pay-button";
 import { Icons } from "@/components/icons";
+import { Button } from "@/components/ui/button";
+import { getCheckoutUrlApi } from "@/apis/transaction/getCheckoutURL";
 
 function ViewCheckout() {
     const { id } = useParams<{ id: string }>();
     const myString: string = id!;
 
     const [order, setOrder] = useState<IOrder>();
+    const [checkoutUrl, setCheckoutUrl] = useState<string>("");
 
     useEffect(() => {
         getOrderApi(myString)
@@ -39,6 +42,40 @@ function ViewCheckout() {
             </div>
         );
     }, [order]);
+
+    useEffect(() => {
+        if (order?.totalPrice && order._id) {
+            getCheckoutUrlApi(order?.totalPrice, order?._id)
+                .then((res) => {
+                    if (res) {
+                        console.log(res);
+                        setCheckoutUrl(res);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching order:", error);
+                });
+        }
+    }, [order]);
+
+    const checkoutButton = useMemo(() => {
+        if (order?.depositType == DEPOSITTYPE.COD) return null;
+
+        if (checkoutUrl == "") {
+            return (
+                <Button size={"lg"} className={"px-2 mx-4"} variant={"default"}>
+                    <Icons.loading className="animate-spin h-10 w-10 text-secondary mx-auto" />
+                </Button>
+            );
+        }
+        return (
+            <Link to={checkoutUrl}>
+                <Button size={"lg"} className={"px-2 mx-4"} variant={"default"}>
+                    Check out
+                </Button>
+            </Link>
+        );
+    }, [checkoutUrl]);
 
     if (!order) {
         return (
@@ -84,38 +121,41 @@ function ViewCheckout() {
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                                {order.cart&&order.cart.map((cartItem) => (
-                                    <tr key={cartItem._id}>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            {typeof cartItem.book === "string"
-                                                ? cartItem.book
-                                                : cartItem.book?.name ||
-                                                  "Book not found"}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            {cartItem.quantity}
-                                        </td>
-                                        {typeof cartItem.book !== "string" &&
-                                            cartItem.book && (
-                                                <>
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        $
-                                                        {cartItem.book.rental_price.toFixed(
-                                                            2
-                                                        )}
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        $
-                                                        {(
-                                                            cartItem.quantity *
-                                                            cartItem.book
-                                                                .rental_price
-                                                        ).toFixed(2)}
-                                                    </td>
-                                                </>
-                                            )}
-                                    </tr>
-                                ))}
+                                {order.cart &&
+                                    order.cart.map((cartItem) => (
+                                        <tr key={cartItem._id}>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                {typeof cartItem.book ===
+                                                "string"
+                                                    ? cartItem.book
+                                                    : cartItem.book?.name ||
+                                                      "Book not found"}
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                {cartItem.quantity}
+                                            </td>
+                                            {typeof cartItem.book !==
+                                                "string" &&
+                                                cartItem.book && (
+                                                    <>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            $
+                                                            {cartItem.book.rental_price.toFixed(
+                                                                2
+                                                            )}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            $
+                                                            {(
+                                                                cartItem.quantity *
+                                                                cartItem.book
+                                                                    .rental_price
+                                                            ).toFixed(2)}
+                                                        </td>
+                                                    </>
+                                                )}
+                                        </tr>
+                                    ))}
                             </tbody>
                         </table>
                     </div>
@@ -166,7 +206,7 @@ function ViewCheckout() {
                     </div>
                 </div>
                 <div className="bg-gray-50 w-full xl-w-96 flex justify-between items-center md:items-start px-4 py-6 md:p-6 xl:p-8 flex-col">
-                    <div className="flex flex-col md-flex-row xl-flex-col justify-start items-stretch h-full w-full md-space-x-6 lg-space-x-8 xl-space-x-0">
+                    <div className="flex flex-col md-flex-row xl-flex-col justify-between items-stretch h-full w-full md-space-x-6 lg-space-x-8 xl-space-x-0">
                         <div className="flex justify-between xl-h-full items-stretch w-full flex-col mt-6 md-mt-0">
                             <div className="flex justify-center md-justify-start xl-flex-col flex-col md-space-x-6 lg-space-x-8 xl-space-x-0 space-y-4 xl-space-y-12 md-space-y-0 md-flex-row items-center md-items-start">
                                 <div className="flex justify-center md-justify-start items-center md-items-start flex-col space-y-4 xl-mt-8">
@@ -185,10 +225,10 @@ function ViewCheckout() {
                                         {order.returnLocation}
                                     </p>
                                 </div>
-                                {/* <div>
-                                    <PayButton />
-                                </div> */}
                             </div>
+                        </div>
+                        <div className="flex justify-center">
+                            {checkoutButton}
                         </div>
                     </div>
                 </div>

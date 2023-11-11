@@ -36,6 +36,7 @@ import {
     IconUser,
     IconVocabulary,
     IconX,
+    IconTransferVertical,
     type Icon as TablerIcons,
 } from "@tabler/icons-react";
 
@@ -45,6 +46,7 @@ export const Icons = {
     logo: IconVocabulary,
     close: IconX,
     book: IconBook2,
+    transaction: IconTransferVertical,
     category: IconCategory,
     dashboard: IconDashboard,
     arrowLeft: IconArrowLeft,

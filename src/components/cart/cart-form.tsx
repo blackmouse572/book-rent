@@ -95,7 +95,7 @@ function CartForm() {
             .then((order: IOrder) => {
                 if (order && order._id) {
                     console.log("Order ID:", order._id);
-                    navigate(`/order/${order._id}`);
+                    navigate(`/view-checkout/${order._id}`);
                 } else {
                     toast({
                         title: "Invalid order response",
@@ -362,7 +362,7 @@ function CartForm() {
                         />
                         <div className="space-y-2">
                             <Button type="submit" className="w-full">
-                                Submit
+                                Go to checkout
                             </Button>
                         </div>
                         {/* <div className="mt-4">

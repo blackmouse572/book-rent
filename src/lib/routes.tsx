@@ -12,12 +12,20 @@ const LoginPage = React.lazy(() => import("@/pages/(auth)/login/SignInPage"));
 const RegisterPage = React.lazy(
     () => import("@/pages/(auth)/register/RegisterPage")
 );
-const OrderDetailPage = React.lazy(() => import("@/components/historyOrder-table/orderDetail"));
-const OrderDetailPageAdmin = React.lazy(() => import("@/components/historyOrder(admin)/orderDetailAdmin"));
+const OrderDetailPage = React.lazy(
+    () => import("@/components/historyOrder-table/orderDetail")
+);
+const OrderDetailPageAdmin = React.lazy(
+    () => import("@/components/historyOrder(admin)/orderDetailAdmin")
+);
 const HomePage = React.lazy(() => import("@/pages/HomePage"));
 const LandingPage = React.lazy(() => import("@/pages/LandingPage"));
-const HistoryOrderPage = React.lazy(() => import("@/pages/historyOrder/HistoryOrderPage"));
-const HistoryOrderManagerPage = React.lazy(() => import("@/pages/(admin)/HistoryOrderManagerPage"));
+const HistoryOrderPage = React.lazy(
+    () => import("@/pages/historyOrder/HistoryOrderPage")
+);
+const HistoryOrderManagerPage = React.lazy(
+    () => import("@/pages/(admin)/HistoryOrderManagerPage")
+);
 const ProfilePage = React.lazy(() => import("@/pages/(profile)/Profile"));
 const DashboardPage = React.lazy(() => import("@/pages/(admin)/Dashboard"));
 const UserManagerPage = React.lazy(
@@ -44,11 +52,19 @@ const ViewCart = React.lazy(() => import("@/pages/(cart)/view-cart"));
 const ViewCheckout = React.lazy(
     () => import("@/pages/(checkout)/view-checkout")
 );
-const CheckoutSuccess = React.lazy(
-    () => import("@/pages/(checkout)/checkout-success-page")
+const CheckoutResult = React.lazy(
+    () => import("@/pages/(checkout)/checkout-result-page")
 );
 const CheckoutFailed = React.lazy(
     () => import("@/pages/(checkout)/checkout-fail-page")
+);
+
+const AdminTransaction = React.lazy(
+    () => import("@/pages/transaction/AdminTransaction")
+);
+
+const UserTransaction = React.lazy(
+    () => import("@/pages/transaction/UserTransaction")
 );
 
 export const ROUTES = createBrowserRouter([
@@ -71,18 +87,20 @@ export const ROUTES = createBrowserRouter([
             {
                 path: "/",
                 element: <LandingPage />,
-
             },
-         
-           
+
             {
                 path: "/order/:orderId",
-                element:  <OrderDetailPage  />,
+                element: <OrderDetailPage />,
             },
-            
+
             {
                 path: "/orders/:orderId",
-                element:  <OrderDetailPageAdmin />,
+                element: <OrderDetailPageAdmin />,
+            },
+            {
+                path: "/transaction",
+                element: <UserTransaction />,
             },
             {
                 element: <CartLayout />,
@@ -98,12 +116,12 @@ export const ROUTES = createBrowserRouter([
                         element: <ViewCart />,
                     },
                     {
-                        path: "/order/:id",
+                        path: "/view-checkout/:id",
                         element: <ViewCheckout />,
                     },
                     {
-                        path: "/checkout-success",
-                        element: <CheckoutSuccess />,
+                        path: "/checkout-result",
+                        element: <CheckoutResult />,
                     },
                     {
                         path: "/checkout-failed",
@@ -113,7 +131,7 @@ export const ROUTES = createBrowserRouter([
             },
             {
                 path: "/HistoryOrderPage",
-                element: <HistoryOrderPage/>,
+                element: <HistoryOrderPage />,
             },
             {
                 path: "/admin",
@@ -129,13 +147,8 @@ export const ROUTES = createBrowserRouter([
                     },
                     {
                         path: "/admin/historyorder",
-                        element:  <HistoryOrderManagerPage />,
+                        element: <HistoryOrderManagerPage />,
                     },
-
-                   
-
-
-                   
 
                     {
                         path: "/admin/category",
@@ -148,6 +161,10 @@ export const ROUTES = createBrowserRouter([
                     {
                         path: "/admin/book/:id",
                         element: <BookDetailAdminPage />,
+                    },
+                    {
+                        path: "/admin/transaction",
+                        element: <AdminTransaction />,
                     },
                 ],
             },
