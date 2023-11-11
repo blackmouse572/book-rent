@@ -33,8 +33,8 @@ export const RegisterSchema = z
         citizenId: z.string().min(9).max(12),
         citizenIdType: z.nativeEnum(ENUM_CITIZEN_ID_TYPE),
         citizenIdIssueDate: z.date(),
+        citizenIdDateOfBirth: z.date(),
         citizenIdPlaceOfIssue: z.string(),
-        citizenIdDateOfBirth: z.string(),
     })
     .superRefine(({ password, confirmPassword }, ctx) => {
         if (confirmPassword !== password) {

@@ -13,6 +13,7 @@ import { Button } from "./ui/button";
 import { citizenIdCaptureApi } from "@/apis/auth/apis/citizenIdCapture";
 import { Icons } from "@/components/icons";
 import { ICitizenBackSide, ICitizenFrontSide } from "@/types";
+import { format, isDate, parse } from "date-fns";
 import {
     Form,
     FormControl,
@@ -139,9 +140,16 @@ function RegisterForm() {
             citizenIdCaptureApi<ICitizenFrontSide>(formDataFS),
             citizenIdCaptureApi<ICitizenBackSide>(formDataBS),
         ]);
-
+        console.log({ fs, bs });
         form.setValue("citizenId", fs.data[0].id);
-        form.setValue("citizenIdDateOfBirth", fs.data[0].dob);
+        form.setValue(
+            "citizenIdDateOfBirth",
+            parse(fs.data[0].dob, "dd/MM/yyyy", new Date())
+        );
+        form.setValue(
+            "citizenIdIssueDate",
+            parse(bs.data[0].issue_date, "dd/MM/yyyy", new Date())
+        );
         form.setValue("citizenIdPlaceOfIssue", bs.data[0].issue_loc);
         form.setValue("citizenIdType", bs.data[0].type);
     }, [backImage, form, frontImage]);
@@ -172,12 +180,42 @@ function RegisterForm() {
                 />
                 <FormField
                     control={form.control}
+                    name="citizenIdIssueDate"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel> Issue Date </FormLabel>
+                            <FormControl>
+                                <Input
+                                    disabled
+                                    {...field}
+                                    value={
+                                        isDate(field.value)
+                                            ? format(field.value, "dd/MM/yyyy")
+                                            : ""
+                                    }
+                                />
+                            </FormControl>
+                            <FormDescription />
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
                     name="citizenIdDateOfBirth"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Birth Date</FormLabel>
                             <FormControl>
-                                <Input disabled {...field} />
+                                <Input
+                                    disabled
+                                    {...field}
+                                    value={
+                                        isDate(field.value)
+                                            ? format(field.value, "dd/MM/yyyy")
+                                            : ""
+                                    }
+                                />
                             </FormControl>
                             <FormDescription />
                             <FormMessage />
@@ -215,6 +253,10 @@ function RegisterForm() {
             </>
         );
     }, [form.control, isBothSide]);
+
+    useEffect(() => {
+        form.formState.errors && console.log(form.formState.errors);
+    }, [form.formState.errors]);
     return (
         <Form {...form}>
             <form
@@ -311,6 +353,7 @@ function RegisterForm() {
                                     <Input
                                         disabled={isLoading}
                                         placeholder="*******"
+                                        type="password"
                                         {...field}
                                     />
                                 </FormControl>
