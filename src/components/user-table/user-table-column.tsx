@@ -6,8 +6,7 @@ import { Badge } from "../ui/badge/badge";
 import { UserDetail } from "@/components/user-table/manage-user/user-detail";
 import { BanUserApi } from "@/components/user-table/manage-user/user-ban";
 import { UnBanUserApi } from "@/components/user-table/manage-user/user-unban";
-import { Button } from "@/components/ui/button/button";
-import { Link } from "react-router-dom";
+
 
 export const columns: ColumnDef<User>[] = [
     {
@@ -62,9 +61,7 @@ export const columns: ColumnDef<User>[] = [
                         <BanUserApi userId={_id} />
                     ) : null}
                     {_id && <UserDetail userid={_id} />}{" "}
-                    <Button variant="outline" size="sm">
-                        <Link to={`/admin/user/create`}> Create User</Link>
-                    </Button>
+                    
                 </div>
             );
         },

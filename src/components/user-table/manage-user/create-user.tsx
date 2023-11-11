@@ -78,404 +78,437 @@ export default function CreateUser() {
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-4 max-w-sm mx-auto w-full"
+                        className="space-y-4 max-w-2xl mx-auto w-full"
                     >
-                        <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel> Email </FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="abc@gmail.com"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormDescription />
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="fullName"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel> Full Name </FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="J.K Rowling"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormDescription />
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <div className="flex flex-row justify-between">
-                            <FormField
-                                control={form.control}
-                                name="username"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel> User Name </FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="J.K Rowling"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormDescription />
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="password"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel> Password </FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="J.K Rowling"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormDescription />
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                        <div className="flex flex-row">
+                            <div>
+                                <FormField
+                                    control={form.control}
+                                    name="email"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel> Email </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="abc@gmail.com"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormDescription />
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="fullName"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel> Full Name </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="J.K Rowling"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormDescription />
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <div className="flex flex-row justify-between">
+                                    <FormField
+                                        control={form.control}
+                                        name="username"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>
+                                                    {" "}
+                                                    User Name{" "}
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        placeholder="J.K Rowling"
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormDescription />
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="password"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>
+                                                    {" "}
+                                                    Password{" "}
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        placeholder="J.K Rowling"
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormDescription />
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+
+                                <FormField
+                                    control={form.control}
+                                    name="phone"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel> Phone </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="0123456789"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormDescription />
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="address"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel> Address </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="J.K Rowling"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormDescription />
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="role"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Role</FormLabel>
+                                            <FormControl>
+                                                <RadioGroup
+                                                    onValueChange={(value) =>
+                                                        form.setValue(
+                                                            "role",
+                                                            value as
+                                                                | "SUPER_ADMIN"
+                                                                | "ADMIN"
+                                                                | "USER"
+                                                        )
+                                                    }
+                                                    defaultValue={field.value}
+                                                    className="flex flex-row justify-between"
+                                                >
+                                                    <FormItem className="flex items-center space-x-3 space-y-0">
+                                                        <FormControl>
+                                                            <RadioGroupItem value="SUPER_ADMIN" />
+                                                        </FormControl>
+                                                        <FormLabel className="font-normal">
+                                                            SUPER ADMIN
+                                                        </FormLabel>
+                                                    </FormItem>
+                                                    <FormItem className="flex items-center space-x-3 space-y-0">
+                                                        <FormControl>
+                                                            <RadioGroupItem value="ADMIN" />
+                                                        </FormControl>
+                                                        <FormLabel className="font-normal">
+                                                            ADMIN
+                                                        </FormLabel>
+                                                    </FormItem>
+                                                    <FormItem className="flex items-center space-x-3 space-y-0">
+                                                        <FormControl>
+                                                            <RadioGroupItem value="USER" />
+                                                        </FormControl>
+                                                        <FormLabel className="font-normal">
+                                                            USER
+                                                        </FormLabel>
+                                                    </FormItem>
+                                                </RadioGroup>
+                                            </FormControl>
+                                            <FormDescription />
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name="blocked"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Blocked</FormLabel>
+                                            <FormControl>
+                                                <Checkbox
+                                                    checked={
+                                                        field.value ?? false
+                                                    }
+                                                    onCheckedChange={
+                                                        field.onChange
+                                                    }
+                                                />
+                                            </FormControl>
+                                            <FormDescription />
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div className="ml-10">
+                                <FormField
+                                    control={form.control}
+                                    name="citizenId"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel> Citizen Id </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="xxx xxx xxx xxx"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormDescription />
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="citizenIdType"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                Citizen Id Type
+                                            </FormLabel>
+                                            <FormControl>
+                                                <RadioGroup
+                                                    onValueChange={(value) =>
+                                                        form.setValue(
+                                                            "citizenIdType",
+                                                            value as
+                                                                | "old"
+                                                                | "new"
+                                                                | "cccd_chip_front"
+                                                                | "old_back"
+                                                                | "new_back"
+                                                                | "chip_front"
+                                                                | "chip_back"
+                                                                | "cccd_chip_back"
+                                                        )
+                                                    }
+                                                    defaultValue={field.value}
+                                                    className="flex flex-row justify-between"
+                                                >
+                                                    <div>
+                                                        <FormItem className="flex items-center space-x-3 space-y-0 p-1">
+                                                            <FormControl>
+                                                                <RadioGroupItem value="old" />
+                                                            </FormControl>
+                                                            <FormLabel className="font-normal">
+                                                                OLD
+                                                            </FormLabel>
+                                                        </FormItem>
+                                                        <FormItem className="flex items-center space-x-3 space-y-0 p-1">
+                                                            <FormControl>
+                                                                <RadioGroupItem value="new" />
+                                                            </FormControl>
+                                                            <FormLabel className="font-normal">
+                                                                NEW
+                                                            </FormLabel>
+                                                        </FormItem>
+                                                    </div>
+                                                    <div>
+                                                        <FormItem className="flex items-center space-x-3 space-y-0 p-1">
+                                                            <FormControl>
+                                                                <RadioGroupItem value="cccd_chip_front" />
+                                                            </FormControl>
+                                                            <FormLabel className="font-normal">
+                                                                CCCD CHIP FRONT
+                                                            </FormLabel>
+                                                        </FormItem>
+                                                        <FormItem className="flex items-center space-x-3 space-y-0 p-1">
+                                                            <FormControl>
+                                                                <RadioGroupItem value="new_back" />
+                                                            </FormControl>
+                                                            <FormLabel className="font-normal">
+                                                                NEW BACK
+                                                            </FormLabel>
+                                                        </FormItem>
+                                                    </div>
+                                                    <div>
+                                                        <FormItem className="flex items-center space-x-3 space-y-0 p-1">
+                                                            <FormControl>
+                                                                <RadioGroupItem value="chip_front" />
+                                                            </FormControl>
+                                                            <FormLabel className="font-normal">
+                                                                CHIP FRONT
+                                                            </FormLabel>
+                                                        </FormItem>
+                                                        <FormItem className="flex items-center space-x-3 space-y-0 p-1">
+                                                            <FormControl>
+                                                                <RadioGroupItem value="chip_back" />
+                                                            </FormControl>
+                                                            <FormLabel className="font-normal">
+                                                                CHIP BACK
+                                                            </FormLabel>
+                                                        </FormItem>
+                                                        <FormItem className="flex items-center space-x-3 space-y-0 p-1">
+                                                            <FormControl>
+                                                                <RadioGroupItem value="cccd_chip_back" />
+                                                            </FormControl>
+                                                            <FormLabel className="font-normal">
+                                                                CCCD CHIP BACK
+                                                            </FormLabel>
+                                                        </FormItem>
+                                                    </div>
+                                                </RadioGroup>
+                                            </FormControl>
+                                            <FormDescription />
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="citizenIdIssueDate"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                Citizen Id Issue Date
+                                            </FormLabel>
+                                            <Popover>
+                                                <PopoverTrigger asChild>
+                                                    <FormControl>
+                                                        <Button
+                                                            variant={"outline"}
+                                                            className={cn(
+                                                                "w-[200px] pl-3 text-left font-normal",
+                                                                !field.value &&
+                                                                    "text-muted-foreground"
+                                                            )}
+                                                        >
+                                                            {field.value ? (
+                                                                format(
+                                                                    field.value,
+                                                                    "PPP"
+                                                                )
+                                                            ) : (
+                                                                <span>
+                                                                    Citizen Id
+                                                                    Issue Date
+                                                                </span>
+                                                            )}
+                                                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                        </Button>
+                                                    </FormControl>
+                                                </PopoverTrigger>
+                                                <PopoverContent
+                                                    className="w-auto p-0"
+                                                    align="start"
+                                                >
+                                                    <Calendar
+                                                        mode="single"
+                                                        selected={field.value}
+                                                        onSelect={
+                                                            field.onChange
+                                                        }
+                                                        initialFocus
+                                                    />
+                                                </PopoverContent>
+                                            </Popover>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="citizenIdDateOfBirth"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                Citizen Id Date Of Birth
+                                            </FormLabel>
+                                            <Popover>
+                                                <PopoverTrigger asChild>
+                                                    <FormControl>
+                                                        <Button
+                                                            variant={"outline"}
+                                                            className={cn(
+                                                                "w-[200px] pl-3 text-left font-normal",
+                                                                !field.value &&
+                                                                    "text-muted-foreground"
+                                                            )}
+                                                        >
+                                                            {field.value ? (
+                                                                format(
+                                                                    field.value,
+                                                                    "PPP"
+                                                                )
+                                                            ) : (
+                                                                <span>
+                                                                    Citizen Id
+                                                                    Date Of
+                                                                    Birth
+                                                                </span>
+                                                            )}
+                                                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                        </Button>
+                                                    </FormControl>
+                                                </PopoverTrigger>
+                                                <PopoverContent
+                                                    className="w-auto p-0"
+                                                    align="start"
+                                                >
+                                                    <Calendar
+                                                        mode="single"
+                                                        selected={field.value}
+                                                        onSelect={
+                                                            field.onChange
+                                                        }
+                                                        initialFocus
+                                                    />
+                                                </PopoverContent>
+                                            </Popover>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="citizenIdPlaceOfIssue"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                {" "}
+                                                Citizen Id Place Of Issue{" "}
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="ABCD..."
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormDescription />
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
                         </div>
 
-                        <FormField
-                            control={form.control}
-                            name="phone"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel> Phone </FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="0123456789"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormDescription />
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="address"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel> Address </FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="J.K Rowling"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormDescription />
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="citizenId"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel> citizenId </FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="xxx xxx xxx xxx"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormDescription />
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="citizenIdType"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>citizenIdType</FormLabel>
-                                    <FormControl>
-                                        <RadioGroup
-                                            onValueChange={(value) =>
-                                                form.setValue(
-                                                    "citizenIdType",
-                                                    value as
-                                                        | "old"
-                                                        | "new"
-                                                        | "cccd_chip_front"
-                                                        | "old_back"
-                                                        | "new_back"
-                                                        | "chip_front"
-                                                        | "chip_back"
-                                                        | "cccd_chip_back"
-                                                )
-                                            }
-                                            defaultValue={field.value}
-                                            className="flex flex-row justify-between"
-                                        >
-                                            <FormItem className="flex items-center space-x-3 space-y-0">
-                                                <FormControl>
-                                                    <RadioGroupItem value="old" />
-                                                </FormControl>
-                                                <FormLabel className="font-normal">
-                                                    OLD
-                                                </FormLabel>
-                                            </FormItem>
-                                            <FormItem className="flex items-center space-x-3 space-y-0">
-                                                <FormControl>
-                                                    <RadioGroupItem value="new" />
-                                                </FormControl>
-                                                <FormLabel className="font-normal">
-                                                    NEW
-                                                </FormLabel>
-                                            </FormItem>
-                                            <FormItem className="flex items-center space-x-3 space-y-0">
-                                                <FormControl>
-                                                    <RadioGroupItem value="cccd_chip_front" />
-                                                </FormControl>
-                                                <FormLabel className="font-normal">
-                                                    CCCD CHIP FRONT
-                                                </FormLabel>
-                                            </FormItem>
-                                            <FormItem className="flex items-center space-x-3 space-y-0">
-                                                <FormControl>
-                                                    <RadioGroupItem value="new_back" />
-                                                </FormControl>
-                                                <FormLabel className="font-normal">
-                                                    NEW BACK
-                                                </FormLabel>
-                                            </FormItem>
-                                            <FormItem className="flex items-center space-x-3 space-y-0">
-                                                <FormControl>
-                                                    <RadioGroupItem value="chip_front" />
-                                                </FormControl>
-                                                <FormLabel className="font-normal">
-                                                    CHIP FRONT
-                                                </FormLabel>
-                                            </FormItem>
-                                            <FormItem className="flex items-center space-x-3 space-y-0">
-                                                <FormControl>
-                                                    <RadioGroupItem value="chip_back" />
-                                                </FormControl>
-                                                <FormLabel className="font-normal">
-                                                    CHIP BACK
-                                                </FormLabel>
-                                            </FormItem>
-                                            <FormItem className="flex items-center space-x-3 space-y-0">
-                                                <FormControl>
-                                                    <RadioGroupItem value="cccd_chip_back" />
-                                                </FormControl>
-                                                <FormLabel className="font-normal">
-                                                    CCCD CHIP BACK
-                                                </FormLabel>
-                                            </FormItem>
-                                        </RadioGroup>
-                                    </FormControl>
-                                    <FormDescription />
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="citizenIdIssueDate"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-col">
-                                    <FormLabel>citizenIdIssueDate</FormLabel>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <FormControl>
-                                                <Button
-                                                    variant={"outline"}
-                                                    className={cn(
-                                                        "w-[175px] pl-3 text-left font-normal",
-                                                        !field.value &&
-                                                            "text-muted-foreground"
-                                                    )}
-                                                >
-                                                    {field.value ? (
-                                                        format(
-                                                            field.value,
-                                                            "PPP"
-                                                        )
-                                                    ) : (
-                                                        <span>
-                                                            citizenIdIssueDate
-                                                        </span>
-                                                    )}
-                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                                </Button>
-                                            </FormControl>
-                                        </PopoverTrigger>
-                                        <PopoverContent
-                                            className="w-auto p-0"
-                                            align="start"
-                                        >
-                                            <Calendar
-                                                mode="single"
-                                                selected={field.value}
-                                                onSelect={field.onChange}
-                                                initialFocus
-                                            />
-                                        </PopoverContent>
-                                    </Popover>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="citizenIdDateOfBirth"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-col">
-                                    <FormLabel>citizenIdDateOfBirth</FormLabel>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <FormControl>
-                                                <Button
-                                                    variant={"outline"}
-                                                    className={cn(
-                                                        "w-[175px] pl-3 text-left font-normal",
-                                                        !field.value &&
-                                                            "text-muted-foreground"
-                                                    )}
-                                                >
-                                                    {field.value ? (
-                                                        format(
-                                                            field.value,
-                                                            "PPP"
-                                                        )
-                                                    ) : (
-                                                        <span>
-                                                            citizenIdIssueDate
-                                                        </span>
-                                                    )}
-                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                                </Button>
-                                            </FormControl>
-                                        </PopoverTrigger>
-                                        <PopoverContent
-                                            className="w-auto p-0"
-                                            align="start"
-                                        >
-                                            <Calendar
-                                                mode="single"
-                                                selected={field.value}
-                                                onSelect={field.onChange}
-                                                initialFocus
-                                            />
-                                        </PopoverContent>
-                                    </Popover>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="citizenIdPlaceOfIssue"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>
-                                        {" "}
-                                        citizenIdPlaceOfIssue{" "}
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="ABCD..."
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormDescription />
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <div className="flex flex-row justify-between">
-                            <FormField
-                                control={form.control}
-                                name="role"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Role</FormLabel>
-                                        <FormControl>
-                                            <RadioGroup
-                                                onValueChange={(value) =>
-                                                    form.setValue(
-                                                        "role",
-                                                        value as
-                                                            | "SUPER_ADMIN"
-                                                            | "ADMIN"
-                                                            | "USER"
-                                                    )
-                                                }
-                                                defaultValue={field.value}
-                                                className="flex flex-row justify-between"
-                                            >
-                                                <FormItem className="flex items-center space-x-3 space-y-0">
-                                                    <FormControl>
-                                                        <RadioGroupItem value="SUPER_ADMIN" />
-                                                    </FormControl>
-                                                    <FormLabel className="font-normal">
-                                                        SUPER ADMIN
-                                                    </FormLabel>
-                                                </FormItem>
-                                                <FormItem className="flex items-center space-x-3 space-y-0">
-                                                    <FormControl>
-                                                        <RadioGroupItem value="ADMIN" />
-                                                    </FormControl>
-                                                    <FormLabel className="font-normal">
-                                                        ADMIN
-                                                    </FormLabel>
-                                                </FormItem>
-                                                <FormItem className="flex items-center space-x-3 space-y-0">
-                                                    <FormControl>
-                                                        <RadioGroupItem value="USER" />
-                                                    </FormControl>
-                                                    <FormLabel className="font-normal">
-                                                        USER
-                                                    </FormLabel>
-                                                </FormItem>
-                                            </RadioGroup>
-                                        </FormControl>
-                                        <FormDescription />
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-
-                            <FormField
-                                control={form.control}
-                                name="blocked"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Blocked</FormLabel>
-                                        <FormControl>
-                                            <Checkbox
-                                                checked={field.value ?? false}
-                                                onCheckedChange={field.onChange}
-                                            />
-                                        </FormControl>
-                                        <FormDescription />
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
                         <div className="space-y-2">
                             <Button type="submit" className="w-full">
                                 Submit
