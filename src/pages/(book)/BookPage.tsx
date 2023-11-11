@@ -44,7 +44,13 @@ function BookPage() {
     });
 
     const renderBooks = React.useMemo(() => {
-        if (isLoading) return <BookGridLoading pageSize={bookState.perPage!} />;
+        if (isLoading)
+            return (
+                <BookGridLoading
+                    pageSize={8}
+                    className="grid grid-cols-4 col-span-full gap-4"
+                />
+            );
         if (!data?.data || data.data.length === 0)
             return (
                 <div className="w-full h-full col-span-full row-span-full">
@@ -77,7 +83,7 @@ function BookPage() {
                 </Link>
             );
         });
-    }, [bookState.perPage, data?.data, isLoading]);
+    }, [data?.data, isLoading]);
 
     const { addToCart } = useOrderCart();
     const onRentAll = React.useCallback(() => {
