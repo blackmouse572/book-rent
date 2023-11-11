@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { CartSchema } from "./validation-cart";
 import {
     Form,
     FormControl,
@@ -19,28 +18,29 @@ import {
     TableHeader,
     TableRow,
 } from "../ui/table";
+import { CartSchema } from "./validation-cart";
 
-import { Input } from "../ui/input";
-import { Button } from "../ui/button/button";
-import { useOrderCart } from "@/hooks/useOrderCart";
-import { useEffect, useState } from "react";
-import { IBook } from "@/types";
 import { getBookById } from "@/apis/book";
 import { postOrderApi } from "@/apis/order(user)/post-order";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { IOrder } from "@/types/order";
-import { toast } from "@/components/ui/use-toast";
-import { Separator } from "@/components/ui/separator";
-import { useNavigate } from "react-router-dom";
+import { Calendar } from "@/components/ui/calendar";
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon } from "@radix-ui/react-icons";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Separator } from "@/components/ui/separator";
+import { toast } from "@/components/ui/use-toast";
+import { useOrderCart } from "@/hooks/useOrderCart";
 import { cn } from "@/lib/utils";
+import { IBook } from "@/types";
+import { IOrder } from "@/types/order";
+import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "../ui/button/button";
+import { Input } from "../ui/input";
 
 type FormData = z.infer<typeof CartSchema>;
 
@@ -67,9 +67,9 @@ function CartForm() {
     useEffect(() => {
         if (cartItems && cartItems.length > 0) {
             const promises = cartItems
-                .filter((cart) => typeof cart.bookId === 'string')
+                .filter((cart) => typeof cart.bookId === "string")
                 .map((cart) => getBookById(cart.bookId as string)); // Cast to string
-    
+
             Promise.all(promises)
                 .then((bookDataArray) => {
                     setBookData(bookDataArray);
@@ -79,34 +79,33 @@ function CartForm() {
                 });
         }
     }, [cartItems]);
-    
+
     const navigate = useNavigate();
 
     const onSubmit = async (data: FormData) => {
-    const mergedData: IOrder = {
-        ...data,
-        cart: cartItems,
-    };
-    await postOrderApi(mergedData)
-        .then((order: IOrder) => {
-            if (order && order._id) {
-                console.log("Order ID:", order._id);
-                navigate(`/view-checkout/${order._id}`);
-            } else {
+        const mergedData: IOrder = {
+            ...data,
+            cart: cartItems,
+        };
+        await postOrderApi(mergedData)
+            .then((order: IOrder) => {
+                if (order && order._id) {
+                    console.log("Order ID:", order._id);
+                    navigate(`/order/${order._id}`);
+                } else {
+                    toast({
+                        title: "Invalid order response",
+                        description: "No order ID in the response.",
+                    });
+                }
+            })
+            .catch((error) => {
                 toast({
-                    title: "Invalid order response",
-                    description: "No order ID in the response.",
+                    title: "Error submitting order",
+                    description: error.message,
                 });
-            }
-        })
-        .catch((error) => {
-            toast({
-                title: "Error submitting order",
-                description: error.message,
             });
-        });
-};
-
+    };
 
     return (
         <div className="p-4">
@@ -132,7 +131,8 @@ function CartForm() {
                                             size="sm"
                                             onClick={() =>
                                                 handleDecreaseToCart(
-                                                    bookData[index]._id as string
+                                                    bookData[index]
+                                                        ._id as string
                                                 )
                                             }
                                         >
@@ -143,7 +143,8 @@ function CartForm() {
                                             size="sm"
                                             onClick={() =>
                                                 handleAddToCart(
-                                                    bookData[index]._id as string
+                                                    bookData[index]
+                                                        ._id as string
                                                 )
                                             }
                                         >
@@ -158,7 +159,8 @@ function CartForm() {
                                         <Button
                                             onClick={() =>
                                                 handleRemoveFromCart(
-                                                    bookData[index]._id as string
+                                                    bookData[index]
+                                                        ._id as string
                                                 )
                                             }
                                         >

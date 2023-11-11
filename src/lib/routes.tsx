@@ -90,7 +90,7 @@ export const ROUTES = createBrowserRouter([
                         element: <ViewCart />,
                     },
                     {
-                        path: "/view-checkout/:id",
+                        path: "/order/:id",
                         element: <ViewCheckout />,
                     },
                     {
