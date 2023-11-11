@@ -1,4 +1,3 @@
-import { ENUM_CITIZEN_ID_TYPE } from "@/pages/(auth)/register/validation";
 import * as z from "zod";
 
 export const userSchema = z.object({

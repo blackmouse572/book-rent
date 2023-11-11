@@ -11,6 +11,7 @@ import { toast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
 import { getUserApi } from "@/apis/users/get-user";
 import { Label } from "@radix-ui/react-label";
+import { Separator } from "@/components/ui/separator";
 
 export function UserDetail({ userid }: { userid: string }) {
     const [user, setUser] = useState<User | undefined>(undefined);
@@ -107,6 +108,29 @@ export function UserDetail({ userid }: { userid: string }) {
                             <div className=" flex flex-column">
                                 <Label className="font-semibold">Blocked Date: </Label>
                                 <p className="text-gray-700 pl-5">{user?.blockedDate ? user.blockedDate.toLocaleString() : 'N/A'}</p>
+                            </div>
+
+                            <Separator className="m-5"/>
+
+                            <div className=" flex flex-column">
+                                <Label className="font-semibold">Citizen Id: </Label>
+                                <p className="text-gray-700 pl-5">{user?.citizenId}</p>
+                            </div>
+                            <div className=" flex flex-column">
+                                <Label className="font-semibold">Citizen Id Type: </Label>
+                                <p className="text-gray-700 pl-5">{user?.citizenIdType}</p>
+                            </div>
+                            <div className=" flex flex-column">
+                                <Label className="font-semibold">Citizen Id Date Of Birth: </Label>
+                                <p className="text-gray-700 pl-5">{user?.citizenIdDateOfBirth ? user.citizenIdDateOfBirth.toLocaleString() : 'N/A'}</p>
+                            </div>
+                            <div className=" flex flex-column">
+                                <Label className="font-semibold">Citizen Id Issue Date: </Label>
+                                <p className="text-gray-700 pl-5">{user?.citizenIdIssueDate ? user.citizenIdIssueDate.toLocaleString() : 'N/A'}</p>
+                            </div>
+                            <div className=" flex flex-column">
+                                <Label className="font-semibold">Citizen Id Place Of Issue: </Label>
+                                <p className="text-gray-700 pl-5">{user?.citizenIdPlaceOfIssue}</p>
                             </div>
                         </div>
                     </div>
