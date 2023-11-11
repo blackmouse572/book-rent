@@ -116,6 +116,37 @@ export default function BookDetailPage() {
         ];
     }, [book, pathname]);
 
+    const renderReviewRatingBadge = useCallback((rating: number) => {
+        switch (rating) {
+            case 5:
+                return (
+                    <Badge className="bg-slate-800 text-slate-200">
+                        Excellent
+                    </Badge>
+                );
+            case 4:
+                return (
+                    <Badge className="bg-slate-800 text-slate-200">
+                        Greate
+                    </Badge>
+                );
+            case 3:
+                return (
+                    <Badge className="bg-slate-800 text-slate-200">Good</Badge>
+                );
+            case 2:
+                return (
+                    <Badge className="bg-slate-800 text-slate-200">Bad</Badge>
+                );
+            case 1:
+                return (
+                    <Badge className="bg-slate-800 text-slate-200">
+                        No worth
+                    </Badge>
+                );
+        }
+    }, []);
+
     const renderReviewer = React.useCallback(
         ({ author, rating, updatedAt }: IReview) => (
             <div className="flex items-center gap-3 w-full">
@@ -131,13 +162,16 @@ export default function BookDetailPage() {
                         <div className="text-slate-400">{author.email}</div>
                     </div>
                     <div className="flex flex-col justify-end items-end">
-                        <h5 className="font-medium text-lg flex w-fit items-center">
-                            {rating}&nbsp;
-                            <Icons.star
-                                className={"text-yellow-500"}
-                                size={16}
-                            />
-                        </h5>
+                        <div className="flex gap-2">
+                            <h5 className="font-medium text-lg flex w-fit items-center">
+                                {rating}&nbsp;
+                                <Icons.star
+                                    className={"text-yellow-500"}
+                                    size={16}
+                                />
+                            </h5>
+                            {renderReviewRatingBadge(rating)}
+                        </div>
                         <p className="text-xs text-slate-300 text-right">
                             Reviewed at{" "}
                             {format(parseISO(updatedAt), "dd/MM/yyyy")}
@@ -182,43 +216,23 @@ export default function BookDetailPage() {
         ));
     }, [book?.reviews, renderReviewer]);
 
-    const { setValue, watch, register, handleSubmit } = useForm<FormValue>({
-        defaultValues: {
-            review: "",
-            rating: 5,
-        },
-    });
+    const { setValue, watch, reset, register, handleSubmit } =
+        useForm<FormValue>({
+            defaultValues: {
+                review: "",
+                rating: 5,
+            },
+        });
 
-    const renderReviewRatingBadge = useCallback((rating: number) => {
-        switch (rating) {
-            case 5:
-                return (
-                    <Badge className="bg-slate-800 text-slate-200">
-                        Excellent
-                    </Badge>
-                );
-            case 4:
-                return (
-                    <Badge className="bg-slate-800 text-slate-200">
-                        Greate
-                    </Badge>
-                );
-            case 3:
-                return (
-                    <Badge className="bg-slate-800 text-slate-200">Good</Badge>
-                );
-            case 2:
-                return (
-                    <Badge className="bg-slate-800 text-slate-200">Bad</Badge>
-                );
-            case 1:
-                return (
-                    <Badge className="bg-slate-800 text-slate-200">
-                        No worth
-                    </Badge>
-                );
-        }
-    }, []);
+    const renderGenres = React.useMemo(() => {
+        return book?.genres?.map((genre) => (
+            <Link to={`/books?genres=${genre}`} key={genre}>
+                <Badge isPressable colors={"secondary"}>
+                    {genre}
+                </Badge>
+            </Link>
+        ));
+    }, [book?.genres]);
 
     const handleReviewSubmit = useCallback(
         ({ rating, review }: FormValue) => {
@@ -237,6 +251,8 @@ export default function BookDetailPage() {
                         title: "Post a comment successfully",
                         description: "Your comment have been recorded",
                     });
+
+                    reset();
                 })
                 .catch((e) => {
                     toast({
@@ -316,27 +332,7 @@ export default function BookDetailPage() {
                         <p className="text-base text-slate-500">
                             {book.description}
                         </p>
-                        <ul className="flex gap-1">
-                            {book && (
-                                <ul className="flex gap-1">
-                                    {Array.isArray(book.keywords)
-                                        ? book.keywords.map((keyword) => (
-                                              <Link
-                                                  key={keyword}
-                                                  to={`/${keyword}`}
-                                              >
-                                                  <Badge
-                                                      isPressable
-                                                      className="bg-slate-100 text-slate-600"
-                                                  >
-                                                      # {keyword}
-                                                  </Badge>
-                                              </Link>
-                                          ))
-                                        : "No keywords available"}
-                                </ul>
-                            )}
-                        </ul>
+                        <ul className="flex gap-1">{renderGenres}</ul>
                     </div>
                 </section>
             )}
