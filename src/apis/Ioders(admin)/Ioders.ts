@@ -74,20 +74,21 @@ export async function getAllOrderApi(
     params: Partial<IQueryPagination & IQuerySearch>
 ) {
     return await authAxiosClient
-        .get("/order", {
+        .get("/orders/list", {
            params,
         })
         .then((res) => res.data);
 }
 
+
 async function getOrderApi(
     _id: string,
 ) {
     return await authAxiosClient
-        .get(`/order/${_id}`, { 
+        .get(`/orders/${_id}`, { 
         })
         .then((response) => {
-            (response.data.data);
+            return response.data;
         })
 }
 
