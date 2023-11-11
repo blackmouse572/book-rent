@@ -50,6 +50,11 @@ export const ADMIN_SECTION_ITEMS: {
         title: "Category",
         icon: "category",
     },
+    {
+        to: "/admin/transaction",
+        title: "Transaction",
+        icon: "transaction",
+    },
 ];
 
 type Props = React.HTMLAttributes<HTMLDivElement>;
@@ -125,6 +130,11 @@ function AuthPreview({ className, ...prosp }: Props) {
                     <Link to="/profile/orders">
                         <DropdownMenuItem>Order history</DropdownMenuItem>
                     </Link>
+                    <Link to="/transaction">
+                        <DropdownMenuItem>Transaction</DropdownMenuItem>
+                    </Link>
+                    <DropdownMenuItem>Team</DropdownMenuItem>
+                    <DropdownMenuItem>Subscription</DropdownMenuItem>
                     {AdminSection}
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
@@ -149,7 +159,6 @@ function AuthPreview({ className, ...prosp }: Props) {
                 </div>
             ) : (
                 <Button onClick={onLogin}>Login</Button>
-              
             )}
         </div>
     );

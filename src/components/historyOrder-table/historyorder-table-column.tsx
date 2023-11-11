@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { IOrder } from "@/apis/Ioders.ts/Ioders";
+import { IOrder } from "@/apis/Ioders(admin)/Ioders";
 import { Badge } from "../ui/badge/badge";
 
 export const historyOrderColumns: ColumnDef<IOrder>[] = [
