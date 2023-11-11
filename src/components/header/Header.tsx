@@ -1,9 +1,9 @@
 import "@/index.css";
 // import AuthPreview from '../AuthPreview';
+import { useCallback } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Icons } from "../icons";
 import { Input } from "../ui/input";
-import { Link, useNavigate } from "react-router-dom";
-import { useCallback } from "react";
 function Header() {
     const nav = useNavigate();
     const onSubmit = useCallback(
@@ -34,11 +34,24 @@ function Header() {
                     </div>
                     <nav className="w-1/2 xs:hidden">
                         <div className="flex items-center justify-evenly">
-                            <Link to="#" className="active">
+                            <Link
+                                to="/"
+                                className="hover:underline underline-offset-2"
+                            >
                                 Home
                             </Link>
-                            <Link to="#">Category</Link>
-                            <Link to="#">About Us</Link>
+                            <Link
+                                to="/books"
+                                className="hover:underline underline-offset-2"
+                            >
+                                Books
+                            </Link>
+                            <Link
+                                to="#"
+                                className="hover:underline underline-offset-2"
+                            >
+                                About Us
+                            </Link>
                         </div>
                     </nav>
                     <form onSubmit={onSubmit}>

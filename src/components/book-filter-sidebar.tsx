@@ -54,7 +54,8 @@ function BookFilterSidebar({ onFilterChange, totalBooks, onRentAll }: Props) {
         control.handleSubmit((data) => {
             onFilterChange && onFilterChange(data);
         })();
-    }, [control, onFilterChange, searchParams, setValue]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const onSubmit = React.useCallback(
         (data: FilterForm) => {

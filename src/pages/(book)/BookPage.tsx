@@ -78,6 +78,7 @@ function BookPage() {
             );
         });
     }, [bookState.perPage, data?.data, isLoading]);
+
     const { addToCart } = useOrderCart();
     const onRentAll = React.useCallback(() => {
         const bookIds = data?.data.map((book) => book._id);

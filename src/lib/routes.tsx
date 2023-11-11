@@ -1,6 +1,7 @@
 import { getBookById } from "@/apis/book";
 import ChangePassword from "@/pages/(auth)/ChangePassword";
 import BookPage from "@/pages/(book)/BookPage";
+import AdminLayout from "@/pages/AdminLayout";
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -106,42 +107,13 @@ export const ROUTES = createBrowserRouter([
                 path: "/infoaccount",
                 element: <InfoAccount />,
             },
-
-            {
-                element: <CartLayout />,
-                children: [
-                    {
-                        element: <ShoppingCart />,
-                    },
-                    {
-                        element: <CartForm />,
-                    },
-                    {
-                        path: "/viewcart",
-                        element: <ViewCart />,
-                    },
-                    {
-                        path: "/view-checkout/:id",
-                        element: <ViewCheckout />,
-                    },
-                    {
-                        path: "/checkout-success",
-                        element: <CheckoutSuccess />,
-                    },
-                    {
-                        path: "/checkout-failed",
-                        element: <CheckoutFailed />,
-                    },
-                ],
-            },
-
             {
                 path: "/",
                 element: <LandingPage />,
             },
             {
                 path: "/admin",
-
+                element: <AdminLayout />,
                 children: [
                     {
                         index: true,
@@ -158,12 +130,11 @@ export const ROUTES = createBrowserRouter([
                     {
                         path: "/admin/book",
                         element: <BookManagerPage />,
-
-                    }, 
+                    },
                     {
                         path: "/admin/book/:id",
                         element: <BookDetailAdminPage />,
-                    },               
+                    },
                 ],
             },
             {
