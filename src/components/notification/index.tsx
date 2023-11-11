@@ -25,26 +25,23 @@ export default function Notification() {
                     &nbsp;pending order to return
                 </h3>
                 <Separator />
-                <ul className="max-h-[50vh] overflow-y-auto space-x-4 pt-4">
+                <ul className="max-h-[50vh] overflow-y-auto pt-4">
                     {data?.data.map((order) => (
-                        <li key={order._id} className="">
-                            <div>
-                                <Link
-                                    to={"#"}
-                                    className="text-xs text-slate-300"
-                                >
+                        <Link to={`/order/${order._id}`} key={order._id}>
+                            <div className="hover:bg-accent px-2.5 py-1.5 rounded-md cursor-pointer">
+                                <h6 className="text-xs text-slate-300 ">
                                     Order: {order._id}
-                                </Link>
+                                </h6>
                                 <div className="flex justify-between">
-                                    <p className="text-sm text-slate-600">
+                                    <p className="text-sm font-bold text-slate-600">
                                         {order.cart.length} items
                                     </p>
-                                    <p className="text-sm text-slate-600">
+                                    <p className="text-sm font-bold text-slate-600">
                                         {order.totalPrice}$
                                     </p>
                                 </div>
                             </div>
-                        </li>
+                        </Link>
                     ))}
                 </ul>
             </>

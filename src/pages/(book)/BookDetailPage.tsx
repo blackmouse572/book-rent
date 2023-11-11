@@ -343,7 +343,7 @@ export default function BookDetailPage() {
                 <div className="flex gap-3 h-30 py-4">{renderRelatedBooks}</div>
             </section>
 
-            <section key={"main.buywith"} className="w-full py-10 h-screen">
+            <section key={"main.buywith"} className="w-full py-10 ">
                 <div className="flex justify-between items-center">
                     <h3 className="text-3xl font-medium">Usually buy with</h3>
                 </div>
