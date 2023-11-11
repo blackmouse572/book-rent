@@ -21,7 +21,7 @@ import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import { useMutation } from "@tanstack/react-query";
 import { format, parseISO } from "date-fns";
-import React, { useCallback, useEffect, useId } from "react";
+import React, { useCallback, useEffect, useId, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLoaderData, useLocation } from "react-router-dom";
 
@@ -72,8 +72,11 @@ export default function BookDetailPage() {
         return _relatedBooks?.map((book) => <Book book={book} />);
     }, [isLoading, relatedBooks?.data]);
 
-    const isBookInCart =
-        book && cartItems?.some((item) => item.bookId === book._id);
+    const bookInCartAmount = useMemo(() => {
+        if (!book) return 0;
+        const bookInCart = cartItems.find((item) => item.bookId === book._id);
+        return bookInCart?.quantity || 0;
+    }, [book, cartItems]);
 
     const addReview = useCallback(
         (review: IReview) => {
@@ -246,11 +249,6 @@ export default function BookDetailPage() {
         [book?._id, mutateAsync, toast]
     );
 
-    // const renderSubmitReviewForm = useMemo(() => {
-    //     return (
-    //     );
-    // }, [handleReviewSubmit, handleSubmit, register, setValue, watch]);
-
     return (
         <div className="container mx-auto">
             <MetaData title={book ? book.name.slice(0, 10) + "..." : ""} />
@@ -285,18 +283,15 @@ export default function BookDetailPage() {
                             <p className="line-clamp-3">{book.description}</p>
                         </div>
 
-
                         <div className="flex gap-2">
-                            <Button disabled={book.isAvailable}>
-                                Rent Now
-                            </Button>
                             <Button
                                 disabled={book.isAvailable}
                                 onClick={handleAddToCart}
-                                variant={"outline"}
                             >
                                 <Icons.addRound className="mr-2" />
-                                {isBookInCart ? "Add one" : "Add to Cart"}
+                                {bookInCartAmount > 0
+                                    ? `Add 1 (Have ${bookInCartAmount} in cart)`
+                                    : "Add to Cart"}
                             </Button>
                         </div>
                     </article>
@@ -322,23 +317,25 @@ export default function BookDetailPage() {
                             {book.description}
                         </p>
                         <ul className="flex gap-1">
-                        {book && (
-    <ul className="flex gap-1">
-        {Array.isArray(book.keywords)
-            ? book.keywords.map((keyword) => (
-                <Link key={keyword} to={`/${keyword}`}>
-                    <Badge
-                        isPressable
-                        className="bg-slate-100 text-slate-600"
-                    >
-                        # {keyword}
-                    </Badge>
-                </Link>
-            ))
-            : "No keywords available"}
-    </ul>
-)}
-
+                            {book && (
+                                <ul className="flex gap-1">
+                                    {Array.isArray(book.keywords)
+                                        ? book.keywords.map((keyword) => (
+                                              <Link
+                                                  key={keyword}
+                                                  to={`/${keyword}`}
+                                              >
+                                                  <Badge
+                                                      isPressable
+                                                      className="bg-slate-100 text-slate-600"
+                                                  >
+                                                      # {keyword}
+                                                  </Badge>
+                                              </Link>
+                                          ))
+                                        : "No keywords available"}
+                                </ul>
+                            )}
                         </ul>
                     </div>
                 </section>
