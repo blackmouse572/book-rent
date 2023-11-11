@@ -21,21 +21,26 @@ function BookShouldByWith({ book }: Props) {
                     : "",
         });
 
+    const relatedBooks = React.useMemo(() => {
+        if (isLoadingShouldBuyWithBooks) return [];
+        return (
+            shouldByWithBooks?.data.filter((book) => book._id !== book?._id) ||
+            []
+        );
+    }, [isLoadingShouldBuyWithBooks, shouldByWithBooks?.data]);
+
     const { toast } = useToast();
     const { addToCart } = useOrderCart();
     const renderShouldByWith = React.useMemo(() => {
         if (isLoadingShouldBuyWithBooks)
             return <BookGridLoading pageSize={4} />;
-
-        const _relatedBooks = shouldByWithBooks?.data.slice(0, 2) || [];
-
-        return _relatedBooks?.map((book) => (
+        return relatedBooks?.map((book) => (
             <>
                 <Book book={book} />
                 <Icons.plus />
             </>
         ));
-    }, [isLoadingShouldBuyWithBooks, shouldByWithBooks?.data]);
+    }, [isLoadingShouldBuyWithBooks, relatedBooks]);
 
     const totalShouldBuyWith = React.useMemo(() => {
         if (isLoadingShouldBuyWithBooks) return 0;
@@ -63,19 +68,28 @@ function BookShouldByWith({ book }: Props) {
         });
     }, [addToCart, shouldByWithBooks?.data, toast]);
 
+    if (!book) return null;
+
     return (
         <div className="grid grid-cols-10 place-items-center py-4">
             {renderShouldByWith}
-            <div className="border-border px-4 py-8 rounded-md border flex flex-col items-center justify-center gap-3">
-                <Button
-                    variant={"default"}
-                    className=""
-                    onClick={addShouldBuyWithToCart}
-                >
-                    <p>Add {totalShouldBuyWith}</p>
-                </Button>
-                <p className="text-xl font-bold">${totalPriceShouldBuyWith}</p>
-            </div>
+            {relatedBooks.length > 0 && (
+                <div className="border-border px-4 py-8 rounded-md border flex flex-col items-center justify-center gap-3">
+                    <Button
+                        variant={"default"}
+                        className=""
+                        onClick={addShouldBuyWithToCart}
+                    >
+                        <p>Add {totalShouldBuyWith}</p>
+                    </Button>
+                    <p className="text-xl font-bold">
+                        ${totalPriceShouldBuyWith}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                        for {totalShouldBuyWith} books
+                    </p>
+                </div>
+            )}
         </div>
     );
 }

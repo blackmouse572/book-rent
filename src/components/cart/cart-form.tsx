@@ -218,7 +218,7 @@ function CartForm() {
                             )}
                         />
 
-                        <div className="flex flex-row flex flex-row justify-between">
+                        <div className="flex flex-row justify-between">
                             <FormField
                                 control={form.control}
                                 name="rentalDate"

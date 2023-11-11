@@ -63,6 +63,8 @@ export default function BookDetailPage() {
     const renderRelatedBooks = React.useMemo(() => {
         if (isLoading) return <BookGridLoading pageSize={4} />;
 
+        if (!relatedBooks?.data) return null;
+
         const _relatedBooks =
             relatedBooks?.data.slice(
                 0,
