@@ -1,5 +1,4 @@
 import ShoppingCart from "@/components/cart/cart";
-import ShoppingCart from "@/components/cart/cart";
 import { Icons } from "@/components/icons";
 import Notification from "@/components/notification";
 import {
@@ -13,10 +12,7 @@ import {
     DropdownMenuSub,
     DropdownMenuSubContent,
     DropdownMenuSubTrigger,
-    DropdownMenuSub,
-    DropdownMenuSubContent,
-    DropdownMenuSubTrigger,
-    DropdownMenuTrigger,
+   
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/useAuth";
 import { cn, getLabelByFullname } from "@/lib/utils";
