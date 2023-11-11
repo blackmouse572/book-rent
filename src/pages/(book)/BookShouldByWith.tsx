@@ -53,7 +53,7 @@ function BookShouldByWith({ book }: Props) {
     const addShouldBuyWithToCart = useCallback(() => {
         if (shouldByWithBooks?.data) {
             shouldByWithBooks?.data.forEach((book) => {
-                addToCart(book._id);
+                addToCart(book._id as string);
             });
         }
         toast({

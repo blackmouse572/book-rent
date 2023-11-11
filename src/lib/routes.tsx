@@ -22,12 +22,18 @@ const DashboardPage = React.lazy(() => import("@/pages/(admin)/Dashboard"));
 const UserManagerPage = React.lazy(
     () => import("@/pages/(admin)/UserManagerPage.tsx")
 );
+const BookManagerPage = React.lazy(
+    () => import("@/pages/(admin)/BookManagerPage.tsx")
+);
 const CategoryManagerPage = React.lazy(
     () => import("@/pages/(admin)/CategoryManagerPage.tsx")
 );
 
 const BookDetailPage = React.lazy(
     () => import("@/pages/(book)/BookDetailPage.tsx")
+);
+const BookDetailAdminPage = React.lazy(
+    () => import("@/components/book-table/manage-book/book-detail")
 );
 
 const CartLayout = React.lazy(() => import("@/pages/CartLayout"));
@@ -149,6 +155,15 @@ export const ROUTES = createBrowserRouter([
                         path: "/admin/category",
                         element: <CategoryManagerPage />,
                     },
+                    {
+                        path: "/admin/book",
+                        element: <BookManagerPage />,
+
+                    }, 
+                    {
+                        path: "/admin/book/:id",
+                        element: <BookDetailAdminPage />,
+                    },               
                 ],
             },
             {

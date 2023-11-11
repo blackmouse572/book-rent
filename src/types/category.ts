@@ -1,6 +1,11 @@
 export interface ICategory {
-    _id: string;
+    _id?: string;
     name: string;
+    status?: "ENABLE" | "DISABLE";
     description: string;
-    isAvailable: boolean;
+}
+
+export enum STATUS {
+    ENABLE = 'ENABLE',
+    DISABLE = 'DISABLE',
 }

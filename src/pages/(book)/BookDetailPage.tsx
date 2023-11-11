@@ -56,7 +56,7 @@ export default function BookDetailPage() {
 
     const handleAddToCart = () => {
         if (book) {
-            addToCart(book._id);
+            addToCart(book._id as string);
         }
     };
 
@@ -285,6 +285,7 @@ export default function BookDetailPage() {
                             <p className="line-clamp-3">{book.description}</p>
                         </div>
 
+
                         <div className="flex gap-2">
                             <Button disabled={book.isAvailable}>
                                 Rent Now
@@ -321,16 +322,23 @@ export default function BookDetailPage() {
                             {book.description}
                         </p>
                         <ul className="flex gap-1">
-                            {book.keywords?.map((keyword) => (
-                                <Link key={keyword} to={`/${keyword}`}>
-                                    <Badge
-                                        isPressable
-                                        className="bg-slate-100 text-slate-600"
-                                    >
-                                        # {keyword}
-                                    </Badge>
-                                </Link>
-                            ))}
+                        {book && (
+    <ul className="flex gap-1">
+        {Array.isArray(book.keywords)
+            ? book.keywords.map((keyword) => (
+                <Link key={keyword} to={`/${keyword}`}>
+                    <Badge
+                        isPressable
+                        className="bg-slate-100 text-slate-600"
+                    >
+                        # {keyword}
+                    </Badge>
+                </Link>
+            ))
+            : "No keywords available"}
+    </ul>
+)}
+
                         </ul>
                     </div>
                 </section>
