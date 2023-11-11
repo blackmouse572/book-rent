@@ -36,11 +36,6 @@ export const ADMIN_SECTION_ITEMS: {
         icon: "user",
     },
     {
-        to: "/admin/user/create",
-        title: "Add Users",
-        icon: "user",
-    },
-    {
         to: "/admin/book",
         title: "Books",
         icon: "book",
