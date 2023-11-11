@@ -8,7 +8,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/hooks/useAuth";
 import ChangePasswordModal from "@/pages/(profile)/change-password-model";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
     Avatar,
     AvatarFallback,
@@ -49,8 +49,9 @@ function Profile() {
                         <Button variant={"link"}>Change Password</Button>
                     </ChangePasswordModal>
                     <Separator className="h-[none]" orientation="vertical" />
-
-                    <Button variant={"link"}>Settings</Button>
+                    <Link to="/profile/orders">
+                        <Button variant={"link"}>Order history</Button>
+                    </Link>
                 </CardContent>
                 <CardFooter>
                     <Button onClick={onLogout} colors={"destructive"}>
