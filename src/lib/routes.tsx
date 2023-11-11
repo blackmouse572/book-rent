@@ -31,6 +31,9 @@ const DashboardPage = React.lazy(() => import("@/pages/(admin)/Dashboard"));
 const UserManagerPage = React.lazy(
     () => import("@/pages/(admin)/UserManagerPage.tsx")
 );
+const CreateUser = React.lazy(
+    () => import("@/components/user-table/manage-user/create-user.tsx")
+);
 const BookManagerPage = React.lazy(
     () => import("@/pages/(admin)/BookManagerPage.tsx")
 );
@@ -141,7 +144,11 @@ export const ROUTES = createBrowserRouter([
                         element: <UserManagerPage />,
                     },
                     {
-                        path: "/admin/orders",
+                        path: "/admin/user/create",
+                        element: <CreateUser />,
+                    },
+                    {
+                        path: "/admin/historyorder",
                         element: <HistoryOrderManagerPage />,
                     },
 

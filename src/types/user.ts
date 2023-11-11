@@ -14,6 +14,18 @@ export interface User {
     blocked?: boolean;
     blockedDate?: Date;
     salt?: string;
+    citizenId?: string;
+    citizenIdType?: "old"
+    | "new"
+    | "cccd_chip_front"
+    | "old_back"
+    | "new_back"
+    | "chip_front"
+    | "chip_back"
+    | "cccd_chip_back";
+    citizenIdIssueDate?: Date;
+    citizenIdPlaceOfIssue?: string;
+    citizenIdDateOfBirth?: Date;
     createdAt?: Date;
     updatedAt?: Date;
 }
