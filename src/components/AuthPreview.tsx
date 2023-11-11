@@ -1,4 +1,3 @@
-import { profileApi } from "@/apis/auth/apis/profile.api";
 import ShoppingCart from "@/components/cart/cart";
 import { Icons } from "@/components/icons";
 import Notification from "@/components/notification";
@@ -21,7 +20,6 @@ import React, { useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
-import { toast } from "./ui/use-toast";
 
 export const ADMIN_SECTION_ITEMS: {
     to: string;
@@ -70,24 +68,6 @@ function AuthPreview({ className, ...prosp }: Props) {
         navigate("/");
     }, [logout, navigate]);
 
-    const onGetProfile = () => {
-        const accessToken = localStorage.getItem("access_token");
-        profileApi(accessToken!, (err) => {
-            if (err) {
-                toast({
-                    variant: "destructive",
-                    title: "Error",
-                    description: err.message,
-                });
-            } else {
-                toast({
-                    variant: "success",
-                    title: "Success",
-                    description: "Get profile success",
-                });
-            }
-        });
-    };
     const AdminSection = React.useMemo(() => {
         if (user?.role === ROLE.USER) {
             return <></>;
@@ -141,9 +121,9 @@ function AuthPreview({ className, ...prosp }: Props) {
                 <DropdownMenuContent>
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={onGetProfile}>
-                        Profile
-                    </DropdownMenuItem>
+                    <Link to="/profile">
+                        <DropdownMenuItem>Profile</DropdownMenuItem>
+                    </Link>
                     <DropdownMenuItem>Billing</DropdownMenuItem>
                     <DropdownMenuItem>Team</DropdownMenuItem>
                     <DropdownMenuItem>Subscription</DropdownMenuItem>

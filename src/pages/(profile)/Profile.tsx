@@ -7,7 +7,8 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/hooks/useAuth";
-import { Link, useNavigate } from "react-router-dom";
+import ChangePasswordModal from "@/pages/(profile)/change-password-model";
+import { useNavigate } from "react-router-dom";
 import {
     Avatar,
     AvatarFallback,
@@ -44,27 +45,17 @@ function Profile() {
                     </div>
                 </CardHeader>
                 <CardContent className="flex">
-                    <Button variant={"link"}>Home</Button>
+                    <ChangePasswordModal>
+                        <Button variant={"link"}>Change Password</Button>
+                    </ChangePasswordModal>
                     <Separator className="h-[none]" orientation="vertical" />
-                    <Link to="/infoaccount">
-                        <Button>Profile</Button>
-                    </Link>
 
-                    <Separator className="h-[none]" orientation="vertical" />
                     <Button variant={"link"}>Settings</Button>
                 </CardContent>
                 <CardFooter>
-
-                    <Button onClick={onLogout}>Logout</Button>
-
-
-                    <Button onClick={onLogout}>Logout</Button>
-
-                    <Button onClick={onLogout} >
+                    <Button onClick={onLogout} colors={"destructive"}>
                         Logout
                     </Button>
-
-
                 </CardFooter>
             </Card>
         </div>

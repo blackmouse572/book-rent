@@ -24,4 +24,24 @@ async function profileApi(
         });
 }
 
-export { profileApi };
+async function changePasswordApi(
+    oldPassword: string,
+    newPassword: string,
+    callback: (error: AxiosError | null, result: User | null) => void
+) {
+    return await authAxiosClient
+        .patch<IProfileResponse>("/auth/change-password", {
+            oldPassword,
+            newPassword,
+        })
+        .then((err) => {
+            if (err.status === 200) {
+                callback(null, err.data.data);
+            }
+        })
+        .catch((error) => {
+            callback(error, null);
+        });
+}
+
+export { changePasswordApi, profileApi };
