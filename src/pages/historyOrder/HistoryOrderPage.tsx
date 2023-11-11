@@ -1,4 +1,4 @@
-import HistoryOrderTable from "@/components/historyOrder/historyorder-table";
+import HistoryOrderTable from "@/components/historyOrder-table/historyorder-table";
 
 function HistoryOrderPage() {
     return <HistoryOrderTable />;

@@ -7,8 +7,8 @@ import {
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { IQueryPagination, IQuerySearch, IResponse } from "@/types";
-import { getAllOrderApi } from "@/apis/Ioders.ts/Ioders";
-import { IOrder } from "@/apis/Ioders.ts/Ioders";
+import { getAllOrderApi } from "@/apis/Ioders(admin)/Ioders";
+import { IOrder } from "@/apis/Ioders(admin)/Ioders";
 
 export function useHistoryOrderTable(columns: ColumnDef<IOrder>[]) {
     const [queries, setQueries] = useState<

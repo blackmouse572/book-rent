@@ -1,24 +1,22 @@
-import { IOrder } from "@/apis/Ioders.ts/Ioders";
 import { ColumnDef } from "@tanstack/react-table";
-import { Link } from "react-router-dom";
+import { IOrder } from "@/apis/Ioders(admin)/Ioders";
+
 import { Badge } from "../ui/badge/badge";
+import { Button } from "@/components/ui/button";
+
+import { Link } from "react-router-dom";
+import { UpdateOrder } from "@/components/historyOrder(admin)/dialogOrder";
+import {  UpdateStatusOrder } from "@/components/historyOrder(admin)/orderStatus";
 
 export const historyOrderColumns: ColumnDef<IOrder>[] = [
     {
-        accessorKey: "id",
-        header: "id",
+        accessorKey: "index",
+        header: "No",
         cell({ row }) {
-            const { _id } = row.original;
-            return (
-                <Link
-                    to={`/order/${_id}`}
-                    className="flex gap-2 font-medium hover:underline"
-                >
-                    {_id}
-                </Link>
-            );
+            return <p>{row.index + 1}</p>;
         },
     },
+
     {
         accessorKey: "rentalDate",
         header: "Rental Date",
@@ -36,27 +34,11 @@ export const historyOrderColumns: ColumnDef<IOrder>[] = [
         },
     },
     {
-        accessorKey: "pickupLocation",
-        header: "Pickup Location",
-        cell({ getValue }) {
-            const returnDate: Date = getValue() as Date;
-            return <p>{returnDate.toString()}</p>;
-        },
-    },
-    {
-        accessorKey: "returnLocation",
-        header: "Return Location",
-        cell({ getValue }) {
-            const returnDate: Date = getValue() as Date;
-            return <p>{returnDate.toString()}</p>;
-        },
-    },
-    {
         accessorKey: "totalPrice",
         header: "Total Price ",
         cell({ getValue }) {
-            const returnDate: Date = getValue() as Date;
-            return <p>{returnDate.toString()}</p>;
+            const totalPrice: number = getValue() as number;
+            return <p>{totalPrice}</p>;
         },
     },
     {
@@ -78,4 +60,24 @@ export const historyOrderColumns: ColumnDef<IOrder>[] = [
             return <Badge>{depositType}</Badge>;
         },
     },
+    {
+        accessorKey: "_id",
+        header: "Action",
+        cell({ row }) {
+            const { _id } = row.original;
+            if (_id)
+                return (
+                    <div className="flex gap-2 ">
+                        <Link to={`/order/${_id}`}>
+                            <Button variant="outline" size="sm">
+                                Detail
+                            </Button>
+                        </Link>
+                        <UpdateOrder orderId={_id} />
+                        <UpdateStatusOrder orderId={_id} />
+                    </div>
+                );
+        },
+    },
+   
 ];

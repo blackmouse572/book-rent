@@ -84,7 +84,7 @@ function ViewCheckout() {
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                                {order.cart.map((cartItem) => (
+                                {order.cart&&order.cart.map((cartItem) => (
                                     <tr key={cartItem._id}>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {typeof cartItem.book === "string"

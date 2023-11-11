@@ -54,9 +54,7 @@ function Profile() {
                     </Link>
                 </CardContent>
                 <CardFooter>
-                    <Button onClick={onLogout} colors={"destructive"}>
-                        Logout
-                    </Button>
+                    <Button onClick={onLogout}>Logout</Button>
                 </CardFooter>
             </Card>
         </div>
