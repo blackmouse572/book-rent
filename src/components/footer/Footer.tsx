@@ -3,9 +3,8 @@ import { Icons } from "../icons";
 
 const B = [
     { id: 1, title: "About Us", path: "/aboutus" },
-    { id: 2, title: "Sitemap", path: "/map" },
     { id: 3, title: "Bookmarks", path: "/book-mark" },
-    { id: 4, title: "Sign in/Join", path: "/join" },
+    { id: 4, title: "Sign in/Join", path: "/login" },
 ];
 
 const C = [
@@ -24,11 +23,11 @@ const D = [
 ];
 
 const E = [
-    { id: 1, title: "Drama", path: "/books?genre=drama" },
-    { id: 2, title: "Horror", path: "/books?genre=horror" },
-    { id: 3, title: "Kids", path: "/books?genre=kids" },
-    { id: 4, title: "Romantic", path: "/books?genre=romantic" },
-    { id: 5, title: "Comedy", path: "/books?genre=comedy" },
+    { id: 1, title: "Drama", path: "/books?genres=drama" },
+    { id: 2, title: "Horror", path: "/books?genres=horror" },
+    { id: 3, title: "Kids", path: "/books?genres=kids" },
+    { id: 4, title: "Romantic", path: "/books?genres=romantic" },
+    { id: 5, title: "Comedy", path: "/books?genres=comedy" },
 ];
 
 const I = [
