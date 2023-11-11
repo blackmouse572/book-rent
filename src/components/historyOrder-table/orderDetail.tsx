@@ -207,6 +207,7 @@ const OrderDetailPage = () => {
 
             <div style={{ flex: 1, marginLeft: "20px" }}>
                 <h2 className="text-3xl font-bold mb-4 text-center">Cart</h2>
+                {order.cart ? (
                 <table className="min-w-full divide-y divide-gray-200 bg-white border border-gray-300 rounded-lg overflow-hidden">
                     <tbody className="divide-y divide-gray-200">
                         <tr className="bg-gray-50">
@@ -235,6 +236,9 @@ const OrderDetailPage = () => {
                         ))}
                     </tbody>
                 </table>
+                 ) : (
+                    <div className="text-2xl font-bold mb-4 text-center">empty cart</div>
+                  )}
             </div>
         </div>
     );

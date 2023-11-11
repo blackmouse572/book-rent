@@ -1,4 +1,4 @@
-import { getAllOrderApi } from "@/apis/order(user)/get-all-order";
+import { getAllOrderApi } from "@/apis/order/get-all-order";
 import { IResponse } from "@/types";
 import { IOrder } from "@/types/order";
 import { useQuery } from "@tanstack/react-query";

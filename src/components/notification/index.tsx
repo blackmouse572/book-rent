@@ -33,8 +33,8 @@ export default function Notification() {
                                     Order: {order._id}
                                 </h6>
                                 <div className="flex justify-between">
-                                    <p className="text-sm font-bold text-slate-600">
-                                        {order.cart.length} items
+                                    <p className="text-sm text-slate-600">
+                                        {order.cart&&order.cart.length} items
                                     </p>
                                     <p className="text-sm font-bold text-slate-600">
                                         {order.totalPrice}$
