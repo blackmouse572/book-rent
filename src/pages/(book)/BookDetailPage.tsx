@@ -180,7 +180,7 @@ export default function BookDetailPage() {
                 </div>
             </div>
         ),
-        []
+        [renderReviewRatingBadge]
     );
 
     const id = useId();
@@ -262,7 +262,7 @@ export default function BookDetailPage() {
                     });
                 });
         },
-        [book?._id, mutateAsync, toast]
+        [book?._id, mutateAsync, reset, toast]
     );
 
     return (
