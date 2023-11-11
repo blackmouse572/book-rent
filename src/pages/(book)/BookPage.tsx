@@ -83,7 +83,7 @@ function BookPage() {
         const bookIds = data?.data.map((book) => book._id);
         if (bookIds) {
             bookIds.forEach((bookId) => {
-                addToCart(bookId);
+                addToCart(bookId as string);
             });
         }
     }, [addToCart, data?.data]);

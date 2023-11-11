@@ -132,7 +132,7 @@ function CartForm() {
                                             size="sm"
                                             onClick={() =>
                                                 handleDecreaseToCart(
-                                                    bookData[index]._id
+                                                    bookData[index]._id as string
                                                 )
                                             }
                                         >
@@ -143,7 +143,7 @@ function CartForm() {
                                             size="sm"
                                             onClick={() =>
                                                 handleAddToCart(
-                                                    bookData[index]._id
+                                                    bookData[index]._id as string
                                                 )
                                             }
                                         >
@@ -158,7 +158,7 @@ function CartForm() {
                                         <Button
                                             onClick={() =>
                                                 handleRemoveFromCart(
-                                                    bookData[index]._id
+                                                    bookData[index]._id as string
                                                 )
                                             }
                                         >

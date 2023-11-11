@@ -1,9 +1,9 @@
 import { authAxiosClient } from "../../lib/axios";
 
-export async function getCategoryApi(
+export async function putStatusBookApi(
     _id: string,
 ) {
     return authAxiosClient
-        .get(`/category/${_id}`)
+        .put(`/book/status/${_id}`)
         .then((res) => res.data);
 }
