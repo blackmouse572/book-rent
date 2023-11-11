@@ -23,7 +23,13 @@ function BookShouldByWith({ book }: Props) {
         });
 
     const relatedBooks = React.useMemo(() => {
-        if (isLoadingShouldBuyWithBooks || !book) return [];
+        if (
+            isLoadingShouldBuyWithBooks ||
+            !book ||
+            !shouldByWithBooks ||
+            shouldByWithBooks?.data.length < 2
+        )
+            return [];
 
         const arr =
             shouldByWithBooks?.data

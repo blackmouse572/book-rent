@@ -52,15 +52,8 @@ const OrderDetailPage = () => {
     }
 
     return (
-        <div
-            style={{
-                maxWidth: "50%",
-                borderCollapse: "collapse",
-                display: "flex",
-            }}
-            className="container mx-auto p-10"
-        >
-            <div style={{ flex: 1, marginRight: "20px" }}>
+        <div className="container mx-auto p-10 flex flex-col md:flex-row gap-8">
+            <div className="flex-1">
                 <h2 className="text-3xl font-bold mb-4 text-center">
                     Order Detail
                 </h2>
@@ -217,7 +210,7 @@ const OrderDetailPage = () => {
                 </table>
             </div>
 
-            <div style={{ flex: 1, marginLeft: "20px" }}>
+            <div>
                 <h2 className="text-3xl font-bold mb-4 text-center">Cart</h2>
                 {order.cart ? (
                     <table className="min-w-full divide-y divide-gray-200 bg-white border border-gray-300 rounded-lg overflow-hidden">
@@ -241,11 +234,11 @@ const OrderDetailPage = () => {
                                     className="bg-white hover:bg-accent transition-colors"
                                 >
                                     <Link to={`/books/${item.book?._id}`}>
-                                        <td className="px-6 py-4 whitespace-nowrap flex justify-between items-center">
-                                            <div>
-                                                <div className="text-sm font-medium text-gray-900">
-                                                    Book Name: {item.book?.name}
-                                                </div>
+                                        <td className="px-6 py-4 flex justify-between items-center gap-4">
+                                            <div className="flex-1">
+                                                <p className="text-sm font-medium text-gray-900 max-w-[20ch]">
+                                                    {item.book?.name}
+                                                </p>
                                                 <div className="text-sm text-gray-500">
                                                     Quantity: {item.quantity}
                                                 </div>
@@ -257,7 +250,7 @@ const OrderDetailPage = () => {
                                                 </div>
                                             </div>
                                             <img
-                                                className="h-full w-32"
+                                                className="h-full w-32 "
                                                 src={item.book?.image}
                                                 alt={item.book?.name}
                                             />
