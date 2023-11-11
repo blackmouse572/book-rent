@@ -1,5 +1,6 @@
 import ShoppingCart from "@/components/cart/cart";
 import { Icons } from "@/components/icons";
+import Notification from "@/components/notification";
 import {
     DropdownMenu,
     DropdownMenuContent,

@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { IOrder } from "@/apis/order/get-all-order";
+import { IOrder } from "@/apis/order(user)/get-all-order";
 import { Badge } from "../ui/badge/badge";
 import { Button } from "@/components/ui/button";
 

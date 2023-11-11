@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getOrderApi } from "@/apis/order/get-order";
+import { getOrderApi } from "@/apis/order(user)/get-order";
 import { IOrder } from "@/types/order";
 import { Badge } from "../ui/badge/badge";
 import { Icons } from "@/components/icons";
