@@ -55,7 +55,7 @@ function BookFilterSidebar({ onFilterChange, totalBooks, onRentAll }: Props) {
             onFilterChange && onFilterChange(data);
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [searchParams]);
 
     const onSubmit = React.useCallback(
         (data: FilterForm) => {
