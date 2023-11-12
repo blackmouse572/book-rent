@@ -78,7 +78,10 @@ function AuthPreview({ className, ...prosp }: Props) {
         }
         return (
             <DropdownMenuSub>
-                <DropdownMenuSubTrigger>Admin center</DropdownMenuSubTrigger>
+                <DropdownMenuSubTrigger>
+                    <Icons.disc className="w-4 h-4 mr-2" />
+                    Admin center
+                </DropdownMenuSubTrigger>
                 <DropdownMenuPortal>
                     <DropdownMenuSubContent>
                         {ADMIN_SECTION_ITEMS.map(({ icon, title, to }) => {
@@ -125,16 +128,23 @@ function AuthPreview({ className, ...prosp }: Props) {
                 <DropdownMenuContent>
                     <DropdownMenuSeparator />
                     <Link to="/profile">
-                        <DropdownMenuItem>Profile</DropdownMenuItem>
+                        <DropdownMenuItem>
+                            <Icons.user className="w-4 h-4 mr-2" />
+                            Profile
+                        </DropdownMenuItem>
                     </Link>
                     <Link to="/profile/orders">
-                        <DropdownMenuItem>Order history</DropdownMenuItem>
+                        <DropdownMenuItem>
+                            <Icons.truckDelivery className="w-4 h-4 mr-2" />
+                            Order history
+                        </DropdownMenuItem>
                     </Link>
                     <Link to="/transaction">
-                        <DropdownMenuItem>Transaction</DropdownMenuItem>
+                        <DropdownMenuItem>
+                            <Icons.transaction className="w-4 h-4 mr-2" />
+                            Payment history
+                        </DropdownMenuItem>
                     </Link>
-                    <DropdownMenuItem>Team</DropdownMenuItem>
-                    <DropdownMenuItem>Subscription</DropdownMenuItem>
                     {AdminSection}
                     <DropdownMenuSeparator />
                     <DropdownMenuItem

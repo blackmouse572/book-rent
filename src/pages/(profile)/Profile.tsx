@@ -6,6 +6,7 @@ import {
     CardHeader,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import UserDetailDialog from "@/components/user-detail-dialog";
 import { useAuth } from "@/hooks/useAuth";
 import ChangePasswordModal from "@/pages/(profile)/change-password-model";
 import { Link, useNavigate } from "react-router-dom";
@@ -52,9 +53,18 @@ function Profile() {
                     <Link to="/profile/orders">
                         <Button variant={"link"}>Order history</Button>
                     </Link>
+                    <Separator className="h-[none]" orientation="vertical" />
+                    <Link to="/transaction">
+                        <Button variant={"link"}>Payment history</Button>
+                    </Link>
                 </CardContent>
-                <CardFooter>
-                    <Button onClick={onLogout}>Logout</Button>
+                <CardFooter className="space-x-2">
+                    <UserDetailDialog user={user!}>
+                        <Button colors={"secondary"}>My profile details</Button>
+                    </UserDetailDialog>
+                    <Button colors={"destructive"} onClick={onLogout}>
+                        Logout
+                    </Button>
                 </CardFooter>
             </Card>
         </div>
