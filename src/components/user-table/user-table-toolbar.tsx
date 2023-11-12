@@ -5,8 +5,8 @@ import { IQueryPagination, IQuerySearch, User } from "../../types";
 import { DataTableFacetedFilter } from "../ui/data-table-facet";
 import SearchInput from "../ui/search-input";
 import { TABLE_USER_ROLE_FACET_OPTIONS } from "./options";
-import { CreateUser } from "@/components/user-table/manage-user/create-user";
-
+import { Button } from "@/components/ui/button/button";
+import { Link } from "react-router-dom";
 export interface DataTableToolbarProps<TData>
     extends React.HTMLAttributes<HTMLDivElement> {
     table: Table<TData>;
@@ -60,7 +60,9 @@ export function UserTableToolbar({
                         options={TABLE_USER_ROLE_FACET_OPTIONS}
                     />
                 )}
-                <CreateUser />
+                <Button variant="outline" size="sm">
+                    <Link to={`/admin/user/create`}> Create User</Link>
+                </Button>
             </div>
         </div>
     );

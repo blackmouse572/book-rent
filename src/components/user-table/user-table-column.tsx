@@ -7,6 +7,7 @@ import { UserDetail } from "@/components/user-table/manage-user/user-detail";
 import { BanUserApi } from "@/components/user-table/manage-user/user-ban";
 import { UnBanUserApi } from "@/components/user-table/manage-user/user-unban";
 
+
 export const columns: ColumnDef<User>[] = [
     {
         accessorKey: "user",
@@ -56,15 +57,13 @@ export const columns: ColumnDef<User>[] = [
                         _id ? (
                             <UnBanUserApi userId={_id} />
                         ) : null
-                    ) : (
-                        _id ? (
-                            <BanUserApi userId={_id} />
-                        ) : null
-                    )}
+                    ) : _id ? (
+                        <BanUserApi userId={_id} />
+                    ) : null}
                     {_id && <UserDetail userid={_id} />}{" "}
+                    
                 </div>
             );
         },
-    }
-    
+    },
 ];
