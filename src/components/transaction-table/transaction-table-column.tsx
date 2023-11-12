@@ -1,6 +1,8 @@
+import { formatPrice } from "@/lib/utils";
 import { ITransaction } from "@/types/transaction";
 import { User } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
 import { Link } from "react-router-dom";
 
 export const columns: ColumnDef<ITransaction>[] = [
@@ -39,7 +41,11 @@ export const columns: ColumnDef<ITransaction>[] = [
         header: "Amount",
         cell({ getValue }) {
             const amount: number = getValue() as number;
-            return <p className="text-slate-400 max-w-[30rem]">{amount}</p>;
+            return (
+                <p className="text-slate-400 max-w-[30rem]">
+                    {formatPrice(amount)}
+                </p>
+            );
         },
     },
     {
@@ -49,7 +55,7 @@ export const columns: ColumnDef<ITransaction>[] = [
             const date: Date = getValue() as Date;
             return (
                 <p className="text-slate-400 max-w-[30rem]">
-                    {date.toString()}
+                    {format(new Date(date), "hh:mm dd/MM/yyyy")}
                 </p>
             );
         },

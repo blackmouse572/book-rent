@@ -8,6 +8,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
+import { formatPrice } from "@/lib/utils";
 import { formatDistance } from "date-fns";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -35,7 +36,7 @@ export default function Notification() {
                 </Badge>
             );
         return (
-            <Badge className="text-xs" colors={"success"}>
+            <Badge className="text-xs h-fit" colors={"success"}>
                 Due in {formatDistance(currentDate, dueDate)}
             </Badge>
         );
@@ -56,19 +57,21 @@ export default function Notification() {
                 <ul className="max-h-[50vh] overflow-y-auto space-y-12">
                     {sortedData.map((order) => (
                         <Link to={`/order/${order._id}`} key={order._id}>
-                            <div className="hover:bg-accent px-2.5 py-1.5 rounded-md cursor-pointer space-y-2">
+                            <div className="hover:bg-accent px-2.5 py-1.5 rounded-md cursor-pointer space-y-1">
                                 <h6 className="text-sm text-slate-500 ">
                                     Order: {order._id}
                                 </h6>
-                                <div className="flex justify-between">
-                                    <p className="text-sm text-slate-600">
-                                        {order.cart && order.cart.length} items
-                                    </p>
-                                    <p className="text-sm font-bold text-slate-600">
-                                        D:&nbsp;
-                                        {order.deposit}$
-                                    </p>
-                                    {/* Display is order return date > current date */}
+                                <div className="flex justify-between items-center">
+                                    <div>
+                                        <p className="text-sm text-slate-600">
+                                            {order.cart && order.cart.length}{" "}
+                                            items
+                                        </p>
+                                        <p className="text-sm font-bold text-slate-600">
+                                            D:&nbsp;
+                                            {formatPrice(order.deposit)}
+                                        </p>
+                                    </div>
                                     {renderDueDate(order.returnDate)}
                                 </div>
                             </div>

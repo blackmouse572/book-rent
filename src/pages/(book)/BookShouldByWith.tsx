@@ -39,7 +39,7 @@ function BookShouldByWith({ book }: Props) {
         arr.unshift(book);
 
         return arr;
-    }, [book, isLoadingShouldBuyWithBooks, shouldByWithBooks?.data]);
+    }, [book, isLoadingShouldBuyWithBooks, shouldByWithBooks]);
 
     const { toast } = useToast();
     const { addToCart } = useOrderCart();

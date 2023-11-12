@@ -1,5 +1,7 @@
 import { IOrder } from "@/apis/Ioders(admin)/Ioders";
+import { formatPrice } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
 import { Link } from "react-router-dom";
 import { Badge } from "../ui/badge/badge";
 
@@ -23,7 +25,7 @@ export const historyOrderColumns: ColumnDef<IOrder>[] = [
         header: "Rental Date",
         cell({ getValue }) {
             const rentalDate: Date = getValue() as Date;
-            return <p>{rentalDate.toString()}</p>;
+            return <p>{format(new Date(rentalDate), "dd/MM/yyyy")}</p>;
         },
     },
     {
@@ -31,14 +33,14 @@ export const historyOrderColumns: ColumnDef<IOrder>[] = [
         header: "Return Date",
         cell({ getValue }) {
             const returnDate: Date = getValue() as Date;
-            return <p>{returnDate.toString()}</p>;
+            return <p>{format(new Date(returnDate), "dd/MM/yyyy")}</p>;
         },
     },
     {
         accessorKey: "pickupLocation",
         header: "Pickup Location",
         cell({ getValue }) {
-            const returnDate: Date = getValue() as Date;
+            const returnDate = getValue() as string;
             return <p>{returnDate.toString()}</p>;
         },
     },
@@ -54,8 +56,8 @@ export const historyOrderColumns: ColumnDef<IOrder>[] = [
         accessorKey: "totalPrice",
         header: "Total Price ",
         cell({ getValue }) {
-            const returnDate: Date = getValue() as Date;
-            return <p>{returnDate.toString()}</p>;
+            const returnDate: number = getValue() as number;
+            return <p>{formatPrice(returnDate)}</p>;
         },
     },
     {

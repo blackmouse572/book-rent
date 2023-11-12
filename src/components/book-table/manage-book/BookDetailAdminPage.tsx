@@ -1,21 +1,21 @@
-import { Icons } from "@/components/icons";
-import MetaData from "@/components/metadata";
+import { getBookById } from "@/apis/book/getBook";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/utils";
-import useGetBookDetails from "@/pages/(book)/useGetBookDetail";
-import { Link, useParams } from "react-router-dom";
+import { IBook } from "@/types";
+import { useEffect, useState } from "react";
 
-function BookDetailAdminPage() {
-    const { id } = useParams<{ id: string }>();
-    const { isLoading, data: book } = useGetBookDetails(id || "");
+export function BookDetailAdminPage() {
+    const [book, setBook] = useState<IBook | null>(null);
 
-    if (isLoading)
-        return (
-            <div className="container mx-auto min-h-screen flex justify-center items-center">
-                <MetaData title="Book Detail" />
-                <Icons.loading className="animate-spin text-primary" />
-            </div>
-        );
+    useEffect(() => {
+        const bookId = window.location.pathname.split("/")[3];
+
+        // Make an API request to fetch book data
+        getBookById(bookId).then((bookData) => {
+            setBook(bookData);
+        });
+    }, []);
+
     if (!book) {
         return <div>Book not found.</div>;
     }
@@ -27,7 +27,6 @@ function BookDetailAdminPage() {
             }}
             className="container mx-auto p-10"
         >
-            <MetaData title={book.name} />
             <div style={{ flex: 1, marginRight: "20px" }}>
                 <h2 className="text-3xl font-bold mb-4 text-center">
                     Book Detail
@@ -138,7 +137,6 @@ function BookDetailAdminPage() {
                         </tr>
                     </tbody>
                 </table>
-                Met
             </div>
 
             <div style={{ flex: 1, marginTop: 50 }}>
@@ -149,56 +147,40 @@ function BookDetailAdminPage() {
                                 Category
                             </td>
                         </tr>
-                        {book.category?.map((item, index) => {
-                            if (item.status === "DISABLE") return null;
-                            return (
-                                <tr key={index} className="bg-white">
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <div className="text-sm font-medium text-gray-900">
-                                            Name: {item.name}
-                                        </div>
-                                        <div className="text-sm text-gray-500">
-                                            Status: {item.status}
-                                        </div>
-                                        <div
-                                            className="text-sm text-gray-500"
-                                            style={{
-                                                maxWidth: 120,
-                                                wordWrap: "break-word",
-                                            }}
-                                        >
-                                            Description: {item.description}
-                                        </div>
-                                    </td>
-                                </tr>
-                            );
-                        })}
+                        {book.category?.map((item, index) => (
+                            <tr key={index} className="bg-white">
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                    <div className="text-sm font-medium text-gray-900">
+                                        Name: {item.name}
+                                    </div>
+                                    <div className="text-sm text-gray-500">
+                                        Status: {item.status}
+                                    </div>
+                                    <div
+                                        className="text-sm text-gray-500"
+                                        style={{
+                                            maxWidth: 120,
+                                            wordWrap: "break-word",
+                                        }}
+                                    >
+                                        Description: {item.description}
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
                 <table className="min-w-full divide-y divide-gray-200 bg-white border border-gray-300 rounded-lg overflow-hidden">
                     <tbody className="divide-y divide-gray-200">
                         <tr className="bg-gray-50">
                             <td className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Genres
+                                genres
                             </td>
                         </tr>
                         <tr className="bg-white">
                             <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="text-sm font-medium mb-2">
-                                    Genre:&nbsp;
-                                </div>
-                                <div className="inline-flex gap-2">
-                                    {book.genres?.map((item) => (
-                                        <Link to={`/books?genres=${item}`}>
-                                            <Badge
-                                                className={"bg-slate-500"}
-                                                key={item}
-                                                isPressable
-                                            >
-                                                {item}
-                                            </Badge>
-                                        </Link>
-                                    ))}
+                                <div className="text-sm text-gray-500">
+                                    Genre: {book.genres}
                                 </div>
                             </td>
                         </tr>
@@ -241,5 +223,3 @@ function BookDetailAdminPage() {
         </div>
     );
 }
-
-export default BookDetailAdminPage;

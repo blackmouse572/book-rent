@@ -148,7 +148,7 @@ export const ROUTES = createBrowserRouter([
                         element: <CreateUser />,
                     },
                     {
-                        path: "/admin/historyorder",
+                        path: "/admin/orders",
                         element: <HistoryOrderManagerPage />,
                     },
 
