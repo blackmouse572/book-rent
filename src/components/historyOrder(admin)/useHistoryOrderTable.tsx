@@ -1,3 +1,5 @@
+import { IOrder, getAllOrderApi } from "@/apis/Ioders(admin)/Ioders";
+import { IQueryPagination, IQuerySearch, IResponse } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import {
     ColumnDef,
@@ -6,9 +8,6 @@ import {
 } from "@tanstack/react-table";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
-import { IQueryPagination, IQuerySearch, IResponse } from "@/types";
-import { getAllOrderApi } from "@/apis/Ioders(admin)/Ioders";
-import { IOrder } from "@/apis/Ioders(admin)/Ioders";
 
 export function useHistoryOrderTable(columns: ColumnDef<IOrder>[]) {
     const [queries, setQueries] = useState<
@@ -20,7 +19,7 @@ export function useHistoryOrderTable(columns: ColumnDef<IOrder>[]) {
     });
 
     const queryController = useQuery<IResponse<IOrder[]>, AxiosError>(
-        [],
+        ["getAllOrderApi", "admin", queries],
         () => getAllOrderApi(queries),
         {
             keepPreviousData: true,

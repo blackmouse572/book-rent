@@ -7,7 +7,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import {
     Form,
     FormControl,
@@ -17,22 +16,23 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
+import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { toast } from "@/components/ui/use-toast";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useEffect, useState } from "react";
 import { getOrderApi } from "@/apis/Ioders(admin)/Ioders";
-import { upDateOrderSchema } from "@/components/historyOrder(admin)/validateOrder";
-import { IOrder } from "@/types/order";
 import { putOrderApi } from "@/apis/Ioders(admin)/updateorder";
+import { upDateOrderSchema } from "@/components/historyOrder(admin)/validateOrder";
+import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent } from "@/components/ui/popover";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { toast } from "@/components/ui/use-toast";
+import { IOrder } from "@/types/order";
 import { PopoverTrigger } from "@radix-ui/react-popover";
 import { format } from "date-fns";
-import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 type FormData = z.infer<typeof upDateOrderSchema>;
 
@@ -86,7 +86,9 @@ export function UpdateOrder({ orderId }: { orderId: string }) {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="outline">Update</Button>
+                <Button variant="outline" size={"sm"}>
+                    Update
+                </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
@@ -99,7 +101,7 @@ export function UpdateOrder({ orderId }: { orderId: string }) {
                                 onSubmit={form.handleSubmit(onSubmit)}
                                 className="space-y-4 border border-gray-200 rounded-lg p-4 m-4 max-w-sm mx-auto w-full"
                             >
-                                <div className="flex flex-row flex flex-row justify-between">
+                                <div className="flex flex-row justify-between">
                                     <FormField
                                         control={form.control}
                                         name="rentalDate"

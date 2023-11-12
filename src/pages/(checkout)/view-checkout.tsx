@@ -1,5 +1,5 @@
 import { getOrderApi } from "@/apis/order(user)/get-order";
-import { DEPOSITTYPE, IOrder } from "@/types/order";
+import { ENUM_DEPOSIT_TYPE, IOrder } from "@/types/order";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 // import PayButton from "@/components/checkout/pay-button";
@@ -61,7 +61,7 @@ function ViewCheckout() {
     }, [order]);
 
     const checkoutButton = useMemo(() => {
-        if (order?.depositType == DEPOSITTYPE.COD) return null;
+        if (order?.depositType == ENUM_DEPOSIT_TYPE.COD) return null;
 
         if (checkoutUrl == "") {
             return (

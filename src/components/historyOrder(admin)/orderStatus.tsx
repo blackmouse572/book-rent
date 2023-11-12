@@ -25,14 +25,38 @@ import { putOrderStatus } from "@/apis/Ioders(admin)/putstatus";
 import { upDateOrderStatusSchema } from "@/components/historyOrder(admin)/schemaStatus";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "@/components/ui/use-toast";
-import { IOrder } from "@/types/order";
+import { queryClient } from "@/lib/query";
+import { ENUM_ORDER_STATUS, IOrder } from "@/types/order";
+import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 type FormData = z.infer<typeof upDateOrderStatusSchema>;
-
-export function UpdateStatusOrder({ orderId }: { orderId: string }) {
+type Props = {
+    orderId: string;
+    onStatusChange?: () => void;
+    defaultStatus?: ENUM_ORDER_STATUS;
+};
+export function UpdateStatusOrder({ orderId, defaultStatus }: Props) {
     const form = useForm<FormData>({
         resolver: zodResolver(upDateOrderStatusSchema),
+        defaultValues: {
+            status: defaultStatus,
+        },
+    });
+
+    const { mutateAsync, isLoading } = useMutation({
+        mutationFn: ({
+            id,
+            status,
+        }: {
+            id: string;
+            status: ENUM_ORDER_STATUS;
+        }) => putOrderStatus(id, status),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["getAllOrderApi", "admin"],
+            });
+        },
     });
 
     const [, setOrder] = useState<IOrder | undefined>(undefined);
@@ -57,17 +81,32 @@ export function UpdateStatusOrder({ orderId }: { orderId: string }) {
             });
     }, [orderId]);
 
+    const [open, setOpen] = useState(false);
+
     const onSubmit = async (data: FormData) => {
         const { status } = data; // Trích xuất giá trị status từ đối tượng data
         const statusString = status.toString();
-        await putOrderStatus(orderId, statusString)
+        await mutateAsync({
+            id: orderId,
+            status: statusString as ENUM_ORDER_STATUS,
+        })
             .then((order: IOrder) => {
                 if (order && order._id) {
-                    console.log("Order ID:", order._id);
+                    toast({
+                        title: "Order status updated",
+                        description: (
+                            <p>
+                                Order status of <b>{order._id}</b> has been
+                                updated to <b>{order.status}</b>.
+                            </p>
+                        ),
+                        variant: "success",
+                    });
                 } else {
                     toast({
                         title: "Invalid order response",
                         description: "No order ID in the response.",
+                        variant: "destructive",
                     });
                 }
             })
@@ -77,12 +116,16 @@ export function UpdateStatusOrder({ orderId }: { orderId: string }) {
                     description: error.message,
                 });
             });
+
+        setOpen(false);
     };
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline">Update Status</Button>
+                <Button variant="outline" size={"sm"}>
+                    Update Status
+                </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
@@ -103,6 +146,7 @@ export function UpdateStatusOrder({ orderId }: { orderId: string }) {
                                             <FormLabel>Status</FormLabel>
                                             <FormControl className="flex-col">
                                                 <RadioGroup
+                                                    disabled={isLoading}
                                                     onValueChange={(value) =>
                                                         form.setValue(
                                                             "status",
@@ -168,6 +212,7 @@ export function UpdateStatusOrder({ orderId }: { orderId: string }) {
                                         <Button
                                             type="submit"
                                             className="w-full"
+                                            isLoading={isLoading}
                                         >
                                             Submit
                                         </Button>

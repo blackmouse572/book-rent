@@ -4,9 +4,9 @@ import { Button } from "../ui/button";
 import { DataTable } from "../ui/data-table";
 import Paginition from "../ui/paginition";
 import { Skeleton } from "../ui/skeleton";
-import { useHistoryOrderTable } from "./useHistoryOrderTable";
 import { historyOrderColumns } from "./historyorder-table-column";
 import { HistoryOrderTableToolbar } from "./historyorder-table-toolbar";
+import { useHistoryOrderTable } from "./useHistoryOrderTable";
 
 function HistoryOrderTable() {
     const { isError, isLoading, table, error, refetch, data, tableStates } =

@@ -15,7 +15,8 @@ export const historyOrderColumns: ColumnDef<IOrder>[] = [
         accessorKey: "index",
         header: "No",
         cell({ row }) {
-            return <p>{row.index + 1}</p>;
+            const id = row.original._id;
+            return <Link to={`/admin/orders/${id}`}>{id}</Link>;
         },
     },
 
@@ -66,7 +67,7 @@ export const historyOrderColumns: ColumnDef<IOrder>[] = [
         accessorKey: "_id",
         header: "Action",
         cell({ row }) {
-            const { _id } = row.original;
+            const { _id, status } = row.original;
             if (_id)
                 return (
                     <div className="flex gap-2 ">
@@ -76,7 +77,10 @@ export const historyOrderColumns: ColumnDef<IOrder>[] = [
                             </Button>
                         </Link>
                         <UpdateOrder orderId={_id} />
-                        <UpdateStatusOrder orderId={_id} />
+                        <UpdateStatusOrder
+                            orderId={_id}
+                            defaultStatus={status}
+                        />
                     </div>
                 );
         },
