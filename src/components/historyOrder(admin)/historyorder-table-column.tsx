@@ -9,6 +9,7 @@ import { UpdateStatusOrder } from "@/components/historyOrder(admin)/orderStatus"
 import { formatPrice } from "@/lib/utils";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
+import { PenaltyOrder } from "@/components/historyOrder(admin)/penaltyOrderDialog";
 
 export const historyOrderColumns: ColumnDef<IOrder>[] = [
     {
@@ -81,6 +82,7 @@ export const historyOrderColumns: ColumnDef<IOrder>[] = [
                             orderId={_id}
                             defaultStatus={status}
                         />
+                        <PenaltyOrder orderId={_id} />
                     </div>
                 );
         },
