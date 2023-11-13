@@ -33,7 +33,11 @@ function ViewCart({ className, ...props }: Props) {
                     <h2 className="text-3xl font-semibold mb-4">
                         Shopping Cart
                     </h2>
-                    <Button variant={"outline"} onClick={onClearCart}>
+                    <Button
+                        colors={"destructive"}
+                        variant={"outline"}
+                        onClick={onClearCart}
+                    >
                         Clear Cart
                     </Button>
                 </div>
@@ -48,7 +52,7 @@ function ViewCart({ className, ...props }: Props) {
                                 to="/"
                             >
                                 <Icons.arrowLeft />
-                                <span>Start Shopping</span>
+                                <span>Start Renting</span>
                             </Link>
                         </div>
                     </div>
@@ -64,7 +68,7 @@ function ViewCart({ className, ...props }: Props) {
                                             to="/books"
                                         >
                                             <Icons.arrowLeft />
-                                            <span>Continue Shopping</span>
+                                            <span>Continue Renting</span>
                                         </Link>
                                     </div>
                                     {user ? null : (

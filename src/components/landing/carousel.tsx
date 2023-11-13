@@ -1,8 +1,10 @@
 import { getManyBooks } from "@/apis/book";
+import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import clsx from "clsx";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { API_GET_ALL_USER_QUERY_KEYS } from "../../apis/users";
 import { IBook, IResponse } from "../../types";
 import { Icons } from "../icons";
@@ -51,11 +53,7 @@ function Carousel() {
                     key={index}
                     src={book.image}
                     alt={book.name}
-                    className={`h-full absolute top-0 ${
-                        index === currentSlide ? "right-0" : "left-0"
-                    } justify-end ${
-                        index === currentSlide ? "opacity-100" : "opacity-0"
-                    }`}
+                    className={`h-full absolute top-0 right-0`}
                 />
             ))}
         </div>
@@ -89,8 +87,8 @@ function Carousel() {
                             <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center ">
                                 <div className="text-left h-56 md:h-96">
                                     <div className="p-4 md:px-16 lg:py-20">
-                                        <p className="text-2xl font-semibold text-gray-400 mb-2">
-                                            The Bookworm Editors
+                                        <p className="text-2xl font-semibold text-primary mb-2">
+                                            TOP RENT BOOKS
                                         </p>
                                         <h2 className="text-5xl mb-4">
                                             <span className="font-normal block">
@@ -100,12 +98,9 @@ function Carousel() {
                                                 February
                                             </span>
                                         </h2>
-                                        <a
-                                            href="#"
-                                            className="btn dark btn-wide rounded-0"
-                                        >
-                                            <span>See More</span>
-                                        </a>
+                                        <Link to="/books">
+                                            <Button>RENT NOW</Button>
+                                        </Link>
                                     </div>
                                 </div>
                                 <div className="text-center h-56 md:h-96 ">

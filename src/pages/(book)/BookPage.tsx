@@ -1,4 +1,5 @@
 import { GetManyBooksParams } from "@/apis/book";
+import Book from "@/components/book";
 import BookFilterSidebar from "@/components/book-filter-sidebar";
 import BookGridLoading from "@/components/book-grid-loading";
 import { IBreadcrumb } from "@/components/breadcrumb";
@@ -6,10 +7,8 @@ import Breadcrumb from "@/components/breadcrumb/breadcrumb";
 import MetaData from "@/components/metadata";
 import Paginition from "@/components/ui/paginition";
 import { useOrderCart } from "@/hooks/useOrderCart";
-import { formatPrice } from "@/lib/utils";
 import useGetManyBooks from "@/pages/(book)/useGetManyBooks";
 import React from "react";
-import { Link } from "react-router-dom";
 
 const initBookState: GetManyBooksParams = {
     page: 0,
@@ -61,28 +60,7 @@ function BookPage() {
                 </div>
             );
         return data?.data.map((book) => {
-            return (
-                <Link
-                    to={`/books/${book._id}`}
-                    key={book._id}
-                    className="w-full group"
-                >
-                    <div className="overflow-clip aspect-[5/7] w-full rounded-md shadow-md border border-gray-200 group-hover:shadow-xl transition-all duration-300">
-                        <img
-                            src={book.image}
-                            alt={book.name}
-                            className="aspect-[5/7] object-contain group-hover:scale-105 transition-all duration-300"
-                            height={700}
-                            width={500}
-                        />
-                    </div>
-                    <h3 className="text-base font-medium">{book.name}</h3>
-                    <p className="text-xs">By&nbsp;{book.author}</p>
-                    <h6 className="text-lg font-bold mt-1">
-                        {formatPrice(book.rental_price)}
-                    </h6>
-                </Link>
-            );
+            return <Book key={book._id} book={book} />;
         });
     }, [data?.data, isLoading]);
 

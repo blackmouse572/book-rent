@@ -307,9 +307,13 @@ export default function BookDetailPage() {
                             <p>By&nbsp;{book.author}</p>
                         </div>
 
-                        <div className="space-y-2">
-                            <h1 className="text-xl font-bold">
-                                {formatPrice(book.rental_price)}
+                        <div className="space-y-8">
+                            <h1 className="text-xl ">
+                                Rent now for{" "}
+                                <span className="font-bold">
+                                    {formatPrice(book.rental_price)}
+                                </span>
+                                / day
                             </h1>
                             <p className="line-clamp-3">{book.description}</p>
                         </div>

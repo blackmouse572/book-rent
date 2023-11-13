@@ -23,8 +23,8 @@ import { CartSchema } from "./validation-cart";
 import { getBookById } from "@/apis/book";
 import { postOrderApi } from "@/apis/order(user)/post-order";
 
-import { IOrder } from "@/types/order";
 import { toast } from "@/components/ui/use-toast";
+import { IOrder } from "@/types/order";
 
 import {
     Popover,
@@ -35,16 +35,17 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 
 import { useOrderCart } from "@/hooks/useOrderCart";
-import { cn } from "@/lib/utils";
+import { cn, formatPrice } from "@/lib/utils";
 import { IBook } from "@/types";
 
+import { Icons } from "@/components/icons";
+import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button/button";
 import { Input } from "../ui/input";
-import { Calendar } from "@/components/ui/calendar";
 
 type FormData = z.infer<typeof CartSchema>;
 
@@ -130,9 +131,10 @@ function CartForm() {
                                     <TableCell className="font-medium">
                                         {bookData[index].name}
                                     </TableCell>
-                                    <TableCell className="align-center">
+                                    <TableCell className="align-center flex items-center gap-2">
                                         <Button
-                                            size="sm"
+                                            size="icon"
+                                            variant={"outline"}
                                             onClick={() =>
                                                 handleDecreaseToCart(
                                                     bookData[index]
@@ -141,10 +143,11 @@ function CartForm() {
                                             }
                                         >
                                             -
-                                        </Button>{" "}
-                                        {cart.quantity}{" "}
+                                        </Button>
+                                        <p> {cart.quantity}</p>
                                         <Button
-                                            size="sm"
+                                            size="icon"
+                                            variant={"outline"}
                                             onClick={() =>
                                                 handleAddToCart(
                                                     bookData[index]
@@ -156,11 +159,16 @@ function CartForm() {
                                         </Button>
                                     </TableCell>
                                     <TableCell>
-                                        {bookData[index].rental_price *
-                                            cart.quantity}
+                                        {formatPrice(
+                                            bookData[index].rental_price *
+                                                cart.quantity
+                                        )}
                                     </TableCell>
                                     <TableCell className="font-medium">
                                         <Button
+                                            size="icon"
+                                            colors={"destructive"}
+                                            variant={"outline"}
                                             onClick={() =>
                                                 handleRemoveFromCart(
                                                     bookData[index]
@@ -168,7 +176,7 @@ function CartForm() {
                                                 )
                                             }
                                         >
-                                            Remove
+                                            <Icons.close />
                                         </Button>
                                     </TableCell>
                                 </TableRow>
@@ -362,7 +370,7 @@ function CartForm() {
                         />
                         <div className="space-y-2">
                             <Button type="submit" className="w-full">
-                                Go to checkout
+                                Pay deposit
                             </Button>
                         </div>
                         {/* <div className="mt-4">
