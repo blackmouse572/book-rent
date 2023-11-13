@@ -1,6 +1,6 @@
 import { IBook } from "@/types/book";
 import { axiosClient } from "../../lib/axios";
-import { IDefaultQuery,  IResponse, } from "../../types";
+import { IDefaultQuery, IResponse } from "../../types";
 
 export type IGetBookResponse = IResponse<IBook>;
 
@@ -17,10 +17,10 @@ export async function getBookById(book_Id: string) {
 export type GetManyBooksParams = {
     genres?: string;
     category?: string;
+    status?: "NEW" | "LIKE_NEW" | "DAMAGED";
 } & Partial<IDefaultQuery>;
 
-export async function getManyBooks(    params: GetManyBooksParams
-    ) {
+export async function getManyBooks(params: GetManyBooksParams) {
     return axiosClient
         .get("/book/list", {
             params,
