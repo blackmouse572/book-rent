@@ -1,27 +1,29 @@
 import { ICategory } from "@/types/category";
-import {  User } from ".";
+import { User } from ".";
 
 export interface IBook {
     isAvailable?: boolean | undefined;
     _id: string;
     name: string;
     author: string;
-    image: string ;
+    image: string;
     description: string;
     deposit?: number;
     rental_price: number;
     category?: ICategory[];
     reviews?: IReview[];
     createdAt?: Date;
-    updatedAt?: Date; 
-    keywords?: string[];
+    updatedAt?: Date;
+    keyword: string;
     genres?: string[];
-    status?: "ENABLE" | "DISABLE";
+    status: "NEW" | "LIKE_NEW" | "DAMAGED";
+    statusDescription: string;
 }
 
-export enum STATUS {
-    ENABLE = 'ENABLE',
-    DISABLE = 'DISABLE',
+export enum BOOK_STATUS {
+    NEW = "NEW",
+    LIKE_NEW = "LIKE_NEW",
+    DAMAGED = "DAMAGED",
 }
 export interface IReview {
     _id: string;

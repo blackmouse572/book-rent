@@ -31,6 +31,14 @@ import { getAllCategories } from "@/apis/category";
 import { DataTableFacetedFilter } from "@/components/ui/data-table-facet";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DialogClose } from "@radix-ui/react-dialog";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type FormData = z.infer<typeof createBookSchema>;
 
@@ -111,7 +119,10 @@ export function CreateBook() {
                 <DialogHeader>
                     <DialogTitle>Add Book</DialogTitle>
                 </DialogHeader>
-                <div className="flex items-center space-x-2">
+                <ScrollArea
+                    type={"always"}
+                    className=" max-h-[500px] flex items-center space-x-2"
+                >
                     <div className="grid flex-1 gap-2">
                         <Form {...form}>
                             <form
@@ -271,6 +282,66 @@ export function CreateBook() {
                                         </FormItem>
                                     )}
                                 />
+                                <FormField
+                                    control={form.control}
+                                    name="status"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <Select
+                                                onValueChange={field.onChange}
+                                                value={field.value}
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="Status" />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectItem
+                                                        className="hover:bg-accent"
+                                                        value="NEW"
+                                                    >
+                                                        NEW
+                                                    </SelectItem>
+                                                    <SelectItem
+                                                        className="hover:bg-accent"
+                                                        value="LIKE_NEW"
+                                                    >
+                                                        LIKE_NEW
+                                                    </SelectItem>
+                                                    <SelectItem
+                                                        className="hover:bg-accent"
+                                                        value="DAMAGED"
+                                                    >
+                                                        DAMAGED
+                                                    </SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name="statusDescription"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                {" "}
+                                                Status Description{" "}
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="Status description"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormDescription />
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
 
                                 <FormField
                                     control={form.control}
@@ -310,7 +381,7 @@ export function CreateBook() {
                             </form>
                         </Form>
                     </div>
-                </div>
+                </ScrollArea>
             </DialogContent>
         </Dialog>
     );

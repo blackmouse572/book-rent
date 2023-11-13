@@ -303,6 +303,9 @@ export default function BookDetailPage() {
                         <div className="space-y-4">
                             <h3 className="text-3xl font-medium tracking-wide">
                                 {book.name}
+                                <span className="align-middle ml-2 text-sm text-center text-gray-500">
+                                    <Badge>{book.status}</Badge>
+                                </span>
                             </h3>
                             <p>By&nbsp;{book.author}</p>
                         </div>
@@ -348,9 +351,21 @@ export default function BookDetailPage() {
 
                     <div className="col-span-full space-y-2">
                         <h1 className="text-lg font-bold">About the book</h1>
-                        <p className="text-base text-slate-500">
-                            {book.description}
-                        </p>
+                        <div className="ml-4">
+                            <p className="text-md font-bold">Description:</p>
+                            <p className="text-base text-slate-500">
+                                {book.description}
+                            </p>
+                        </div>
+                        <div className="ml-4">
+                            <p className="text-md font-bold">
+                                Status Description:
+                            </p>
+
+                            <p className="text-base text-slate-500">
+                                {book.statusDescription}
+                            </p>
+                        </div>
                         <ul className="flex gap-1">{renderGenres}</ul>
                     </div>
                 </section>

@@ -2,6 +2,13 @@ import { Button } from "@/components/ui/button";
 import { Combobox, IComboboxData } from "@/components/ui/combobox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 import useGetAllCategory from "@/pages/(book)/useGetManyCategory";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useMemo, useState } from "react";
@@ -19,6 +26,7 @@ const FilterSchema = z.object({
     search: z.string().optional(),
     category: z.string().optional(),
     genres: z.string().optional(),
+    status: z.string().optional(),
 });
 
 type FilterForm = z.infer<typeof FilterSchema>;
@@ -46,10 +54,12 @@ function BookFilterSidebar({ onFilterChange, totalBooks, onRentAll }: Props) {
         const search = searchParams.get("search") || "";
         const genres = searchParams.get("genres") || "";
         const category = searchParams.get("category") || "";
+        const status = searchParams.get("status") || "";
 
         setValue("search", search);
         setValue("category", category);
         setValue("genres", genres);
+        setValue("status", status);
 
         control.handleSubmit((data) => {
             onFilterChange && onFilterChange(data);
@@ -64,6 +74,7 @@ function BookFilterSidebar({ onFilterChange, totalBooks, onRentAll }: Props) {
             data.search && searchParams.set("search", data.search);
             data.category && searchParams.set("category", data.category);
             data.genres && searchParams.set("genres", data.genres);
+            data.status && searchParams.set("status", data.status);
 
             setSearchParams(searchParams, { replace: true });
 
@@ -115,6 +126,36 @@ function BookFilterSidebar({ onFilterChange, totalBooks, onRentAll }: Props) {
                         }
                         clear={clearFlag}
                     />
+                </div>
+                <div>
+                    <Label htmlFor="status">Status</Label>
+                    <Select
+                        onValueChange={(value) => {
+                            setValue("status", value);
+                        }}
+                        value={watch("status")}
+                    >
+                        <SelectTrigger>
+                            <SelectValue placeholder="Status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem className="hover:bg-accent" value="NEW">
+                                NEW
+                            </SelectItem>
+                            <SelectItem
+                                className="hover:bg-accent"
+                                value="LIKE_NEW"
+                            >
+                                LIKE_NEW
+                            </SelectItem>
+                            <SelectItem
+                                className="hover:bg-accent"
+                                value="DAMAGED"
+                            >
+                                DAMAGED
+                            </SelectItem>
+                        </SelectContent>
+                    </Select>
                 </div>
                 <div>
                     <Label htmlFor="genre">Genre</Label>
