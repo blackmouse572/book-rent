@@ -8,6 +8,7 @@ import { Icons } from "@/components/icons";
 import MetaData from "@/components/metadata";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/utils";
+import { format, formatDistance} from "date-fns";
 
 function ViewCheckout() {
     const { id } = useParams<{ id: string }>();
@@ -86,7 +87,8 @@ function ViewCheckout() {
             </div>
         );
     }
-
+    const returnDate = new Date(order.returnDate);
+    const rentalDate = new Date(order.rentalDate);
     return (
         <div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
             <MetaData title="Checkout" />
@@ -120,6 +122,12 @@ function ViewCheckout() {
                                         Price
                                     </th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Rental Date
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Return Date
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Total
                                     </th>
                                 </tr>
@@ -149,6 +157,12 @@ function ViewCheckout() {
                                                             )}
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap">
+                                                        {format(new Date(order.rentalDate), "dd/MM/yyyy")}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                        {format(new Date(order.returnDate), "dd/MM/yyyy")}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
                                                             {formatPrice(
                                                                 cartItem.book
                                                                     .rental_price *
@@ -167,31 +181,21 @@ function ViewCheckout() {
                             <h3 className="text-xl font-semibold leading-5 text-gray-800">
                                 Summary
                             </h3>
-                            <div className="flex justify-center items-center w-full space-y-4 flex-col border-gray-200 border-b pb-4">
-                                <div className="flex justify-between w-full">
-                                    <p className="text-base leading-4 text-gray-800">
-                                        Subtotal
-                                    </p>
-                                    <p className="text-base leading-4 text-gray-600">
-                                        {formatPrice(order.totalPrice)}
-                                    </p>
-                                </div>
-                                <div className="flex justify-between items-center w-full">
-                                    <p className="text-base leading-4 text-gray-800">
-                                        Deposit
-                                    </p>
-                                    <p className="text-base leading-4 text-gray-600">
-                                        {formatPrice(order.deposit)}
-                                    </p>
-                                </div>
+                                                        <div className="flex justify-between items-center w-full">
+                                <p className="text-base font-semibold leading-4 text-gray-800">
+                                    Date rental
+                                </p>
+                                <p className="text-base font-semibold leading-4 text-gray-600">
+                                {formatDistance(rentalDate, returnDate)}
+                                </p>
                             </div>
                             <div className="flex justify-between items-center w-full">
                                 <p className="text-base font-semibold leading-4 text-gray-800">
                                     Total
                                 </p>
                                 <p className="text-base font-semibold leading-4 text-gray-600">
-                                    {order.totalPrice && order.deposit
-                                        ? formatPrice(order.totalPrice)
+                                    {order.totalPrice
+                                        ? formatPrice(order.totalPrice) 
                                         : ""}
                                 </p>
                             </div>

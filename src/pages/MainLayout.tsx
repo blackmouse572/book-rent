@@ -9,8 +9,7 @@ import Header from "@/components/header/Header";
 function MainLayout() {
     return (
         <div className="min-h-screen bg-background font-sans antialiased">
-            <MetaData title="Homepage" />
-          
+            <MetaData title="Homepage" />         
             <NavBar />
             <Header />
             <AutoScrollToTop />

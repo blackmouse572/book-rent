@@ -12,6 +12,9 @@ const LoginPage = React.lazy(() => import("@/pages/(auth)/login/SignInPage"));
 const RegisterPage = React.lazy(
     () => import("@/pages/(auth)/register/RegisterPage")
 );
+const Policy = React.lazy(
+    () => import("@/pages/Policy.tsx")
+);
 const OrderDetailPage = React.lazy(
     () => import("@/components/historyOrder-table/orderDetail")
 );
@@ -91,7 +94,10 @@ export const ROUTES = createBrowserRouter([
                 path: "/",
                 element: <LandingPage />,
             },
-
+            {
+                path: "/policy",
+                element: <Policy />,
+            },
             {
                 path: "/order/:orderId",
                 element: <OrderDetailPage />,
