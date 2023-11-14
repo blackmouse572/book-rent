@@ -61,6 +61,9 @@ const ViewCheckout = React.lazy(
 const CheckoutResult = React.lazy(
     () => import("@/pages/(checkout)/checkout-result-page")
 );
+const PenaltyPayment = React.lazy(
+    () => import("@/pages/(checkout)/penalty-payment-result")
+);
 const CheckoutFailed = React.lazy(
     () => import("@/pages/(checkout)/checkout-fail-page")
 );
@@ -126,6 +129,10 @@ export const ROUTES = createBrowserRouter([
                     {
                         path: "/checkout-result",
                         element: <CheckoutResult />,
+                    },
+                    {
+                        path: "/penalty-payment-result",
+                        element: <PenaltyPayment />,
                     },
                     {
                         path: "/checkout-failed",
