@@ -1,4 +1,3 @@
-import { getBookById } from "@/apis/book";
 import { updateBookApi } from "@/apis/book/update-book";
 import { getAllCategories } from "@/apis/category";
 import { updateBookSchema } from "@/components/book-table/manage-book/update-validation-book";
@@ -28,63 +27,71 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
+import { queryClient } from "@/lib/query";
 import { IBook } from "@/types/book";
 import { ICategory } from "@/types/category";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { useMutation } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 type FormData = z.infer<typeof updateBookSchema>;
 
-export function UpdateBook({ bookId }: { bookId: string }) {
+export function UpdateBook({ book }: { book: IBook }) {
     const [category, setCategory] = useState<ICategory[]>();
-    const [book, setBook] = useState<IBook>();
-
+    const [open, setOpen] = useState<boolean>(false);
     const form = useForm<FormData>({
         resolver: zodResolver(updateBookSchema),
     });
-    const onOpenDialog = (open: boolean) => {
-        if (open) {
-            getBookById(bookId)
-                .then((bookData: IBook) => {
-                    if (bookData) {
-                        setBook(bookData);
-                    } else {
-                        toast({
-                            title: "Invalid book response",
-                            description: "Can not fecth book data",
-                        });
-                    }
-                })
-                .catch(() => {
+
+    useEffect(() => {
+        getAllCategories()
+            .then((categoryData: ICategory[]) => {
+                if (categoryData) {
+                    setCategory(categoryData);
+                } else {
                     toast({
-                        title: "Invalid book response",
-                        description: "Can not fecth book data",
+                        title: "Invalid category response",
+                        description: "No category ID in the response.",
                     });
+                }
+            })
+            .catch((error: Error) => {
+                toast({
+                    title: "Error fetching category detail",
+                    description: error.message,
                 });
-        } else {
-            setBook(undefined);
-        }
-    };
+            });
+    }, []);
+
+    const { mutateAsync, isLoading } = useMutation({
+        mutationFn: ({ id, data }: { id: string; data: FormData }) => {
+            const genres = data.genres.split(",").map((genre) => genre.trim());
+            const bookData = {
+                ...data,
+                genres: JSON.stringify(genres),
+                image: data.image,
+            };
+            return updateBookApi(id, bookData, bookData.image);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["getAllBookApi", "admin"],
+            });
+        },
+    });
 
     const onSubmit = async (data: FormData) => {
-        const genres = data.genres.split(",").map((genre) => genre.trim());
-
-        const bookData = {
-            ...(data as FormData),
-            genres: JSON.stringify(genres),
-            image: data.image,
-        };
-
-        await updateBookApi(bookId, bookData, bookData.image)
+        await mutateAsync({ id: book._id, data })
             .then((book: IBook) => {
                 if (book && book._id) {
                     toast({
                         title: "Success",
-                        description: "Added Book",
+                        description: "Updated Book successfuly",
                     });
                 } else {
                     toast({
@@ -99,6 +106,8 @@ export function UpdateBook({ bookId }: { bookId: string }) {
                     description: error.message,
                 });
             });
+
+        setOpen(false);
     };
 
     const updateForm = useMemo(() => {
@@ -114,6 +123,7 @@ export function UpdateBook({ bookId }: { bookId: string }) {
         form.setValue("description", book.description);
         form.setValue(
             "genres",
+            // eslint-disable-next-line no-useless-escape
             JSON.stringify(book.genres).replace(/[\[\"\]]/g, "")
         );
         form.setValue("keyword", book.keyword);
@@ -194,8 +204,9 @@ export function UpdateBook({ bookId }: { bookId: string }) {
                                     <FormItem>
                                         <FormLabel> Description </FormLabel>
                                         <FormControl>
-                                            <Input
+                                            <Textarea
                                                 placeholder="Description"
+                                                maxLength={1000}
                                                 {...field}
                                             />
                                         </FormControl>
@@ -355,7 +366,11 @@ export function UpdateBook({ bookId }: { bookId: string }) {
                             />
                             <div className="space-y-2">
                                 <DialogFooter className="sm:justify-start">
-                                    <Button type="submit" className="w-full">
+                                    <Button
+                                        isLoading={isLoading}
+                                        type="submit"
+                                        className="w-full"
+                                    >
                                         Submit
                                     </Button>
                                     <DialogClose>Close</DialogClose>
@@ -368,28 +383,8 @@ export function UpdateBook({ bookId }: { bookId: string }) {
         );
     }, [book]);
 
-    useEffect(() => {
-        getAllCategories()
-            .then((categoryData: ICategory[]) => {
-                if (categoryData) {
-                    setCategory(categoryData);
-                } else {
-                    toast({
-                        title: "Invalid category response",
-                        description: "No category ID in the response.",
-                    });
-                }
-            })
-            .catch((error: Error) => {
-                toast({
-                    title: "Error fetching category detail",
-                    description: error.message,
-                });
-            });
-    }, []);
-
     return (
-        <Dialog onOpenChange={(open) => onOpenDialog(open)}>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button variant="outline" size="sm">
                     Update

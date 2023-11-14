@@ -21,75 +21,79 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { getOrderApi } from "@/apis/Ioders(admin)/Ioders";
+import { IOrder } from "@/apis/Ioders(admin)/Ioders";
 import { penaltyOrderApi } from "@/apis/Ioders(admin)/penalty-order";
 import { penaltyOrderSchema } from "@/components/historyOrder(admin)/validateOrder";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
-import { IOrder } from "@/types/order";
-import { useEffect, useState } from "react";
+import { queryClient } from "@/lib/query";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 
 type FormData = z.infer<typeof penaltyOrderSchema>;
-
-export function PenaltyOrder({ orderId }: { orderId: string }) {
+type Props = {
+    order: IOrder;
+    isDisable: boolean;
+};
+export function PenaltyOrder({ order, isDisable }: Props) {
     const form = useForm<FormData>({
         resolver: zodResolver(penaltyOrderSchema),
     });
-    const [order, setOrder] = useState<IOrder | undefined>(undefined);
 
     const [open, setOpen] = useState<boolean>(false);
 
-    useEffect(() => {
-        getOrderApi(orderId)
-            .then((order: IOrder) => {
-                if (order && order._id) {
-                    setOpen(false);
-                    setOrder(order);
-                } else {
-                    setOpen(false);
-                    toast({
-                        title: "Invalid order response",
-                        description: "No order ID in the response.",
-                    });
-                }
-            })
-            .catch((error) => {
-                setOpen(false);
-                toast({
-                    title: "Error order detail",
-                    description: error.message,
-                });
+    const { mutateAsync, isLoading } = useMutation({
+        mutationFn: ({
+            id,
+            penalty,
+            penaltyReason,
+        }: {
+            id: string;
+            penalty: number;
+            penaltyReason: string;
+        }) => penaltyOrderApi(id, penalty, penaltyReason),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["getAllBookApi", "admin"],
             });
-    }, [orderId]);
+        },
+    });
 
-    const onSubmit = (data: FormData) => {
-        penaltyOrderApi(orderId, data.penalty, data.penaltyReason)
-            .then((order: IOrder) => {
-                if (order && order._id) {
-                    toast({
-                        title: "Save successful",
-                        description: "penalty order successfully",
-                    });
-                } else {
-                    toast({
-                        title: "Invalid order response",
-                        description: "No order ID in the response.",
-                    });
-                }
+    const onSubmit = async (data: FormData) => {
+        if (order._id)
+            await mutateAsync({
+                id: order._id,
+                penalty: data.penalty,
+                penaltyReason: data.penaltyReason,
             })
-            .catch((error) => {
-                toast({
-                    title: "Error submitting order",
-                    description: error.message,
+                .then((order: IOrder) => {
+                    if (order && order._id) {
+                        toast({
+                            title: "Save successful",
+                            description: "penalty order successfully",
+                        });
+                    } else {
+                        toast({
+                            title: "Invalid order response",
+                            description: "No order ID in the response.",
+                        });
+                    }
+                })
+                .catch((error) => {
+                    toast({
+                        title: "Error submitting order",
+                        description: error.message,
+                    });
                 });
-            });
-
         setOpen(false);
     };
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline">Penalty</Button>
+                <Button disabled={isDisable} size={"sm"} variant="outline">
+                    Penalty
+                </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
@@ -102,53 +106,56 @@ export function PenaltyOrder({ orderId }: { orderId: string }) {
                                 onSubmit={form.handleSubmit(onSubmit)}
                                 className="space-y-4 border border-gray-200 rounded-lg p-4 m-4 max-w-sm mx-auto w-full"
                             >
-                                <div className="flex flex-row flex flex-row justify-between">
-                                    <FormField
-                                        control={form.control}
-                                        name="penalty"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel> Penalty </FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder={order?.penalty?.toString()}
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-                                                <FormDescription />
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        control={form.control}
-                                        name="penaltyReason"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>
-                                                    Penalty reason
-                                                </FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder={
-                                                            order?.penaltyReason
-                                                        }
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-                                                <FormDescription />
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
+                                <FormField
+                                    control={form.control}
+                                    name="penalty"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel> Penalty </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder={order?.penalty?.toString()}
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormDescription />
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="penaltyReason"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                Penalty reason
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Textarea
+                                                    placeholder={
+                                                        order?.penaltyReason
+                                                    }
+                                                    maxLength={500}
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormDescription />
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
                                 <div className="space-y-2">
                                     <DialogFooter className="sm:justify-start">
                                         <Button
                                             type="submit"
                                             className="w-full"
+                                            isLoading={isLoading}
                                         >
-                                            Save
+                                            {order?.penalty &&
+                                            order.penaltyReason
+                                                ? "Update and resend email"
+                                                : "Save and send email"}
                                         </Button>
                                     </DialogFooter>
                                 </div>

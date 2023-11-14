@@ -10,6 +10,7 @@ import { formatPrice } from "@/lib/utils";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
 import { PenaltyOrder } from "@/components/historyOrder(admin)/penaltyOrderDialog";
+import { ENUM_ORDER_STATUS } from "@/types/order";
 
 export const historyOrderColumns: ColumnDef<IOrder>[] = [
     {
@@ -82,7 +83,10 @@ export const historyOrderColumns: ColumnDef<IOrder>[] = [
                             orderId={_id}
                             defaultStatus={status}
                         />
-                        <PenaltyOrder orderId={_id} />
+                        <PenaltyOrder
+                            order={row.original}
+                            isDisable={status === ENUM_ORDER_STATUS.RETURNED}
+                        />
                     </div>
                 );
         },

@@ -54,7 +54,7 @@ export const columns: ColumnDef<IBook>[] = [
     {
         accessorFn: ({ _id }) => _id,
         header: "Action",
-        cell({ getValue }) {
+        cell({ getValue, row }) {
             const _id: string = getValue() as string;
             return (
                 <div className="flex gap-2 ">
@@ -62,7 +62,7 @@ export const columns: ColumnDef<IBook>[] = [
                         <Link to={`/admin/book/${_id}`}> Detail</Link>
                     </Button>
                     <RemoveBookApi bookId={_id} />
-                    <UpdateBook bookId={_id} />
+                    <UpdateBook book={row.original} />
                 </div>
             );
         },

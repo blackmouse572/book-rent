@@ -37,6 +37,18 @@ export const columns: ColumnDef<ITransaction>[] = [
         },
     },
     {
+        accessorKey: "type",
+        header: "Type",
+        cell({ getValue }) {
+            const type: string = getValue() as string;
+            return (
+                <Link to={`/order/${type}`}>
+                    <p className="text-slate-400 max-w-[30rem]">{type}</p>
+                </Link>
+            );
+        },
+    },
+    {
         accessorKey: "amount",
         header: "Amount",
         cell({ getValue }) {

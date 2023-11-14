@@ -1,3 +1,4 @@
+import { getManyBooks } from "@/apis/book/getBook";
 import { useQuery } from "@tanstack/react-query";
 import {
     ColumnDef,
@@ -6,9 +7,7 @@ import {
 } from "@tanstack/react-table";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
-import { API_GET_ALL_USER_QUERY_KEYS} from "../../apis/users";
-import { IBook, IQueryPagination, IQuerySearch, IResponse} from "../../types";
-import { getManyBooks } from "@/apis/book/getBook";
+import { IBook, IQueryPagination, IQuerySearch, IResponse } from "../../types";
 
 export function useBookTable(columns: ColumnDef<IBook>[]) {
     const [queries, setQueries] = useState<
@@ -20,7 +19,7 @@ export function useBookTable(columns: ColumnDef<IBook>[]) {
     });
 
     const queryController = useQuery<IResponse<IBook[]>, AxiosError>(
-        [...API_GET_ALL_USER_QUERY_KEYS, queries],
+        ["getAllBookApi", "admin", queries],
         () => getManyBooks(queries),
         {
             keepPreviousData: true,
