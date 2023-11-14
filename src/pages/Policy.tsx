@@ -18,7 +18,6 @@ function Policy() {
         ];
     }, []);
     return (
-        
         <div className="bg-gray-100 font-sans">
             <Breadcrumb items={breadcrumb} className="my-4 mx-4 p-4 ml-16" />
             <div className="container mx-auto mt-4 mb-8 p-4 bg-white shadow-lg max-w-2xl">
@@ -41,63 +40,73 @@ function Policy() {
                     <h2 className="text-xl font-semibold m-4">
                         2. Book borrowing and returning policy:
                     </h2>
-                    <div  className="pl-8">
-                    <p>
-                        - <strong>Maximum number of books to borrow:</strong> Unlimited quanity.
-                    </p>
-                    <p>- <strong>Book loan term:</strong> No time limit.</p>
-                    <p>
-                        - <strong>Renewal policy:</strong> You must renew your book by an
-                        expiration date(You can renew your book on website
-                        BRental in Order section of that book).{" "}
-                    </p>
-                    <p>- Penalty fee policy:</p>
-                    <ul className="list-disc pl-4">
+                    <div className="pl-8">
                         <p>
-                            {" "}
-                            + <strong>Penalty expired</strong>(If book is due and reader does not
-                            return the book or does not renew): (book rental fee
-                            for one day * 120%)/day
+                            -{" "}
+                            <strong>Maximum number of books to borrow:</strong>{" "}
+                            Unlimited quanity.
                         </p>
-                        <p> + <strong>Book damage:</strong></p>
+                        <p>
+                            - <strong>Book loan term:</strong> No time limit.
+                        </p>
+                        <p>
+                            - <strong>Renewal policy:</strong> You must renew
+                            your book by an expiration date(You can renew your
+                            book on website BRental in Order section of that
+                            book).{" "}
+                        </p>
+                        <p>- Penalty fee policy:</p>
                         <ul className="list-disc pl-4">
                             <p>
-                                1. Non-serious damage (writing, drawing, or
-                                marking in books): 1% of book price/page.
+                                {" "}
+                                + <strong>Penalty expired</strong>(If book is
+                                due and reader does not return the book or does
+                                not renew): (book rental fee for one day *
+                                120%)/day
                             </p>
                             <p>
-                                2. Damage to a degree that can still be
-                                restored: 50% of book price/volume.
-                            </p>
-                            <p>
-                                3. Loss or serious damage to books (mutilated,
-                                torn, unable to read text or images):
+                                {" "}
+                                + <strong>Book damage:</strong>
                             </p>
                             <ul className="list-disc pl-4">
                                 <p>
-                                    a. In case the reader buys a refund for
-                                    BRental himself: The reader returns the book
-                                    to the library within a period of no more
-                                    than 30 days.
+                                    1. Non-serious damage (writing, drawing, or
+                                    marking in books): 1% of book price/page.
                                 </p>
                                 <p>
-                                    b. In case readers want BRental to buy for
-                                    them:
+                                    2. Damage to a degree that can still be
+                                    restored: 50% of book price/volume.
                                 </p>
-                                <ul className="list-disc pl-8">
-                                    <li>
-                                        If the document can be purchased:
-                                        Current price * 120%;
-                                    </li>
-                                    <li>
-                                        If documents cannot be purchased: Fine
-                                        amount = number of pages x (actual value
-                                        of book * 3%).{" "}
-                                    </li>
+                                <p>
+                                    3. Loss or serious damage to books
+                                    (mutilated, torn, unable to read text or
+                                    images):
+                                </p>
+                                <ul className="list-disc pl-4">
+                                    <p>
+                                        a. In case the reader buys a refund for
+                                        BRental himself: The reader returns the
+                                        book to the library within a period of
+                                        no more than 30 days.
+                                    </p>
+                                    <p>
+                                        b. In case readers want BRental to buy
+                                        for them:
+                                    </p>
+                                    <ul className="list-disc pl-8">
+                                        <li>
+                                            If the document can be purchased:
+                                            Current price * 120%;
+                                        </li>
+                                        <li>
+                                            If documents cannot be purchased:
+                                            Fine amount = number of pages x
+                                            (actual value of book * 3%).{" "}
+                                        </li>
+                                    </ul>
                                 </ul>
                             </ul>
                         </ul>
-                    </ul>
                     </div>
                 </section>
 
@@ -126,11 +135,13 @@ function Policy() {
                     </h2>
                     <ol className="list-decimal pl-12">
                         <li>
-                            {" "}
-                            Brental will contact you about the book return
+                            <strong>Contact: </strong>
+                            BRental will contact you about the book return
                             process.
                         </li>
-                        <li>Book return method:</li>
+                        <li>
+                            <strong>Book return method:</strong>
+                        </li>
                         <ul className="list-decimal pl-4">
                             <p>
                                 - Return at the facility: Readers come to our
@@ -171,13 +182,13 @@ function Policy() {
                     <h2 className="text-xl font-semibold m-4">
                         5. General regulations:
                     </h2>
-                    <p  className="pl-8">
+                    <p className="pl-8">
                         - Readers, please join us in preserving books well; Do
                         not write, draw, crop, tear or mark the book.
                     </p>
-                    <p  className="pl-8">
-                        -  Correctly follow <strong>BRental's</strong> book borrowing and
-                        returning process.
+                    <p className="pl-8">
+                        - Correctly follow <strong>BRental's</strong> book
+                        borrowing and returning process.
                     </p>
                 </section>
             </div>
