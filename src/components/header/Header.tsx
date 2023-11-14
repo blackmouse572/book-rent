@@ -47,7 +47,7 @@ function Header() {
                                 Books
                             </Link>
                             <Link
-                                to="#"
+                                to="/policy"
                                 className="hover:underline underline-offset-2"
                             >
                                 About Us
